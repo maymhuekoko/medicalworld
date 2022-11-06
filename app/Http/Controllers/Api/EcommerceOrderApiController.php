@@ -237,9 +237,8 @@ class EcommerceOrderApiController extends ApiBaseController
 
         }
 
-        return response()->json([
-            'data'=>$ecommerce_order,
-            ],200);
+        return response()->json($ecommerce_order
+            );
    }
 
    public function invoice_mail(Request $request)
