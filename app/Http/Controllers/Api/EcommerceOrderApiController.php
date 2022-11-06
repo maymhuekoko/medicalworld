@@ -19,7 +19,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiBaseController;
-
+use App\Mail\MailMarketing;
 
 class EcommerceOrderApiController extends ApiBaseController
 {
@@ -246,5 +246,13 @@ class EcommerceOrderApiController extends ApiBaseController
         Mail::to('maymyatmoe211099@gmail.com')->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders));
         return response()->json(["message" => "Email sent successfully."]);
     }
+
+    public function contact_message(Request $request)
+    {
+        
+        // Mail::to('maymyatmoe211099@gmail.com')->send(new MailMarketing($request->name,$request->email,$request->message));
+        // return response()->json(["message" => "Email sent successfully."]);
+    }
+
 
 }

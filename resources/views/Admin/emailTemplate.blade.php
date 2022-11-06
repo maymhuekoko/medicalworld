@@ -7,16 +7,16 @@
   <title>Medical World</title>
 </head>
 <body>
-    
+
     <div>
         <h2>Medical World</h2>
-        <p>{{ $subject }}</p>
-        <p>{{ $title }}</p>
-        <p>{{ $subtitle }}</p>
-        <p>{{ $description }}</p>
-        <p>{{ $link }}</p>
-        <img src='{{ asset("uploadedfiles/".$photo) }}' alt="medical world">
+        <p>{{ $name }}</p>
+        <p>{{ $email }}</p>
+        <p>{{ $message }}</p>
+        {{-- <p>{{ $description }}</p>
+        <p>{{ $link }}</p> --}}
+        {{-- <img src='{{ asset("uploadedfiles/".$photo) }}' alt="medical world"> --}}
     </div>
-  
+
 </body>
 </html>
