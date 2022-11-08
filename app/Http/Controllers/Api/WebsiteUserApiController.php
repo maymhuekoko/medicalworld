@@ -18,15 +18,16 @@ class WebsiteUserApiController extends ApiBaseController
             'data'=>$users,
             ],200);
    }
-   
+
    //Store
    public function store(Request $request){
-       
+
       $user = DB::table('website_user')->insert([
         "name" => $request->name,
         "phone" => $request->phone,
         "address" => $request->address,
         "username" => $request->username,
+        "email" => $request->email,
         "password" => \Hash::make($request->password),
           ]);
 
@@ -36,7 +37,7 @@ class WebsiteUserApiController extends ApiBaseController
             'data'=>$user_id->id,
             ],200);
    }
-   
+
    public function login(Request $request){
        $validator = Validator::make($request->all(), [
             'username' => 'required',
