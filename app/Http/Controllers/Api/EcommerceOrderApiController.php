@@ -253,7 +253,7 @@ class EcommerceOrderApiController extends ApiBaseController
 
    public function invoice_mail(Request $request)
     {
-        Mail::to('maymyatmoe211099@gmail.com')->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders));
+        Mail::to($request->email)->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders));
         return response()->json(["message" => "Email sent successfully."]);
     }
 
