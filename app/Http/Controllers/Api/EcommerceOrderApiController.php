@@ -212,8 +212,7 @@ class EcommerceOrderApiController extends ApiBaseController
             "order_type" => 2,
             "order_status" => "received",
             "total_quantity" => 3,
-            "deliver_address" => $request->address,
-            'paymentphoto' => $photo
+            "deliver_address" => $request->address
         ]);
 
         foreach ($items as $item) {
