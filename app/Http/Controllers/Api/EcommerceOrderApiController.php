@@ -193,6 +193,16 @@ class EcommerceOrderApiController extends ApiBaseController
             $order_code =  "ECVOU-" .date('y') . sprintf("%02s", (intval(date('m')))) .sprintf("%02s", 1);
         }
 
+        // if($request->get('photo'))
+        // {
+        // //    $name =  $request->file('photo')->extension();
+        //    dd('hey');
+        //     // $newName='photo_'.uniqid().".".$request->get('photo')->extension();
+        //     // $request->file('photo')->storeAs('public/screenshots',$newName);
+
+        //  }
+        // dd($photo);
+            // dd('hello');
         $ecommerce_order = EcommerceOrder::create([
             "order_code" => $order_code,
             "order_date" => $order_date,
@@ -203,6 +213,7 @@ class EcommerceOrderApiController extends ApiBaseController
             "order_status" => "received",
             "total_quantity" => 3,
             "deliver_address" => $request->address,
+            'paymentphoto' => $photo
         ]);
 
         foreach ($items as $item) {
@@ -249,7 +260,7 @@ class EcommerceOrderApiController extends ApiBaseController
 
     public function contact_message(Request $request)
     {
-        
+
         // Mail::to('maymyatmoe211099@gmail.com')->send(new MailMarketing($request->name,$request->email,$request->message));
         // return response()->json(["message" => "Email sent successfully."]);
     }
