@@ -14,10 +14,10 @@ use App\Category;
 class CategoryApiController extends ApiBaseController
 {
    public function index(){
-       $categories = Category::where('type_flag',1)->wherein('id',[1,2,3])->get();
-      
+       $categories = Category::where('type_flag',1)->wherein('id',[1,2,3,4,5])->get();
+
        //========================
-       
+
        //========================
        return response()->json($categories);
    }
