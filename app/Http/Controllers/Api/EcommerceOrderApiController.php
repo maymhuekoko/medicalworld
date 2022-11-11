@@ -161,21 +161,17 @@ class EcommerceOrderApiController extends ApiBaseController
        return response()->json($township_charges);
    }
 
-   public function type($name){
-    // $design = Design::where('design_name',$name)->first();
-    // $unit = CountingUnit::where('design_id',$design->id)->get();
-    dd($name);
-    $design = Design::where('design_name',$name)->first();
-    //    $fabric = Fabric::all();
-    //    $color = Colour::all();
-    //    $size = Size::all();
-    //    $gender = Gender::all();
-    //    return response()->json([
-    //      'fabric' => $fabric,
-    //      'color' => $color,
-    //      'size' => $size,
-    //      'gender' => $gender,
-    //     ]);
+   public function type(){
+       $fabric = Fabric::all();
+       $color = Colour::all();
+       $size = Size::all();
+       $gender = Gender::all();
+       return response()->json([
+         'fabric' => $fabric,
+         'color' => $color,
+         'size' => $size,
+         'gender' => $gender,
+        ]);
    }
 
    //Preorder Store
@@ -197,16 +193,6 @@ class EcommerceOrderApiController extends ApiBaseController
             $order_code =  "ECVOU-" .date('y') . sprintf("%02s", (intval(date('m')))) .sprintf("%02s", 1);
         }
 
-        // if($request->get('photo'))
-        // {
-        // //    $name =  $request->file('photo')->extension();
-        //    dd('hey');
-        //     // $newName='photo_'.uniqid().".".$request->get('photo')->extension();
-        //     // $request->file('photo')->storeAs('public/screenshots',$newName);
-
-        //  }
-        // dd($photo);
-            // dd('hello');
         $ecommerce_order = EcommerceOrder::create([
             "order_code" => $order_code,
             "order_date" => $order_date,
@@ -216,16 +202,16 @@ class EcommerceOrderApiController extends ApiBaseController
             "order_type" => 2,
             "order_status" => "received",
             "total_quantity" => 3,
-            "deliver_address" => $request->address
+            "deliver_address" => $request->address,
         ]);
 
         foreach ($items as $item) {
             $search = explode(' ', $item['testname']);
             $design = Design::where('design_name',$search[0])->first();
-            $fabric = Fabric::where('fabric_name',$search[2])->first();
-            $colour = Colour::where('colour_name',$search[3])->first();
-            $size = Size::where('size_name',$search[4])->first();
-            $gender = Gender::where('gender_name',$search[1])->first();
+            $fabric = Fabric::where('fabric_name',$search[1])->first();
+            $colour = Colour::where('colour_name',$search[2])->first();
+            $size = Size::where('size_name',$search[3])->first();
+            $gender = Gender::where('gender_name',$search[4])->first();
             $unit = CountingUnit::where('design_id',$design->id)
             ->where('fabric_id',$fabric->id)
             ->where('colour_id',$colour->id)
@@ -257,7 +243,7 @@ class EcommerceOrderApiController extends ApiBaseController
 
    public function invoice_mail(Request $request)
     {
-        Mail::to($request->email)->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders));
+        Mail::to('maymyatmoe211099@gmail.com')->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders));
         return response()->json(["message" => "Email sent successfully."]);
     }
 
