@@ -105,10 +105,10 @@ class EcommerceOrderApiController extends ApiBaseController
     // dd($request->all());
     $search = explode(' ', $request->unit);
     $design = Design::where('design_name',$search[0])->first();
-    $fabric = Fabric::where('fabric_name',$search[1])->first();
-    $colour = Colour::where('colour_name',$search[2])->first();
-    $size = Size::where('size_name',$search[3])->first();
-    $gender = Gender::where('gender_name',$search[4])->first();
+    $fabric = Fabric::where('fabric_name',$search[2])->first();
+    $colour = Colour::where('colour_name',$search[3])->first();
+    $size = Size::where('size_name',$search[4])->first();
+    $gender = Gender::where('gender_name',$search[1])->first();
     $unit = CountingUnit::where('design_id',$design->id)
     ->where('fabric_id',$fabric->id)
     ->where('colour_id',$colour->id)
@@ -121,7 +121,7 @@ class EcommerceOrderApiController extends ApiBaseController
         ],200);
 }
 
-   public function detail($id){
+    public function detail($id){
 
         try {
 
@@ -161,16 +161,69 @@ class EcommerceOrderApiController extends ApiBaseController
        return response()->json($township_charges);
    }
 
-   public function type(){
-       $fabric = Fabric::all();
-       $color = Colour::all();
-       $size = Size::all();
-       $gender = Gender::all();
+   public function type($name){
+    $design = Design::where('design_name',$name)->first();
+    $unit = CountingUnit::where('design_id',$design->id)->get();
+    $count = [];
+    foreach($unit as $u){
+        array_push($count,$u->gender->gender_name);
+    }
+
+    $count = collect($count)->unique();
+
        return response()->json([
-         'fabric' => $fabric,
-         'color' => $color,
-         'size' => $size,
-         'gender' => $gender,
+         'gender' => $count,
+        ]);
+   }
+
+   public function typegender($name,$gen){
+    $design = Design::where('design_name',$name)->first();
+    $gender = Gender::where('gender_name',$gen)->first();
+    $unit = CountingUnit::where('design_id',$design->id)->where('gender_id',$gender->id)->get();
+    $count = [];
+    foreach($unit as $u){
+        array_push($count,$u->fabric->fabric_name);
+    }
+
+    $count = collect($count)->unique();
+
+       return response()->json([
+         'fabric' => $count,
+        ]);
+   }
+
+   public function typefabric($name,$gen,$fabric){
+    $design = Design::where('design_name',$name)->first();
+    $gender = Gender::where('gender_name',$gen)->first();
+    $fabric = Fabric::where('fabric_name',$fabric)->first();
+    $unit = CountingUnit::where('design_id',$design->id)->where('gender_id',$gender->id)->where('fabric_id',$fabric->id)->get();
+    $count = [];
+    foreach($unit as $u){
+        array_push($count,$u->colour->colour_name);
+    }
+
+    $count = collect($count)->unique();
+
+       return response()->json([
+         'colour' => $count,
+        ]);
+   }
+
+   public function typecolour($name,$gen,$fabric,$colour){
+    $design = Design::where('design_name',$name)->first();
+    $gender = Gender::where('gender_name',$gen)->first();
+    $fabric = Fabric::where('fabric_name',$fabric)->first();
+    $colour = Colour::where('colour_name',$colour)->first();
+    $unit = CountingUnit::where('design_id',$design->id)->where('gender_id',$gender->id)->where('fabric_id',$fabric->id)->where('colour_id',$colour->id)->get();
+    $count = [];
+    foreach($unit as $u){
+        array_push($count,$u->size->size_name);
+    }
+
+    $count = collect($count)->unique();
+
+       return response()->json([
+         'size' => $count,
         ]);
    }
 
