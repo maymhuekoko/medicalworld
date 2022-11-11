@@ -261,10 +261,10 @@ class EcommerceOrderApiController extends ApiBaseController
         foreach ($items as $item) {
             $search = explode(' ', $item['testname']);
             $design = Design::where('design_name',$search[0])->first();
-            $fabric = Fabric::where('fabric_name',$search[1])->first();
-            $colour = Colour::where('colour_name',$search[2])->first();
-            $size = Size::where('size_name',$search[3])->first();
-            $gender = Gender::where('gender_name',$search[4])->first();
+            $fabric = Fabric::where('fabric_name',$search[2])->first();
+            $colour = Colour::where('colour_name',$search[3])->first();
+            $size = Size::where('size_name',$search[4])->first();
+            $gender = Gender::where('gender_name',$search[1])->first();
             $unit = CountingUnit::where('design_id',$design->id)
             ->where('fabric_id',$fabric->id)
             ->where('colour_id',$colour->id)
