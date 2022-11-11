@@ -63,5 +63,8 @@ class CountingUnit extends Model
     public function colour(){
         return $this->belongsTo(Colour::class);
     }
+    public function gender(){
+        return $this->belongsTo(Gender::class);
+    }
 
 }
