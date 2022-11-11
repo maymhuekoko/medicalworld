@@ -35,9 +35,9 @@
            @foreach ($preorders as $pre)
            <tr class="text-center">
             <td>{{$i++}}</td>
-            <td>{{ explode(' ', $pre['testname'])[0]}}{{ explode(' ', $pre['testname'])[1]}}</td>
-            <td>{{ explode(' ', $pre['testname'])[2]}}</td>
+            <td>{{ explode(' ', $pre['testname'])[0]}}{{ explode(' ', $pre['testname'])[2]}}</td>
             <td>{{ explode(' ', $pre['testname'])[3]}}</td>
+            <td>{{ explode(' ', $pre['testname'])[4]}}</td>
             <td>{{$pre['testqty']}}</td>
             <td>{{$pre['testprice']}}</td>
             <td>{{$pre['testqty']*$pre['testprice']}}</td>
