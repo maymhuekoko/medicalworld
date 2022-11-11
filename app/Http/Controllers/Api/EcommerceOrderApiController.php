@@ -165,6 +165,7 @@ class EcommerceOrderApiController extends ApiBaseController
     // $design = Design::where('design_name',$name)->first();
     // $unit = CountingUnit::where('design_id',$design->id)->get();
     dd($name);
+    $design = Design::where('design_name',$name)->first();
     //    $fabric = Fabric::all();
     //    $color = Colour::all();
     //    $size = Size::all();
