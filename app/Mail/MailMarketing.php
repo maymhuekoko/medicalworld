@@ -33,7 +33,6 @@ class MailMarketing extends Mailable
         $this->link = $data5;
         $this->photo = public_path('uploadedfiles' . '/' . $filename1);
         $this->attach = public_path('uploadedfiles' . '/' . $filename2);
-
     }
 
     /**
