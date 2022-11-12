@@ -49,8 +49,7 @@ Route::get('township', 'Api\EcommerceOrderApiController@township');
 Route::get('township_charges/{id}', 'Api\EcommerceOrderApiController@township_charges');
 Route::post('send/invoice_email', 'Api\EcommerceOrderApiController@invoice_mail')->name('invoice_email');
 
-Route::post('contact_message', 'Api\EcommerceOrderApiController@contact_message')->name('contact_message');
-// Route::resource('send_message', 'ContactMessageController');
+Route::post('contact_message', 'Api\ContactMessageController@contact_message')->name('contact_message');
 
 Route::group(['middleware' => ['auth:api','CustomerPermissionAPI']], function () {
 
