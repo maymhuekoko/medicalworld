@@ -10,6 +10,7 @@ class CountingUnit extends Model
 	use SoftDeletes;
 
     protected $guarded = [];
+    protected $with = ['design'];
 
 //    protected $with = ['design','fabric','size','colour'];
 

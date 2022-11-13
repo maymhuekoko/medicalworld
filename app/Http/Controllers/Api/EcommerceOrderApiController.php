@@ -19,6 +19,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiBaseController;
+use App\Item;
 use App\Mail\MailMarketing;
 
 class EcommerceOrderApiController extends ApiBaseController
@@ -160,6 +161,22 @@ class EcommerceOrderApiController extends ApiBaseController
        $township_charges = Township::find($id);
        return response()->json($township_charges);
    }
+
+   public function  getdesignname($id){
+       $item = Item::where('category_id',$id)->with('counting_units')->get();
+       $unit = [];
+       foreach($item as $it){
+          $count = CountingUnit::where('item_id',$it->id)->get();
+          foreach($count as $c){
+            array_push($unit,$c->design->design_name);
+            }
+       }
+       $unit = collect($unit)->unique();
+       return response()->json([
+        "design" => $unit
+       ]);
+   }
+
 
    public function type($name){
     $design = Design::where('design_name',$name)->first();
