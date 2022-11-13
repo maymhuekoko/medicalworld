@@ -12,9 +12,9 @@
 
     <style>
 
-   .groundqty{
+    .groundqty{
        display: block;
-   }
+    }
 
     </style>
     <link href="{{asset('assets/plugins/c3-master/c3.min.css')}}" rel="stylesheet">
@@ -385,6 +385,7 @@
                                 <!--<li><a href="{{route('itemrequestlists')}}">@lang('lang.itemrequest') @lang('lang.list')</a></li>-->
                                 <li><a href="{{route('factorypo_page')}}">Factory PO List</a></li>
                                 <li><a href="{{route('itemadjust-lists')}}">@lang('lang.item_adjust') @lang('lang.list')</a></li>
+                                <li><a href="{{route('products_flag')}}">Product Flag Control</a></li>
                                 <li><a href="{{route('email_marketing')}}">Email Marketing</a></li>
                             </ul>
                         </li>

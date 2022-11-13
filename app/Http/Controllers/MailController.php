@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Mail;
 use App\Mail\MailMarketing;
 use App\EmailField;
+use App\ContactMessage;
 
 class MailController extends Controller
 {
@@ -34,9 +35,13 @@ class MailController extends Controller
 
         $emailF->save();
 
-        Mail::to('phyoinkwin2022@gmail.com')
-        ->send(new MailMarketing($request->subject,$request->title,$request->subtitle,$request->description,$request->link,$photoName,$attachName));
+        $subscribers = ContactMessage::where('subscribe_flag', '1')->get('email');
 
+        foreach ($subscribers as $s) {
+            Mail::to($s)
+            ->send(new MailMarketing($request->subject,$request->title,$request->subtitle,$request->description,$request->link,$photoName,$attachName));
+        }
+        
         return redirect()->back()->with('success', 'Mail send successfully!');
         
     }

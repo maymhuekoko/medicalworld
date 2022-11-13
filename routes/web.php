@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\ProductFlagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,10 @@ Route::get('LogoutProcess', 'Web\LoginController@logoutProcess')->name('logoutpr
 Route::get('email_marketing', 'MailController@MailMarketingForm')->name('email_marketing');
 
 Route::post('sendingemail', 'MailController@SendingMail');
+
+Route::get('products_flag', 'ProductFlagController@ViewProductFlagPage')->name('products_flag');
+
+Route::post('settingflag', 'ProductFlagController@ChangeFlag');
 
 Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('shopname/edit', 'Web\AdminController@shopnameEdit')->name('shopnameEdit');

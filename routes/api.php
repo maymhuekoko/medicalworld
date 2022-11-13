@@ -37,6 +37,7 @@ Route::post('productlineitems_api', 'Api\ItemApiController@getItemByProductLine'
 Route::get('website_user_index', 'Api\WebsiteUserApiController@index');
 Route::post('website_user_store', 'Api\WebsiteUserApiController@store');
 Route::get('ecommerce_order_index', 'Api\EcommerceOrderApiController@index');
+Route::get('design_api/{id}', 'Api\EcommerceOrderApiController@getdesignname');
 Route::get('ecommerce_order_type/{name}', 'Api\EcommerceOrderApiController@type');
 Route::get('ecommerce_order_type/{name}/{gender}', 'Api\EcommerceOrderApiController@typegender');
 Route::get('ecommerce_order_type/{name}/{gender}/{fabric}', 'Api\EcommerceOrderApiController@typefabric');
@@ -49,8 +50,7 @@ Route::get('township', 'Api\EcommerceOrderApiController@township');
 Route::get('township_charges/{id}', 'Api\EcommerceOrderApiController@township_charges');
 Route::post('send/invoice_email', 'Api\EcommerceOrderApiController@invoice_mail')->name('invoice_email');
 
-Route::post('contact_message', 'Api\EcommerceOrderApiController@contact_message')->name('contact_message');
-// Route::resource('send_message', 'ContactMessageController');
+Route::post('contact_message', 'Api\ContactMessageController@contact_message')->name('contact_message');
 
 Route::group(['middleware' => ['auth:api','CustomerPermissionAPI']], function () {
 

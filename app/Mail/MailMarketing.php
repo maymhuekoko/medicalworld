@@ -11,39 +11,28 @@ class MailMarketing extends Mailable
 {
     use Queueable, SerializesModels;
 
-    // public $subject;
-    // public $title;
-    // public $subtitle;
-    // public $description;
-    // public $link;
-    // public $photo;
-    // public $attach;
-
-    public $name;
-    public $email;
-    public $message;
+    public $subject;
+    public $title;
+    public $subtitle;
+    public $description;
+    public $link;
+    public $photo;
+    public $attach;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    // public function __construct($data1,$data2,$data3,$data4,$data5,$filename1,$filename2)
-    // {
-    //     $this->subject = $data1;
-    //     $this->title = $data2;
-    //     $this->subtitle = $data3;
-    //     $this->description = $data4;
-    //     $this->link = $data5;
-    //     $this->photo = public_path('uploadedfiles' . '/' . $filename1);
-    //     $this->attach = public_path('uploadedfiles' . '/' . $filename2);
-
-    // }
-    public function __construct($data1,$data2,$data3)
+    public function __construct($data1,$data2,$data3,$data4,$data5,$filename1,$filename2)
     {
-       $this->name = $data1;
-       $this->email = $data2;
-       $this->message = $data3;
+        $this->subject = $data1;
+        $this->title = $data2;
+        $this->subtitle = $data3;
+        $this->description = $data4;
+        $this->link = $data5;
+        $this->photo = public_path('uploadedfiles' . '/' . $filename1);
+        $this->attach = public_path('uploadedfiles' . '/' . $filename2);
     }
 
     /**
@@ -54,6 +43,7 @@ class MailMarketing extends Mailable
     public function build()
     {
         return $this->view('Admin.emailTemplate')
-        ->subject('You have one new message from Medical World');
+        ->subject('You have one new message from Medical World')
+        ->attach($this->attach);
     }
 }
