@@ -36,6 +36,7 @@ class Item extends Model
     public function counting_units(){
         return $this->hasMany(CountingUnit::class);
     }
+    
     public function froms()
     {
 		return $this->belongsToMany('App\From','from_item','item_id','from_id')->withPivot('id','item_id','from_id');
