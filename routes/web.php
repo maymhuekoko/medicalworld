@@ -32,6 +32,8 @@ Route::get('products_flag', 'ProductFlagController@ViewProductFlagPage')->name('
 
 Route::post('settingflag', 'ProductFlagController@ChangeFlag');
 
+Route::get('reset_quantity', 'Web\StockController@viewResetQuantity')->name('reset_quantity');
+
 Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('shopname/edit', 'Web\AdminController@shopnameEdit')->name('shopnameEdit');
 
@@ -367,7 +369,10 @@ Route::post('getTotalSaleReport', 'Web\AdminController@getTotalSaleReport');
 	Route::post('stockupdate-ajax', 'Web\StockController@stockUpdateAjax')->name('stockupdate-ajax');
 	Route::post('salepriceupdate-ajax', 'Web\StockController@salepriceUpdateAjax')->name('salepriceupdate-ajax');
 	Route::post('purchasepriceupdate-ajax', 'Web\StockController@purchasepriceUpdateAjax')->name('purchasepriceupdate-ajax');
-	Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
+    // Reset Quantity route
+	Route::post('resettingquantity', 'Web\StockController@resetquantityUpdate');
+	//
+    Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
 	Route::post('itemadjust-ajax', 'Web\StockController@itemadjustAjax')->name('itemadjust-ajax');
 	Route::get('itemadjust-lists', 'Web\StockController@itemadjustLists')->name('itemadjust-lists');
 
