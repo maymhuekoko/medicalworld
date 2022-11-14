@@ -354,10 +354,22 @@ class StockController extends Controller
 
     public function salepriceUpdateAjax(Request $request)
     {
-
-
         $countingUnit = CountingUnit::findOrFail($request->unit_id);
         $countingUnit->order_price = $request->order_price;
+        $countingUnit->save();
+
+        if($countingUnit){
+            return response()->json($countingUnit);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function resetquantityUpdateAjax(Request $request)
+    {
+        $countingUnit = CountingUnit::findOrFail($request->unit_id);
+        $countingUnit->reset_quantity = $request->reset_quantity;
         $countingUnit->save();
 
         if($countingUnit){

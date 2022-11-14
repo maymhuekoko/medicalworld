@@ -370,7 +370,7 @@ Route::post('getTotalSaleReport', 'Web\AdminController@getTotalSaleReport');
 	Route::post('salepriceupdate-ajax', 'Web\StockController@salepriceUpdateAjax')->name('salepriceupdate-ajax');
 	Route::post('purchasepriceupdate-ajax', 'Web\StockController@purchasepriceUpdateAjax')->name('purchasepriceupdate-ajax');
     // Reset Quantity route ok
-	Route::post('resettingquantity', 'Web\StockController@resetquantityUpdate');
+	Route::post('resetquantityupdate-ajax', 'Web\StockController@resetquantityUpdateAjax')->name('resetquantityupdate-ajax');
 	//
     Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
 	Route::post('itemadjust-ajax', 'Web\StockController@itemadjustAjax')->name('itemadjust-ajax');
