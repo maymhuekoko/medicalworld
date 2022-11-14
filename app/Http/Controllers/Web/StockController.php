@@ -54,6 +54,31 @@ class StockController extends Controller
     	return view('Sale.reset_quantity_page', compact('counting_units','shop','categories','sub_categories'));
     }
 
+
+    public function viewProductFlagPage()
+    {
+    
+        $items = Item::where("category_id",1)->where("sub_category_id",2)->get();
+        $item_ids=[];
+
+        foreach ($items as $item){
+            array_push($item_ids,$item->id);
+        }
+        $counting_units = CountingUnit::whereIn('item_id',$item_ids)->get();
+        $categories = Category::all();
+        $sub_categories = SubCategory::all();
+        $shop = From::find(1);
+
+        $newarrFlag = Item::get('new_product_flag');
+
+        $check = 'checked';
+        
+        $promoFlag = Item::get('new_product_flag');
+        $hotsaleFlag = Item::get('new_product_flag');
+
+    	return view('Admin.products_flag', compact('counting_units','shop','categories','sub_categories', 'check'));
+    }
+
     protected function getStockCountPage(Request $request)
     {
 
@@ -380,7 +405,49 @@ class StockController extends Controller
         }
     }
 
-     public function purchasepriceUpdateAjax(Request $request)
+    public function newarrCheckOnAjax(Request $request)
+    {
+        $item = Item::findOrFail($request->unit_id);
+        $item->new_product_flag = $request->chek_value;
+        $item->save();
+
+        if($item){
+            return response()->json($item);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function promoCheckOnAjax(Request $request)
+    {
+        $item = Item::findOrFail($request->unit_id);
+        $item->promotion_product_flag = $request->chek_value;
+        $item->save();
+
+        if($item){
+            return response()->json($item);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function hotCheckOnAjax(Request $request)
+    {
+        $item = Item::findOrFail($request->unit_id);
+        $item->hotsale_product_flag = $request->chek_value;
+        $item->save();
+
+        if($item){
+            return response()->json($item);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function purchasepriceUpdateAjax(Request $request)
     {
 
         $countingUnit = CountingUnit::findOrFail($request->unit_id);
@@ -393,17 +460,6 @@ class StockController extends Controller
         else{
             return response()->json(0);
         }
-    }
-
-    public function resetquantityUpdate(Request $request)
-    {
-
-        CountingUnit::where('id', $request->unit_id)->update([
-            'reset_quantity' => $request->reset_quantity,
-        ]);
-
-        return redirect()->back();
-        
     }
 
     public function purchaseUpdateAjax(Request $request)

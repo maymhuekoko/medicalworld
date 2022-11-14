@@ -28,9 +28,7 @@ Route::get('email_marketing', 'MailController@MailMarketingForm')->name('email_m
 
 Route::post('sendingemail', 'MailController@SendingMail');
 
-Route::get('products_flag', 'ProductFlagController@ViewProductFlagPage')->name('products_flag');
-
-Route::post('settingflag', 'ProductFlagController@ChangeFlag');
+Route::get('products_flag', 'Web\StockController@viewProductFlagPage')->name('products_flag');
 
 Route::get('reset_quantity', 'Web\StockController@viewResetQuantity')->name('reset_quantity');
 
@@ -372,6 +370,10 @@ Route::post('getTotalSaleReport', 'Web\AdminController@getTotalSaleReport');
     // Reset Quantity route ok
 	Route::post('resetquantityupdate-ajax', 'Web\StockController@resetquantityUpdateAjax')->name('resetquantityupdate-ajax');
 	//
+	Route::post('newarrcheckon-ajax', 'Web\StockController@newarrCheckOnAjax')->name('newarrcheckon-ajax');
+	Route::post('promocheckon-ajax', 'Web\StockController@promoCheckOnAjax')->name('promocheckon-ajax');
+	Route::post('hotsalecheckon-ajax', 'Web\StockController@hotCheckOnAjax')->name('hotsalecheckon-ajax');
+
     Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
 	Route::post('itemadjust-ajax', 'Web\StockController@itemadjustAjax')->name('itemadjust-ajax');
 	Route::get('itemadjust-lists', 'Web\StockController@itemadjustLists')->name('itemadjust-lists');
