@@ -30,6 +30,30 @@ class StockController extends Controller
     	return view('Stock.stock_panel');
     }
 
+    public function viewResetQuantity()
+    {
+        // $role= $request->session()->get('user')->role;
+        // if($role=='Sale_Person'){
+        //     $item_from= $request->session()->get('user')->from_id;
+        // }
+        // else {
+        //     $item_from= $request->session()->get('from');
+        // }
+    
+        $items = Item::where("category_id",1)->where("sub_category_id",2)->get();
+        $item_ids=[];
+
+        foreach ($items as $item){
+            array_push($item_ids,$item->id);
+        }
+        $counting_units = CountingUnit::whereIn('item_id',$item_ids)->get();
+        $categories = Category::all();
+        $sub_categories = SubCategory::all();
+        $shop = From::find(1);
+
+    	return view('Sale.reset_quantity_page', compact('counting_units','shop','categories','sub_categories'));
+    }
+
     protected function getStockCountPage(Request $request)
     {
 
@@ -347,7 +371,6 @@ class StockController extends Controller
      public function purchasepriceUpdateAjax(Request $request)
     {
 
-
         $countingUnit = CountingUnit::findOrFail($request->unit_id);
         $countingUnit->purchase_price = $request->purchase_price;
         $countingUnit->save();
@@ -358,6 +381,17 @@ class StockController extends Controller
         else{
             return response()->json(0);
         }
+    }
+
+    public function resetquantityUpdate(Request $request)
+    {
+
+        CountingUnit::where('id', $request->unit_id)->update([
+            'reset_quantity' => $request->reset_quantity,
+        ]);
+
+        return redirect()->back();
+        
     }
 
     public function purchaseUpdateAjax(Request $request)

@@ -312,6 +312,7 @@
                                 <li><a href="{{route('salescustomers_list')}}">@lang('lang.sale_customer_list')</a></li>
                                 <li><a href="{{route('sale_history')}}">@lang('lang.sale_history')</a></li>
                                 @endif
+                                <li><a href="{{ route('reset_quantity') }}">Reset Quantity</a></li>
                             </ul>
                         </li>
                         @endif
@@ -339,7 +340,6 @@
                                 <!--<li><a href="{{route('order_page','5')}}">@lang('lang.accepted_order')</a></li>-->
                                 <li><a href="{{route('order_history')}}">@lang('lang.order_voucher_history')</a></li>
                                 <li><a href="{{route('ordercustomers_list')}}">Order Customers List</a></li>
-
                             </ul>
                         </li>
                         @endif
