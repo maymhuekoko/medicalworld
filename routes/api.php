@@ -37,6 +37,7 @@ Route::post('productlineitems_api', 'Api\ItemApiController@getItemByProductLine'
 Route::get('website_user_index', 'Api\WebsiteUserApiController@index');
 Route::post('website_user_store', 'Api\WebsiteUserApiController@store');
 Route::get('ecommerce_order_index', 'Api\EcommerceOrderApiController@index');
+Route::get('design_api/{id}', 'Api\EcommerceOrderApiController@getdesignname');
 Route::get('ecommerce_order_type/{name}', 'Api\EcommerceOrderApiController@type');
 Route::get('ecommerce_order_type/{name}/{gender}', 'Api\EcommerceOrderApiController@typegender');
 Route::get('ecommerce_order_type/{name}/{gender}/{fabric}', 'Api\EcommerceOrderApiController@typefabric');
