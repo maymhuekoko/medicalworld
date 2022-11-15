@@ -56,15 +56,12 @@ $from_id = session()->get('from')
                             <select class="form-control select2" id="item_list">
                                 <option></option>
                                     @foreach ($counting_units as $unit)
-                                        <option value="{{$unit->id}}"
-                                            >{{$unit->unit_code??"unit code"}} - {{$unit->unit_name ?? "name"}}</option>
+                                        <option value="{{$unit->id}}">{{$unit->id??"id"}}. {{$unit->item_code??"unit code"}} - {{$unit->item_name ?? "name"}}</option>
                                     @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
-
-
 {{--
                 <div class="row justify-content-end">
                     <button class="btn btn-success" onclick="checkUnit()">
@@ -82,7 +79,7 @@ $from_id = session()->get('from')
 
         <div class="card card-outline-info">
             <div class="card-header">
-                <h4 class="m-b-0 text-white">@lang('lang.counting_unit') @lang('lang.list')</h4>
+                <h4 class="m-b-0 text-white">Products List</h4>
             </div>
 
             <div class="card-body">
@@ -98,63 +95,126 @@ $from_id = session()->get('from')
 
                                 @if(session()->get('user')->role == "Owner")
                                 <th>Hot Sale</th>
-                                <th>@lang('lang.action')</th>
+                                <!-- <th>@lang('lang.action')</th> -->
                                 @endif
                             </tr>
                         </thead>
                         <tbody id="units_table">
-                            @php
-                            $jj=1;
-                            @endphp
-
 
                                 @foreach ($counting_units as $unit)
                                 <tr>
-                                    <td>{{$jj++}}</td>
-
-                                    <td>{{$unit->unit_code}}</td>
-                                    <td>{{$unit->unit_name}}</td>
+                                    <td>{{$unit->id}}</td>
+                                    <td>{{$unit->item_code}}</td>
+                                    <td>{{$unit->item_name}}</td>
 
                                     <td>
-                                        
-                                        <input type="checkbox" class="newarrck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0">
-                                        
-                                        <!-- <a href="#" class="newarrCheck btn btn-warning"
-                                            data-unitid="{{$unit->id}}" data-code="{{$unit->unit_code}}" data-unitname="{{$unit->unit_name}}">
+                                        <input type="checkbox" class="newarrck" style="width: 50px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0">
+                                        <button type="button-sm" class="btn btn-primary" data-toggle="modal" data-target="#newarrModel">
                                             Set Date
-                                        </a> -->
+                                        </button>
+                                        <div class="modal fade" id="newarrModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Set Date</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="settingarrdate">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <input class="form-control" type="hidden" name="item_id" value="{{$unit->id}}">
+                                                        <input class="form-control" type="date" name="arr_date">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="0">
+                                        <button type="button-sm" class="btn btn-primary" data-toggle="modal" data-target="#promoModel">
+                                            Set Discount
+                                        </button>
+                                        <div class="modal fade" id="promoModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Set Discount Price</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="settingdiscountprice">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <input class="form-control" type="hidden" name="item_id" value="{{$unit->id}}">
+                                                        <input class="form-control" type="text" name="dis_price">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
-                                        <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="0">
+                                        <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="1">
                                     </td>
 
+                                    <!-- @if($unit->new_product_flag == '1')
+                                    <td>
+                                        <input type="checkbox" class="newarrck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0" checked>
+                                    </td>
+                                    @else
+                                    <td>
+                                        <input type="checkbox" class="newarrck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0" >
+                                    </td>
+                                    @endif
+
+                                    @if($unit->promotion_product_flag == '1')
+                                    <td>
+                                        <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="0" checked>
+                                    </td>
+                                    @else
+                                    <td>
+                                        <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="1">
+                                    </td>
+                                    @endif
+                                    
+                                    @if($unit->hotsale_product_flag == '1')
+                                    <td>
+                                        <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="0" checked>
+                                    </td>
+                                    @else
+                                    <td>
+                                        <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="1">
+                                    </td>
+                                    @endif -->
+                                    
                                     @if(session()->get('user')->role == "Owner")
-                                    <!-- <td>
-                                        <input type="number" class="form-control w-50 ppriceinput text-black" data-ppriceinputid="ppriceinput{{$unit->id}}" id="ppriceinput{{$unit->id}}" data-id="{{$unit->id}}"value="{{$unit->purchase_price}}">
-                                    </td> -->
 
-                                    <td>
+                                    <!-- <td>
                                         <div class="row">
-                                            <a href="#" class="btn btn-warning unitupdate"
-                                            data-unitid="{{$unit->id}}" data-code="{{$unit->unit_code}}" data-unitname="{{$unit->unit_name}}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button class="btn btn-danger delete_stock" data-id="{{$unit->id}}">
-                                                <i class="fas fa-trash-alt"></i>
+                                            
+                                            <button class="btn btn-danger delete_stock">
+                                                Change
                                             </button>
                                         </div>
 
-                                    </td>
+                                    </td> -->
                                     @endif
                                 </tr>
                                 @endforeach
 
-
-
-                            <div class="modal fade" id="edit_unit_qty" role="dialog" aria-hidden="true">
+                            <!-- <div class="modal fade" id="edit_unit_qty" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -189,44 +249,7 @@ $from_id = session()->get('from')
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="modal fade" id="add_arr_date" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">@lang('lang.update_counting_unit_quantity') @lang('lang.form')</h4>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                              </button>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <form class="form-horizontal m-t-40" method="post" action="{{route('update_stock_count')}}">
-                                                @csrf
-                                                <input type="hidden" name="unit_id" id="unit_id">
-                                                <div class="form-group row">
-                                                    <label class="control-label text-right col-md-6 text-black">Code </label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="unique_unit_code" name="unit_code">
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <label class="control-label text-right col-md-6 text-black">ပစ္စည်း အမည်</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" name="unit_name" id="unique_unit_name">
-
-                                                    </div>
-                                                </div>
-
-                                                <input type="submit" name="btnsubmit" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> -->
 
                         </tbody>
                     </table>
@@ -240,6 +263,17 @@ $from_id = session()->get('from')
 @section('js')
 
 <script>
+
+
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+
+
 
     $(document).ready(function(){
 
@@ -274,7 +308,7 @@ $from_id = session()->get('from')
 
                 $('#item_list').append($('<option>').text(value.item_name).attr('value', value.id));
 
-                $.each(value.counting_units,function(j,unit){
+                $.each(value.items,function(j,unit){
                     var stockcountt=0;
                     $.each(unit.stockcount,function(k,stock){
                         if(stock.from_id==shop_id){
@@ -424,7 +458,7 @@ $from_id = session()->get('from')
     })
 
         $('.row').on('click','.unitupdate',function(){
-              event.preventDefault()
+        event.preventDefault()
         var id = $(this).data('unitid');
         var code = $(this).data('code');
         var name = $(this).data('unitname');
@@ -434,21 +468,6 @@ $from_id = session()->get('from')
         $("#unique_unit_name").val(name);
         $("#edit_unit_qty").modal("show");
         })
-
-        $('.row').on('click','.newarrCheck',function(){
-              event.preventDefault()
-        var id = $(this).data('unitid');
-        var code = $(this).data('code');
-        var name = $(this).data('unitname');
-        console.log(id,code,name);
-        $("#unit_id").val(id);
-        $("#unique_unit_code").val(code);
-        $("#unique_unit_name").val(name);
-        $("#add_arr_date").modal("show");
-        })
-
-
-
 
     $('#units_table').on('keypress','.newarrck',function(){
         var keycode= (event.keyCode ? event.keyCode : event.which);
@@ -534,7 +553,7 @@ $from_id = session()->get('from')
             } else {
                 var chek_value = 0;
             }
-            // var order_price = $(this).val();
+            // var chek_value = $(this).val();
             var unit_id= $(this).data('id');
             var promockid = $(this).data('promockid');
             $.ajax({
@@ -593,7 +612,7 @@ $from_id = session()->get('from')
             } else {
                 var chek_value = 0;
             }
-            // var purchase_price = $(this).val();
+            // var chek_value = $(this).val();
             var unit_id= $(this).data('id');
             var hotckid = $(this).data('hotckid');
             $.ajax({

@@ -322,11 +322,11 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::get('transaction_list/{id}', 'Web\AdminController@TransactionList')->name('transaction_list');
     Route::post('store_transaction', 'Web\AdminController@store_transaction_now')->name('store_transaction');
     
-     Route::get('Incomes', 'Web\AdminController@incomeList')->name('incomes');
-Route::post('storeIncome', 'Web\AdminController@storeIncome')->name('store_income');
-Route::post('updateIncome/{id}', 'Web\AdminController@updateIncome')->name('update_income');
-Route::post('deleteIncome', 'Web\AdminController@deleteIncome')->name('delete_income');
-Route::post('getTotalSaleReport', 'Web\AdminController@getTotalSaleReport');
+    Route::get('Incomes', 'Web\AdminController@incomeList')->name('incomes');
+    Route::post('storeIncome', 'Web\AdminController@storeIncome')->name('store_income');
+    Route::post('updateIncome/{id}', 'Web\AdminController@updateIncome')->name('update_income');
+    Route::post('deleteIncome', 'Web\AdminController@deleteIncome')->name('delete_income');
+    Route::post('getTotalSaleReport', 'Web\AdminController@getTotalSaleReport');
     Route::post('getTotalIncome', 'Web\AdminController@getTotalIncome');
     Route::post('getTotalPurchase', 'Web\AdminController@getTotalPurchase');
     Route::post('getTotalTransaction', 'Web\AdminController@getTotalTransaction');
@@ -373,6 +373,10 @@ Route::post('getTotalSaleReport', 'Web\AdminController@getTotalSaleReport');
 	Route::post('newarrcheckon-ajax', 'Web\StockController@newarrCheckOnAjax')->name('newarrcheckon-ajax');
 	Route::post('promocheckon-ajax', 'Web\StockController@promoCheckOnAjax')->name('promocheckon-ajax');
 	Route::post('hotsalecheckon-ajax', 'Web\StockController@hotCheckOnAjax')->name('hotsalecheckon-ajax');
+    //
+    Route::post('settingarrdate', 'Web\StockController@setDate');
+    Route::post('settingdiscountprice', 'Web\StockController@setPrice');
+
 
     Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
 	Route::post('itemadjust-ajax', 'Web\StockController@itemadjustAjax')->name('itemadjust-ajax');

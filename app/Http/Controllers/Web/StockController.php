@@ -31,8 +31,7 @@ class StockController extends Controller
     }
 
     public function viewResetQuantity()
-    {c
-    
+    {
         $items = Item::where("category_id",1)->where("sub_category_id",2)->get();
         $item_ids=[];
 
@@ -51,22 +50,35 @@ class StockController extends Controller
     public function viewProductFlagPage()
     {
     
-        $items = Item::where("category_id",1)->where("sub_category_id",2)->get();
+        $items = Item::where("category_id",1)->where("sub_category_id",7)->get();
         $item_ids=[];
 
         foreach ($items as $item){
             array_push($item_ids,$item->id);
         }
-        $counting_units = CountingUnit::whereIn('item_id',$item_ids)->get();
+
+        $counting_units = Item::all();
         $categories = Category::all();
         $sub_categories = SubCategory::all();
         $shop = From::find(1);
 
-        $newarrFlag = Item::get('new_product_flag');
-        $promoFlag = Item::get('new_product_flag');
-        $hotsaleFlag = Item::get('new_product_flag');
+    	return view('Admin.products_flag', compact('counting_units','shop','categories','sub_categories'));
+    }
 
-    	return view('Admin.products_flag', compact('counting_units','shop','categories','sub_categories', 'newarrFlag'));
+    public function setDate(Request $request) {
+        Item::where('id', $request->item_id)->update([
+            'arrival_date' => $request->arr_date,
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function setPrice(Request $request) {
+        Item::where('id', $request->item_id)->update([
+            'discount_price' => $request->dis_price,
+        ]);
+
+        return redirect()->back();
     }
 
     protected function getStockCountPage(Request $request)
