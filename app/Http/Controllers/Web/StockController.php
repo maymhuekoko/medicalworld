@@ -31,14 +31,7 @@ class StockController extends Controller
     }
 
     public function viewResetQuantity()
-    {
-        // $role= $request->session()->get('user')->role;
-        // if($role=='Sale_Person'){
-        //     $item_from= $request->session()->get('user')->from_id;
-        // }
-        // else {
-        //     $item_from= $request->session()->get('from');
-        // }
+    {c
     
         $items = Item::where("category_id",1)->where("sub_category_id",2)->get();
         $item_ids=[];
@@ -70,13 +63,10 @@ class StockController extends Controller
         $shop = From::find(1);
 
         $newarrFlag = Item::get('new_product_flag');
-
-        $check = 'checked';
-        
         $promoFlag = Item::get('new_product_flag');
         $hotsaleFlag = Item::get('new_product_flag');
 
-    	return view('Admin.products_flag', compact('counting_units','shop','categories','sub_categories', 'check'));
+    	return view('Admin.products_flag', compact('counting_units','shop','categories','sub_categories', 'newarrFlag'));
     }
 
     protected function getStockCountPage(Request $request)
