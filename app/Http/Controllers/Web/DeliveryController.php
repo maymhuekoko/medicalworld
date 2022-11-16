@@ -188,12 +188,12 @@ class DeliveryController extends Controller
         }
 
         $user = session()->get('user');
-        
+
          if($request->editvoucher != 0 ){
             $voucher = Voucher::findOrfail($request->editvoucher);
             //$units = Voucher::findOrfail($request->editvoucher)->counting_unit;
             foreach($voucher->counting_unit as $unit){
-                
+
                 $balanceQty = $unit->current_quantity + $unit->pivot->quantity;
                 $unit->current_quantity = $balanceQty ;
                 $unit->save();
@@ -224,13 +224,13 @@ class DeliveryController extends Controller
 
         // dd($total_quantity);
         $total_amount = $grand->sub_total;
-        
+
         $discount_type = $grand->total_discount_type;
-        
+
         $discount_value = $grand->total_discount_value;
 
         $total_wif_discount = $total_amount - $discount_value;
-        
+
         $remark = $request->remark;
 
         $voucher = Voucher::create([
@@ -266,7 +266,7 @@ class DeliveryController extends Controller
 
         foreach ($items as $item) {
 
-            
+
             $voucher->counting_unit()->attach($item->id, ['quantity' => $item->order_qty,'price' => $item->selling_price,'discount_type' => $item->discount_type,'discount_value' => $item->discount_value]);
 
             $counting_unit = CountingUnit::find($item->id);
@@ -285,7 +285,7 @@ class DeliveryController extends Controller
         }else{
             $voucher_code =  "SVOU-" .date('y') . sprintf("%02s", (intval(date('m')) + 1)) .sprintf("%02s", 1);
         }
-        
+
         $items = Item::where("category_id",1)->where("sub_category_id",2)->get();
         $item_ids=[];
         //$counting_units=[];
@@ -293,7 +293,7 @@ class DeliveryController extends Controller
             array_push($item_ids,$item->id);
         }
         $counting_units = CountingUnit::whereIn('item_id',$item_ids)->with('fabric')->with('colour')->get();
-        
+
         return response()->json([
             'status' => 1,
             'voucher'=>$voucher,
