@@ -16,9 +16,9 @@
             </div>
             <div class="card-body">
                  <div class="row p-2 offset-10">
-                        <input  type="text" id="table_search" placeholder="Quick Search" onkeyup="search_table()" >    
+                        <input  type="text" id="table_search" placeholder="Quick Search" onkeyup="search_table()" >
                     </div>
-                
+
                 <div class="table-responsive text-black">
                     <table class="table" id="order_table">
                         <thead class="head">
@@ -40,7 +40,7 @@
                              <?php
                                 $i = 0;
                             ?>
-                            
+
                             @foreach($order_lists as $order)
                                 <tr>
                                     <td>{{++$i}}</td>
@@ -61,13 +61,20 @@
                                     <td>{{$order->total_amount}}</td>
                                     <td>{{$order->remark}}</td>
                                 	<td class="text-center">
-                                         <a href="{{route('website_order_details',$order->id)}}" class="btn rounded btn-sm btn-outline-info">Details</a>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <a href="{{route('website_order_details',$order->id)}}" class="btn rounded btn-sm btn-outline-info">Details</a>
+                                            </div>
+                                            <div class="col-8">
+                                                <a href="#" class="btn rounded btn-sm btn-outline-info" onclick="showscreenshot({{$order->id}})">Screenshot</a>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="text-center">
-                                        <a href="" class="btn rounded btn-sm btn-outline-info" data-toggle="modal"data-target="#status{{$order->id}}">Change Status</a>
+                                        <a href="" class="btn rounded btn-sm btn-outline-info" data-toggle="modal" data-target="#status{{$order->id}}">Change Status</a>
                                     </td>
-                                    
-                                    <div class="modal fade" id="status{{$order->id}}" role="dialog" aria-hidden="true">
+
+    <div class="modal fade" id="status{{$order->id}}" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +85,7 @@
                 </div>
 
                 <div class="modal-body p-5">
-               
+
                         <div class="mb-2">
                             <p class="text-center">
                                 Please select status that you want!
@@ -91,7 +98,7 @@
                             </select>
                         </div>
 
-                        
+
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="status_change({{$order->id}})">Save changes</button>
@@ -101,6 +108,26 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id='paysrc'>
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Order Payment Screenshot</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="photo1">
+
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
                                 </tr>
                             @endforeach
                         </tbody>
@@ -116,9 +143,9 @@
 @section('js')
 
     <script>
- 
+
     function status_change(id){
-        
+
         let status = $('#statusval'+id).val();
         // alert(status);
          $.ajax({
@@ -152,11 +179,31 @@
                         `;
                         $('#chg_status'+id).html(html);
                     }
-                    
+
                 }
          })
     }
-      
 
+    function showscreenshot(id){
+    $('#paysrc').modal('show');
+     $.ajax({
+
+        type: 'POST',
+
+        url: '{{route('showscreenshot')}}',
+
+        data: {
+            "_token": "{{ csrf_token() }}",
+            "order_id": id,
+        },
+
+        success: function(data) {
+            //  alert(data.screenshot);
+            $('#photo1').html(`<img src="{{asset('storage/screenshot/${data.screenshot}')}}" alt="" title="" width="470" height="430"/>`);
+        }
+     })
+
+
+}
     </script>
 @endsection

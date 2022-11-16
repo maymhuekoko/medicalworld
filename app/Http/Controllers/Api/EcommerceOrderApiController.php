@@ -13,6 +13,7 @@ use App\Getlocation;
 use App\CountingUnit;
 use App\Mail\Invoice;
 use App\EcommerceOrder;
+use App\EcommerceOrderScreenshot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiBaseController;
 use App\Item;
 use App\Mail\MailMarketing;
+use App\Stockcount;
 
 class EcommerceOrderApiController extends ApiBaseController
 {
@@ -101,6 +103,25 @@ class EcommerceOrderApiController extends ApiBaseController
             ],200);
    }
 
+   //search item
+   public function searchitem(Request $request){
+     $item = Item::where('item_name','like','%'.$request->item.'%')->get();
+     return response()->json($item);
+   }
+
+   //store screenshot
+   public function storescreenshot(Request $request){
+    $newName='screenshot_'.uniqid().".".$request->file('file')->extension();
+    $request->file('file')->storeAs('public/screenshot',$newName);
+    $eorder = EcommerceOrder::latest()->first()->id;
+    $screenshot = EcommerceOrderScreenshot::create([
+        'ecommerce_order_id' => $eorder+1,
+        'screenshot' => $newName,
+        'remark' => $request->remark,
+    ]);
+    return response()->json($screenshot);
+   }
+
    //show price
    public function showprice(Request $request){
     // dd($request->all());
@@ -116,9 +137,12 @@ class EcommerceOrderApiController extends ApiBaseController
     ->where('size_id',$size->id)
     ->where('gender_id',$gender->id)
     ->first();
+    $stock =  $unit->current_quantity - $unit->reset_quantity;
 
     return response()->json([
         'data'=>$unit->order_price,
+        'stock' => $stock,
+        'id' => $unit->id,
         ],200);
 }
 
@@ -246,11 +270,10 @@ class EcommerceOrderApiController extends ApiBaseController
 
    //Preorder Store
    public function preorderstore(Request $request){
-        // dd($request->all());
+
         $items = $request->orders;
 
-
-       $date = new DateTime('Asia/Yangon');
+        $date = new DateTime('Asia/Yangon');
 
 
         $order_date = $date->format('Y-m-d');
