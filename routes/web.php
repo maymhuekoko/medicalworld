@@ -369,11 +369,11 @@ Route::group(['middleware' => ['UserAuth']], function () {
 	Route::post('purchasepriceupdate-ajax', 'Web\StockController@purchasepriceUpdateAjax')->name('purchasepriceupdate-ajax');
     // Reset Quantity route ok
 	Route::post('resetquantityupdate-ajax', 'Web\StockController@resetquantityUpdateAjax')->name('resetquantityupdate-ajax');
-	//
+	// New Arr Promo Hot
 	Route::post('newarrcheckon-ajax', 'Web\StockController@newarrCheckOnAjax')->name('newarrcheckon-ajax');
 	Route::post('promocheckon-ajax', 'Web\StockController@promoCheckOnAjax')->name('promocheckon-ajax');
 	Route::post('hotsalecheckon-ajax', 'Web\StockController@hotCheckOnAjax')->name('hotsalecheckon-ajax');
-    //
+    // Set Date Discount 
     Route::post('newarrivaldate-ajax', 'Web\StockController@setDateAjax')->name('newarrivaldate-ajax');
     Route::post('discountprice-ajax', 'Web\StockController@setPriceAjax')->name('discountprice-ajax');
 
