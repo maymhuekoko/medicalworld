@@ -16,7 +16,7 @@
 @section('content')
 @php
 $from_id = session()->get('from')
-@endphp -->
+@endphp
 <input type="hidden" id="isowner" value="{{session()->get('user')->role}}">
 <input type="hidden" id="isshop" value="{{session()->get('from')}}">
 <div class="row page-titles">
@@ -88,8 +88,8 @@ $from_id = session()->get('from')
                                 <th>No.</th>
                                 <th>Item Code</th>
                                 <th>@lang('lang.item') @lang('lang.name')</th>
-                                <th>New Arrival</th>
-                                <th>Promotion</th>
+                                <th style="padding-left: 30px;">New Arrival</th>
+                                <th style="padding-left: 20px;">Promotion</th>
                                 <th>Hot Sale</th>
                             </tr>
                         </thead>
@@ -103,61 +103,11 @@ $from_id = session()->get('from')
 
                                     <td>
                                         <input type="checkbox" class="newarrck" style="width: 50px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0">
-                                        <button type="button-sm" class="btn btn-primary" data-toggle="modal" data-target="#newarrModel">
-                                            Set Date
-                                        </button>
-                                        <div class="modal fade" id="newarrModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Set Date</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form method="post" action="settingarrdate">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <input class="form-control" type="hidden" name="item_id" value="{{$unit->id}}">
-                                                        <input class="form-control" type="date" name="arr_date">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Save</button>
-                                                    </div>
-                                                </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <input type="date" class="arrivaldate" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-arrivaldateid="arrivaldate{{$unit->id}}" id="arrivaldate{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->arrival_date}}">
                                     </td>
                                     <td>
                                         <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="0">
-                                        <button type="button-sm" class="btn btn-primary" data-toggle="modal" data-target="#promoModel">
-                                            Set Discount
-                                        </button>
-                                        <div class="modal fade" id="promoModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Set Discount Price</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form method="post" action="settingdiscountprice">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <input class="form-control" type="hidden" name="item_id" value="{{$unit->id}}">
-                                                        <input class="form-control" type="text" name="dis_price">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Save</button>
-                                                    </div>
-                                                </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <input type="text" class="discountprice" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-discountpriceid="discountprice{{$unit->id}}" id="discountprice{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->discount_price}}">
                                     </td>
                                     <td>
                                         <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="1">
@@ -257,7 +207,6 @@ $from_id = session()->get('from')
 @section('js')
 
 <script>
-
 
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
@@ -534,6 +483,73 @@ $from_id = session()->get('from')
 
     })
 
+    $('#units_table').on('keypress','.arrivaldate',function(){
+        var keycode= (event.keyCode ? event.keyCode : event.which);
+        if(keycode=='13'){
+            // var shop_id = $('#shop_id option:selected').val();
+            var shop_id = $('#shop_id').val() ?? $('#isshop').val();
+            var arr_date = $(this).val();
+            var unit_id= $(this).data('id');
+            var arrivaldateid = $(this).data('arrivaldateid');
+            swal(
+                    {
+                      title: "Flag Change",
+                      text: "New Arrival Date Change!",
+                      content: "input",
+                      showCancelButton: true,
+                      closeOnConfirm: false,
+                      animation: "slide-from-top",
+                      inputPlaceholder: "Remark"
+                    }    
+                    
+                ).then((result)=> {
+            
+            $.ajax({
+
+                type:'POST',
+
+                url:'{{route('newarrivaldate-ajax')}}',
+
+                data:{
+                    "_token":"{{csrf_token()}}",
+                    "arr_date": arr_date,
+                    "shop_id":shop_id,
+                    "unit_id":unit_id,
+                    "remark" : result
+                },
+
+                success:function(data){
+                    if(data){
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Success",
+                            text:"New Arrival Date Change!",
+                            button:false,
+                            timer:500,
+                            icon:"success"
+                        });
+                        $(`#${arrivaldateid}`).addClass("is-valid");
+                        $(`#${arrivaldateid}`).blur();
+                    }
+                    else{
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Error",
+                            button:false,
+                            timer:1500
+                        });
+                        $(`#${arrivaldateid}`).addClass("is-invalid");
+                    }
+                },
+                });
+                });
+        }
+
+
+    })
+
     $('#units_table').on('keypress','.promock',function(){
         var keycode= (event.keyCode ? event.keyCode : event.which);
         if(keycode=='13'){
@@ -586,6 +602,73 @@ $from_id = session()->get('from')
                         $(`#${promockid}`).addClass("is-invalid");
                     }
                 },
+                });
+        }
+
+
+    })
+
+    $('#units_table').on('keypress','.discountprice',function(){
+        var keycode= (event.keyCode ? event.keyCode : event.which);
+        if(keycode=='13'){
+            // var shop_id = $('#shop_id option:selected').val();
+            var shop_id = $('#shop_id').val() ?? $('#isshop').val();
+            var dis_price = $(this).val();
+            var unit_id= $(this).data('id');
+            var discountpriceid = $(this).data('discountpriceid');
+            swal(
+                    {
+                      title: "Flag Change",
+                      text: "Discount Price Change!",
+                      content: "input",
+                      showCancelButton: true,
+                      closeOnConfirm: false,
+                      animation: "slide-from-top",
+                      inputPlaceholder: "Remark"
+                    }    
+                    
+                ).then((result)=> {
+            
+            $.ajax({
+
+                type:'POST',
+
+                url:'{{route('discountprice-ajax')}}',
+
+                data:{
+                    "_token":"{{csrf_token()}}",
+                    "dis_price": dis_price,
+                    "shop_id":shop_id,
+                    "unit_id":unit_id,
+                    "remark" : result
+                },
+
+                success:function(data){
+                    if(data){
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Success",
+                            text:"Discount Price Change!",
+                            button:false,
+                            timer:500,
+                            icon:"success"
+                        });
+                        $(`#${discountpriceid}`).addClass("is-valid");
+                        $(`#${discountpriceid}`).blur();
+                    }
+                    else{
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Error",
+                            button:false,
+                            timer:1500
+                        });
+                        $(`#${discountpriceid}`).addClass("is-invalid");
+                    }
+                },
+                });
                 });
         }
 

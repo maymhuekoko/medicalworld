@@ -374,8 +374,8 @@ Route::group(['middleware' => ['UserAuth']], function () {
 	Route::post('promocheckon-ajax', 'Web\StockController@promoCheckOnAjax')->name('promocheckon-ajax');
 	Route::post('hotsalecheckon-ajax', 'Web\StockController@hotCheckOnAjax')->name('hotsalecheckon-ajax');
     //
-    Route::post('settingarrdate', 'Web\StockController@setDate');
-    Route::post('settingdiscountprice', 'Web\StockController@setPrice');
+    Route::post('newarrivaldate-ajax', 'Web\StockController@setDateAjax')->name('newarrivaldate-ajax');
+    Route::post('discountprice-ajax', 'Web\StockController@setPriceAjax')->name('discountprice-ajax');
 
 
     Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');

@@ -65,22 +65,6 @@ class StockController extends Controller
     	return view('Admin.products_flag', compact('counting_units','shop','categories','sub_categories'));
     }
 
-    public function setDate(Request $request) {
-        Item::where('id', $request->item_id)->update([
-            'arrival_date' => $request->arr_date,
-        ]);
-
-        return redirect()->back();
-    }
-
-    public function setPrice(Request $request) {
-        Item::where('id', $request->item_id)->update([
-            'discount_price' => $request->dis_price,
-        ]);
-
-        return redirect()->back();
-    }
-
     protected function getStockCountPage(Request $request)
     {
 
@@ -411,6 +395,32 @@ class StockController extends Controller
     {
         $item = Item::findOrFail($request->unit_id);
         $item->new_product_flag = $request->chek_value;
+        $item->save();
+
+        if($item){
+            return response()->json($item);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function setDateAjax(Request $request) {
+        $item = Item::findOrFail($request->unit_id);
+        $item->arrival_date = $request->arr_date;
+        $item->save();
+
+        if($item){
+            return response()->json($item);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function setPriceAjax(Request $request) {
+        $item = Item::findOrFail($request->unit_id);
+        $item->discount_price = $request->dis_price;
         $item->save();
 
         if($item){
