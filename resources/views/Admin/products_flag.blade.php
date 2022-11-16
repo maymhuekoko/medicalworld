@@ -16,7 +16,7 @@
 @section('content')
 @php
 $from_id = session()->get('from')
-@endphp
+@endphp -->
 <input type="hidden" id="isowner" value="{{session()->get('user')->role}}">
 <input type="hidden" id="isshop" value="{{session()->get('from')}}">
 <div class="row page-titles">
@@ -25,8 +25,7 @@ $from_id = session()->get('from')
     </div>
 </div>
 
-
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -49,7 +48,6 @@ $from_id = session()->get('from')
                     @endforeach
                 </select>
             </div>
-                    <!--/span-->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label text-black">@lang('lang.select_item')</label>
@@ -72,7 +70,7 @@ $from_id = session()->get('from')
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="row">
     <div class="col-lg-12">
@@ -92,11 +90,7 @@ $from_id = session()->get('from')
                                 <th>@lang('lang.item') @lang('lang.name')</th>
                                 <th>New Arrival</th>
                                 <th>Promotion</th>
-
-                                @if(session()->get('user')->role == "Owner")
                                 <th>Hot Sale</th>
-                                <!-- <th>@lang('lang.action')</th> -->
-                                @endif
                             </tr>
                         </thead>
                         <tbody id="units_table">
@@ -272,8 +266,6 @@ $from_id = session()->get('from')
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
     })
-
-
 
     $(document).ready(function(){
 
