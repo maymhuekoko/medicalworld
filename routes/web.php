@@ -69,7 +69,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('AjaxGetOrderCustomerwID','Web\AdminController@getOrderCustomerWithID')->name('AjaxGetOrderCustomerwID');
 
     Route::post('AjaxStoreCustomer','Web\AdminController@storeSalesCustomer')->name('AjaxStoreCustomer');
-    
+
     Route::post('changePrintStatus','Web\OrderController@changePrintStatus')->name('changePrintStatus');
 
     Route::post('AjaxStoreOrderCustomer','Web\AdminController@storeOrderCustomer')->name('AjaxStoreOrderCustomer');
@@ -83,7 +83,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
 
     Route::get('salescustomers_list','Web\AdminController@show_sale_customer_credit_list')->name('salescustomers_list');
     Route::post('collect_salescustomer_data','Web\AdminController@collect_salescustomer_data')->name('collect_salescustomer_data');
-    
+
     Route::get('ordercustomers_list','Web\AdminController@show_order_customer_list')->name('ordercustomers_list');
     Route::post('collect_ordercustomer_data','Web\AdminController@collect_ordercustomer_data')->name('collect_ordercustomer_data');
 
@@ -150,9 +150,9 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('fabricEntry/itemsearch', 'Web\StockController@get_fabricentry_item')->name('get_fabricentry_item');
     Route::post('attachmentimage', 'Web\OrderController@attachimg')->name('attachimg');
     Route::post('/fabricCountImport',"Web\StockController@fabricCountImport")->name('fabricCountImport');
-    
+
     Route::post('/fabricEntryImport',"Web\StockController@fabricEntryImport")->name('fabricEntryImport');
-    
+
     Route::post('item_search','Web\StockController@itemSearch')->name('item_search');
     Route::post('fabricentry/store', 'Web\StockController@storeFabricEntry')->name('fabricentry_store');
 
@@ -195,22 +195,23 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('get_vou','Web\SaleController@ajax_get_vou')->name('get_vou');
     Route::post('get_date','Web\SaleController@ajax_get_date')->name('get_date');
     Route::post('unit_search','Web\SaleController@unitSearch')->name('unit_search');
-    
-    
+
+
     Route::post('subcategory_search','Web\SaleController@subcategorySearch')->name('subcategory_search');
-    
+
     Route::post('purchase_category_search','Web\AdminController@purchaseCategorySearch')->name('purchase_category_search');
-    
+
      Route::post('purchase_subcategory_search','Web\AdminController@purchaseSubcategorySearch')->name('purchase_subcategory_search');
-     
+
       Route::post('purchase_unit_search','Web\AdminController@purchaseUnitSearch')->name('purchase_unit_search');
-    
+
     Route::get('SaleCount/{from_date}/{to_date}/{order_type}', 'Web\SaleController@saleCount')->name('saleCount');
-    
+
     //Order
     Route::get('NewOrder', 'Web\OrderController@newOrderPage')->name('neworder_page');
     Route::get('Order/{type}', 'Web\OrderController@getOrderPage')->name('order_page');
     Route::get('Website-Order', 'Web\OrderController@getWebsiteOrder')->name('website_order');
+    Route::post('showscreenshot', 'Web\OrderController@showscreenshot')->name('showscreenshot');
     Route::get('Website-PreOrder', 'Web\OrderController@getWebsitePreOrder')->name('website_preorder');
     Route::get('Website-Order-Details/{id}', 'Web\OrderController@getWebsiteOrderDetailsPage')->name('website_order_details');
     Route::post('WebsiteOrder/ChangeStatus', 'Web\OrderController@changeWebsiteOrderStatus')->name('change_website_order_status');
@@ -222,29 +223,29 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('PO/Approve', 'Web\OrderController@changePOStatus')->name('update_po_status');
     Route::get('Order/Voucher/History', 'Web\OrderController@getOrderHistoryPage')->name('order_history');
     Route::post('Order/Voucher/Search-History', 'Web\OrderController@searchOrderVoucherHistory')->name('search_order_history');
-    
+
     Route::post('Order/Search-History', 'Web\OrderController@searchOrderHistory')->name('search_ajaxorder_history');
-    
+
     Route::post('FactoryOrder/Search-History', 'Web\OrderController@searchFactoryOrderHistory')->name('search_factoryorder_history');
 
     Route::get('export-orderhistory/{from}/{to}/{id}/{data_type}/{type}', 'Web\OrderController@orderHistoryExport')->name('orderhistoryexport');
-    
+
     Route::get('export-totalorderhistory/{from}/{to}/{id}/{order_by}/{order_type}/{data_type}/{type}', 'Web\OrderController@totalOrderHistoryExport')->name('totalorderhistoryexport');
 
 
     Route::get('Sale/Search-History', 'Web\SaleController@searchSaleHistoryget');
-    
+
     Route::get('export-salehistory/{from}/{to}/{id}/{sales}/{data_type}/{type}', 'Web\SaleController@saleHistoryExport')->name('salehistoryexport');
-    
+
     Route::get('export-receivehistory/{from}/{to}/{id}', 'Web\AdminController@receivableHistoryExport')->name('receivablehistoryexport');
-    
+
     Route::get('export-payhistory/{from}/{to}/{id}', 'Web\AdminController@payableHistoryExport')->name('payablehistoryexport');
-    
+
     Route::get('Order/orderVoucherDetails/{id}', 'Web\OrderController@orderVoucherDetails')->name('orderVoucherDetails');
-    
-    
+
+
      Route::post('order-delete', 'Web\OrderController@orderDelete')->name('order_delete');
-    
+
     Route::get('Order/PO-Details/{id}', 'Web\OrderController@getPoDetails')->name('po_details');
 
     Route::post('getSpecId','Web\OrderController@getSpecId')->name('getSpecId');
@@ -253,17 +254,17 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::get('editFactoryOrder/{id}',"Web\OrderController@editFactoryOrder")->name('editFactoryOrder');
     Route::get('incomingFactoryOrder',"Web\OrderController@incomingFactoryOrder")->name('incomingFactoryOrder');
     Route::get('changeFactoryOrder',"Web\OrderController@changeFactoryOrder")->name('changeFactoryOrder');
-    
+
     Route::get('deliveredFactoryOrder',"Web\OrderController@deliveredFactoryOrder")->name('deliveredFactoryOrder');
-    
+
      Route::post('getIncomingFactoryOrder',"Web\OrderController@getIncomingFactoryOrder")->name('getIncomingFactoryOrder');
-     
+
      Route::post('getDeliveredFactoryOrder',"Web\OrderController@getDeliveredFactoryOrder")->name('getDeliveredFactoryOrder');
 //    Factory Order Item
     Route::get('showFactoryOrderItem/{id}',"Web\OrderController@showFactoryOrderItem")->name('showFactoryOrderItem');
-    
+
     Route::get('updateFactoryOrderItem/{id}',"Web\OrderController@updateFactoryOrderItem")->name('updateFactoryOrderItem');
-    
+
     Route::post('saveFactoryItem',"Web\OrderController@saveFactoryItem")->name('saveFactoryItem');
     Route::post('editFactoryItem/{id}',"Web\OrderController@editFactoryItem")->name('editFactoryItem');
     Route::get('destroyFactoryItem/{id}',"Web\OrderController@destroyFactoryItem")->name('destroyFactoryItem');
@@ -293,11 +294,11 @@ Route::group(['middleware' => ['UserAuth']], function () {
 
     //financial
     Route::get('export-expensehistory/{from}/{to}', 'Web\AdminController@expenseHistoryExport')->name('expensehistoryexport');
-    
+
     Route::get('export-incomehistory/{from}/{to}', 'Web\AdminController@incomeHistoryExport')->name('incomehistoryexport');
-    
+
     Route::get('export-salehistory/{from}/{to}/{id}/{sales}/{data_type}/{type}', 'Web\SaleController@saleHistoryExport')->name('salehistoryexport');
-    
+
     Route::get('fixasset', 'Web\AdminController@showFixasset')->name('fixasset');
     Route::get('show_capital', 'Web\AdminController@show_capitalPanel')->name('show_capital');
 
@@ -310,7 +311,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('updateExpense/{id}', 'Web\AdminController@updateExpense')->name('update_expense');
     Route::post('deleteExpense', 'Web\AdminController@deleteExpense')->name('delete_expense');
     Route::post('searchExpenseHistory', 'Web\AdminController@searchExpenseHistory')->name('search_expense_history');
-    
+
     Route::post('store_asset', 'Web\AdminController@storeAsset')->name('store_asset');
     Route::post('store_sell_end', 'Web\AdminController@storeSellEnd')->name('store_sell_end');
     Route::post('store_reinvest','Web\AdminController@store_reinvest_info')->name('store_reinvest');
@@ -327,6 +328,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('updateIncome/{id}', 'Web\AdminController@updateIncome')->name('update_income');
     Route::post('deleteIncome', 'Web\AdminController@deleteIncome')->name('delete_income');
     Route::post('getTotalSaleReport', 'Web\AdminController@getTotalSaleReport');
+
     Route::post('getTotalIncome', 'Web\AdminController@getTotalIncome');
     Route::post('getTotalPurchase', 'Web\AdminController@getTotalPurchase');
     Route::post('getTotalTransaction', 'Web\AdminController@getTotalTransaction');

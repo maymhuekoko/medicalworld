@@ -27,6 +27,7 @@ use App\FactoryItem;
 use Datetime;
 use App\Category;
 use App\EcommerceOrder;
+use App\EcommerceOrderScreenshot;
 use App\SubCategory;
 use App\OrderCustomer;
 use Maatwebsite\Excel\Excel;
@@ -57,7 +58,7 @@ class OrderController extends Controller
 
     	return view('Order.order_page', compact('order_lists','type','employee_lists','vouchers'));
     }
-    
+
     protected function getWebsiteOrder(){
 
     	$order_lists = EcommerceOrder::where('order_type',1)->get();
@@ -65,7 +66,14 @@ class OrderController extends Controller
 
     	return view('Order.website_order', compact('order_lists'));
     }
-    
+
+    public function showscreenshot(Request $request){
+        $screenshot = EcommerceOrderScreenshot::where('ecommerce_order_id',$request->order_id)->first();
+        return response()->json([
+            'screenshot' => $screenshot->screenshot,
+        ]);
+    }
+
     protected function getWebsitePreOrder(){
 
     	$order_lists = EcommerceOrder::where('order_type',2)->get();
@@ -73,15 +81,15 @@ class OrderController extends Controller
 
     	return view('Order.website_preorder', compact('order_lists'));
     }
-    
-    
+
+
 
     protected function getFactoryPOPage(){
 
     	$po_lists = FactoryPO::all();
 
         $employee_lists = Employee::all();
-        
+
     	return view('Itemrequest.porequest_page', compact('po_lists'));
     }
 
@@ -117,7 +125,7 @@ class OrderController extends Controller
 
     	return view('Order.neworder_page',compact('voucher_code','items','categories','customers','employees','today_date','sub_categories','ordercustomers','designs','vou_date'));
     }
-    
+
     protected function storeCustomerOrderv2(Request $request){
          $validator = Validator::make($request->all(), [
             'customer_name' => 'required',
@@ -140,7 +148,7 @@ class OrderController extends Controller
          $user = session()->get('user');
         $payment_clear_flag = 0;
         $items = json_decode($request->item);
-        
+
         $grand = json_decode($request->grand_total);
         $total_quantity = $grand->total_qty;
         $total_amount = $grand->sub_total;
@@ -153,7 +161,7 @@ class OrderController extends Controller
       // $customer = Customer::find($request->customer_id);
         $order_format_date = date('Y-m-d', strtotime($request->order_date));
         try{
-               
+
                if ($request->edit_voucher != 0){
                 $order = Order::find($request->edit_voucher);
                 $order->address = $request->customer_address;
@@ -178,7 +186,7 @@ class OrderController extends Controller
                 $order->order_by = $request->user_name;
                 $order->update_times += 1;
                 $order->save();
-                
+
             }else{
              $order = Order::create([
                     'order_number'=> $request->voucher_code,
@@ -201,7 +209,7 @@ class OrderController extends Controller
                     'collect_amount' => $collect_amount,
                     'payment_clear_flag' => $payment_clear_flag,
                 ]);
-                
+
                 if($request->customer_id != null && $request->customer_id != 0){
             $order_customer = OrderCustomer::find($request->customer_id);
             $order_customer->total_purchase_amount += $total_amount;
@@ -210,7 +218,7 @@ class OrderController extends Controller
             $order_customer->last_purchase_date = $order_format_date;
             $order_customer->save();
         }
-            
+
             if($request->advance_pay != null && $request->advance_pay != 0){
             $transaction = Transaction::create([
             'bank_acc_id' => 1,
@@ -221,10 +229,10 @@ class OrderController extends Controller
             'order_id' => $order->id,
         ]);
             }
-                 
+
             }
-            
-            
+
+
             $old_items_id = [];
             if($request->edit_voucher != 0){
                 foreach($items as $item){
@@ -244,12 +252,12 @@ class OrderController extends Controller
                         // $order->save();
                     }
                 }
-                
+
             }
-            
-            
+
+
             foreach ($items as $item) {
-                
+
                 if($item->oldunit_flag){
                     $customUnitOrder= CustomUnitOrder::find($item->oldunit_id);
                 $customUnitOrder->order_id = $order->id;
@@ -269,7 +277,7 @@ class OrderController extends Controller
                 $customUnitOrder->discount_value = $item->discount_value;
                 $customUnitOrder->order_qty = $item->order_qty;
                 $customUnitOrder->save();
-                
+
                 }else{
                 $customUnitOrder= new CustomUnitOrder();
                 $customUnitOrder->order_id = $order->id;
@@ -291,14 +299,14 @@ class OrderController extends Controller
                 $customUnitOrder->save();
                 }
             }
-            
+
         }catch (\Exception $e) {
 
             return response()->json([$e], 404);
 //            return response()->json(['error' => 'Something Wrong! When Store Customer Order'], 404);
 
         }
-        
+
          return response()->json([
                 "items"=>$items,
                 "grand" => $grand,
@@ -328,7 +336,7 @@ class OrderController extends Controller
         $user = session()->get('user');
         $payment_clear_flag = 0;
         $items = json_decode($request->item);
-        
+
         $grand = json_decode($request->grand_total);
         $total_quantity = $grand->total_qty;
         $total_amount = $grand->sub_total;
@@ -340,7 +348,7 @@ class OrderController extends Controller
         }
       // $customer = Customer::find($request->customer_id);
         $order_format_date = date('Y-m-d', strtotime($request->order_date));
-        
+
         try {
             // if ($request->edit_voucher != 0){
             //     $order = Order::where('id',$request->edit_voucher)->get();
@@ -359,7 +367,7 @@ class OrderController extends Controller
             //     $order->collect_amount = $collect_amount;
             //     $order->customer_id = $request->customer_id;
             //     $order->save();
-                
+
             // }else{
                 $order = Order::create([
                     'order_number'=> $request->voucher_code,
@@ -396,7 +404,7 @@ class OrderController extends Controller
             }
 
             foreach ($items as $item) {
-                
+
                 // if($item->oldunit_flag){
                 //     $customUnitOrder= CustomUnitOrder::find($item->oldunit_id);
                 // $customUnitOrder->order_id = $order->id;
@@ -457,7 +465,7 @@ class OrderController extends Controller
         }
 
     }
-    
+
     public function orderDelete(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -469,22 +477,22 @@ class OrderController extends Controller
 
             return response()->json(0);
         }
-        
+
         if($request->admin_code != "ADMINMDW2022")
         {
             return response()->json(0);
         }
-        
+
 
         try {
             $order = Order::findOrfail($request->order_id);
             $order->delete();
             $customUnitOrders = CustomUnitOrder::where('order_id', $request->order_id)->get();
-            
+
             foreach($customUnitOrders as $unit){
-            
+
                 $unit->delete();
-               
+
             }
             // $deleted = DB::table('orders')->where('id', $request->order_id)->delete();
 
@@ -501,32 +509,32 @@ class OrderController extends Controller
     protected function storePurchaseOrder(Request $request){
         $now = new DateTime;
         $today = strtotime($now->format('d-m-Y'));
-       
+
 
         $user = session()->get('user');
 
         $items = json_decode($_POST['item']);
 
         $grand = json_decode($_POST['grand_total']);
-        
+
         $po_type = $_POST['po_type'];
-        
+
         if($po_type == 9){
-        
+
 
         $total_rolls = $grand->total_rolls;
-        
+
         $total_yards = $grand->total_yards;
-        
+
         $total_quantity = $grand->total_yards;
-            
+
         }else if($po_type == 10){
-            
-        
+
+
             $total_rolls = 0;
-        
+
         $total_yards = 0;
-        
+
         $total_quantity = $grand->total_qty;
         }
 
@@ -537,26 +545,26 @@ class OrderController extends Controller
         $po_format_date = date('Y-m-d', strtotime($_POST['po_date']));
 
         $receive_format_date = date('Y-m-d', strtotime($_POST['receive_date']));
-        
+
         $requested_by = $_POST['requested_by'];
          $approved_by = $_POST['approved_by'];
          $file_path = '';
-         
+
          if(isset($_FILES['file']['name'])){
-            
+
               $filename = $_FILES['file']['name'];
-             
-             
+
+
               $location = public_path() . '/files/attachments/' . $filename;
               if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
                   $file_path = '/files/attachments/' . $filename;
               }
-             
+
          }else{
              $file_path = "defaultfile.pdf";
          }
-        
-        
+
+
       //return response()->json($items);
 
         try {
@@ -575,23 +583,23 @@ class OrderController extends Controller
                 'approved_by'=> $approved_by,
                 'attach_file_path' => $file_path,
             ]);
-            
+
             foreach ($items as $item) {
                 if($po_type == 9){
                     $rolls = $item->rolls;
-        
+
         $yards_per_roll = $item->yards_per_roll;
-        
+
         $sub_yards = $item->sub_yards;
-        
+
         $order_qty = $item->sub_yards;
                 }else if($po_type == 10){
                     $rolls = 0;
-        
+
         $yards_per_roll = 0;
-        
+
         $sub_yards = 0;
-        
+
         $order_qty = $item->order_qty;
                 }
             $factoryPO->factory_items()->attach($item->id, ['purchase_price' => $item->purchase_price,'rolls' => $rolls,'yards_per_roll' => $yards_per_roll,'sub_yards' => $sub_yards,'order_qty' => $order_qty,'remark'=> $item->remark]);
@@ -618,7 +626,7 @@ class OrderController extends Controller
         }
         return view('Itemrequest.po_details',compact('PO'));
     }
-    
+
     public function attachimg(Request $request)
 	{
 		if($request->file_path == "default.jpg"){
@@ -628,7 +636,7 @@ class OrderController extends Controller
 		    $attach_file_path = $request->file_path;
 		    $po_id = $request->po_id;
 		}
-		
+
 		return view(('Itemrequest.attachimg'),compact('attach_file_path','po_id'));
 	}
 
@@ -656,7 +664,7 @@ class OrderController extends Controller
 
         return view('Order.neworder_details', compact('orders','customUnitOrders','design','transaction'));
     }
-    
+
     protected function getWebsiteOrderDetailsPage($id){
 
         try {
@@ -664,9 +672,9 @@ class OrderController extends Controller
             $orders = EcommerceOrder::findOrFail($id);
             $customUnitOrders = DB::table('counting_unit_ecommerce_order')->where('order_id',$id)->get();
 
-            
+
                 $counting =  CountingUnit::all();
-                
+
             // dd($counting_units);
 
         } catch (\Exception $e) {
@@ -725,7 +733,7 @@ class OrderController extends Controller
 
         }
     }
-    
+
      protected function changeWebsiteOrderStatus(Request $request){
         //   dd($request->all());
         $validator = Validator::make($request->all(), [
@@ -742,9 +750,9 @@ class OrderController extends Controller
 
     	try {
         	$order = EcommerceOrder::findOrFail($request->order_id);
-            
+
             $order->order_status = $request->status;
-            
+
             $order->save();
 
         } catch (\Exception $e) {
@@ -850,10 +858,10 @@ class OrderController extends Controller
             return redirect()->back();
         }
     }
-    
+
     protected function getOrderVoucherPrint($id){
         $order = Order::findOrFail($id);
-        
+
         if($order->status == 4){
         $orderVoucher = OrderVoucher::where('order_id',$id)->first();
         }else{
@@ -861,10 +869,10 @@ class OrderController extends Controller
         }
         return view('Order.order_deliver_voucher', compact("order","orderVoucher"));
     }
-    
+
     protected function getWebsiteOrderVoucherPrint($id){
         $order = EcommerceOrder::findOrFail($id);
-        
+
         return view('Order.website_order_deliver_voucher', compact("order"));
     }
 
@@ -972,8 +980,8 @@ class OrderController extends Controller
             alert()->error('Something Wrong!');
             return redirect()->back();
         }
-        
-        
+
+
         if($request->customer == 0 && $request->sales == 'All'){
             $orders = Order::whereBetween('order_date',[$request->from, $request->to])->where('status',$request->type)->with('order_voucher')->with('factory_orders')->get();
         }else if($request->customer == 0 && $request->sales != 'All'){
@@ -983,17 +991,17 @@ class OrderController extends Controller
         }else{
             $orders = Order::whereBetween('order_date',[$request->from, $request->to])->where('customer_id',$request->customer)->where('order_by',$request->sales)->where('status',$request->type)->with('order_voucher')->with('factory_orders')->get();
         }
-        
+
         return response()->json($orders);
     }
-    
+
     protected function searchFactoryOrderHistory(Request $request){
         // $validator = $this->validateData($request);
         if ($this->validateData($request)->fails()) {
             alert()->error('Something Wrong!');
             return redirect()->back();
         }
-        
+
             $factoryorders = FactoryOrder::whereBetween('created_at',[$request->from, $request->to])->where('status',$request->type)->get();
              $final_orders = array();
              foreach($factoryorders as $factoryorder){
@@ -1003,14 +1011,14 @@ class OrderController extends Controller
                  foreach($factoryCustomUnits as $customUnit){
                      $item_quantity += $customUnit->quantity;
                  }
-                 
+
                  if($request->sales == "All" || ($order != null && $order->order_by == $request->sales)){
                  $combined = array('id' => $factoryorder->id, 'factoryorder_number' => $factoryorder->factory_order_number, 'order_number' => $order ? $order->order_number : '-', 'order_by' => $order ? $order->order_by : '-', 'order_date' => $order ? $order->order_date : '-', 'department_name' => $factoryorder->department_name,'plan_date' => $factoryorder->plan_date, 'remark' => $factoryorder->remark,'showroom'=>$factoryorder->showroom,'total_quantity' => $factoryorder->total_quantity, 'item_quantity' => $item_quantity, 'print_status' => $factoryorder->print_status);
                 array_push($final_orders,$combined);
                  }
-                
+
              }
-        
+
         return response()->json($final_orders);
     }
 
@@ -1033,7 +1041,7 @@ class OrderController extends Controller
     protected function orderHistoryExport(Request $request,$from,$to,$id,$data_type,$type){
         return $this->excel->download(new OrderHistoryExport($from,$to,$id,$data_type),'order_voucher_history.xlsx');
     }
-    
+
     protected function totalOrderHistoryExport(Request $request,$from,$to,$id,$order_by,$order_type,$data_type,$type){
         return $this->excel->download(new TotalOrderHistoryExport($from,$to,$id,$order_by,$order_type,$data_type),'total_order_history.xlsx');
     }
@@ -1086,7 +1094,7 @@ class OrderController extends Controller
         $factoryOrder = FactoryOrder::find($id);
         return view('Order.newFactoryOrder',compact("factoryOrder"));
     }
-    
+
     public function updateFactoryOrderItem($id){
         $factoryOrder = FactoryOrder::find($id);
         //dd($factoryOrder);
@@ -1154,12 +1162,12 @@ class OrderController extends Controller
         }
         return view('Order.factory_order_details',compact("factoryItems","factoryOrder",'order_quantity','factory_item_quantity'));
     }
-    
+
     public function getIncomingFactoryOrder(Request $request){
         $factoryOrders = FactoryOrder::where('order_id',$request->order_id)->whereIn('status',[1,3])->get();
         return response()->json($factoryOrders);
     }
-    
+
     public function getDeliveredFactoryOrder(Request $request){
         $factoryOrders = FactoryOrder::where('order_id',$request->order_id)->where('status',2)->get();
         return response()->json($factoryOrders);
@@ -1213,7 +1221,7 @@ class OrderController extends Controller
         $customUnitFactoryOrder->save();
         return redirect()->back()->with('status','Successfully Updated!');
     }
-    
+
     public function changePrintStatus(Request $request){
         $factoryOrder = FactoryOrder::find($request->order_id);
         $factoryOrder->print_status = 1;
@@ -1231,14 +1239,14 @@ class OrderController extends Controller
     }
 
     public function incomingFactoryOrder(){
-        
+
         return view('factoryOrder.incomingFactoryOrder');
     }
-    
+
     public function changeFactoryOrder(){
         return view('factoryOrder.changeFactoryOrder');
     }
-    
+
     public function deliveredFactoryOrder(){
         return view('factoryOrder.deliverFactoryOrder');
     }
