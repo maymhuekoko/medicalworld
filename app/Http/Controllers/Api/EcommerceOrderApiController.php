@@ -153,10 +153,12 @@ class EcommerceOrderApiController extends ApiBaseController
             $orders = EcommerceOrder::findOrFail($id);
             $customUnitOrders = DB::table('counting_unit_ecommerce_order')->where('order_id',$id)->get();
 
-            $counting = [];
+            $counting = []; $color = []; $size = [];
              foreach($customUnitOrders as $count){
                  $unit = CountingUnit::where('id',$count->counting_unit_id)->first();
                  array_push($counting,$unit);
+                 array_push($color,$unit->colour->colour_name);
+                 array_push($size,$unit->size->size_name);
              }
                 // $counting =  CountingUnit::all();
 
@@ -171,8 +173,10 @@ class EcommerceOrderApiController extends ApiBaseController
 
         return response()->json([
             "orders" => $orders,
-            // "units"  => $customUnitOrders,
-            "counting_units" => $counting
+            "units"  => $customUnitOrders,
+            "counting_units" => $counting,
+            "color" => $color,
+            "size" => $size,
              ]);
    }
 
@@ -275,6 +279,9 @@ class EcommerceOrderApiController extends ApiBaseController
 
         $date = new DateTime('Asia/Yangon');
 
+        $tot_qty = 0;
+        $tot_price = 0;
+
 
         $order_date = $date->format('Y-m-d');
 
@@ -293,8 +300,8 @@ class EcommerceOrderApiController extends ApiBaseController
             "customer_name" => $request->name,
             "customer_phone" => $request->phone,
             "order_type" => 2,
+            "total_quantity" => 0,
             "order_status" => "received",
-            "total_quantity" => 3,
             "deliver_address" => $request->address,
         ]);
 
@@ -316,8 +323,11 @@ class EcommerceOrderApiController extends ApiBaseController
                  'order_id' => $ecommerce_order->id,
                  'counting_unit_id' =>$unit->id,
                  'quantity' => $item['testqty'],
+                 'price' => $item['testprice'],
                 ]);
 
+                $tot_qty += $item['testqty'];
+                $tot_price += $item['testprice'];
             // $ecommerce_order->counting_unit()->attach($item->id, ['quantity' => $item->quantity,'price' => $item->price,'discount_type' => "",'discount_value' => 0]);
 
             // $counting_unit = CountingUnit::find($item->id);
@@ -329,6 +339,10 @@ class EcommerceOrderApiController extends ApiBaseController
             // $counting_unit->save();
 
         }
+
+        $ecommerce_order->total_quantity = $tot_qty;
+        $ecommerce_order->total_amount = $tot_price;
+        $ecommerce_order->save();
 
         return response()->json($ecommerce_order
             );
