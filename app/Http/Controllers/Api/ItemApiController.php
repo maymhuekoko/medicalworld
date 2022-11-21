@@ -10,6 +10,7 @@ use App\Http\Controllers\ApiBaseController;
 use App\Category;
 use App\SubCategory;
 use App\Item;
+use App\CountingUnit;
 
 
 
@@ -65,4 +66,15 @@ class ItemApiController extends ApiBaseController
        $item_list = Item::where('hot_sale_flag',1)->get();
        return response()->json($item_list);
    }
+   public function getOrderPrice($id) {
+        $order_price = CountingUnit::where('item_id',$id)->first('order_price');
+        return response()->json($order_price);
+    }
+    public function getPromoPrice($id) {
+        $order_price = CountingUnit::where('item_id',$id)->first('order_price');
+        $percentage = Item::where('id', $id)->first('discount_price');
+        $promo_set = ($order_price->order_price / 100) * $percentage->discount_price;
+        $promo_price = $order_price->order_price - $promo_set;
+        return response()->json($promo_price);
+    }
 }

@@ -33,6 +33,9 @@ Route::get('item_api', 'Api\ItemApiController@index');
 Route::get('newitem_api', 'Api\ItemApiController@getNewArrivalItems');
 Route::get('promotionitem_api', 'Api\ItemApiController@getPromotionItems');
 Route::get('hotsaleitem_api', 'Api\ItemApiController@getHotSaleItems');
+Route::get('orderprice_api/{id}', 'Api\ItemApiController@getOrderPrice');
+Route::get('promoprice_api/{id}', 'Api\ItemApiController@getPromoPrice');
+
 Route::post('productlineitems_api', 'Api\ItemApiController@getItemByProductLine');
 Route::get('website_user_index', 'Api\WebsiteUserApiController@index');
 Route::post('website_user_store', 'Api\WebsiteUserApiController@store');

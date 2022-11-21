@@ -30,6 +30,8 @@ Route::post('sendingemail', 'MailController@SendingMail');
 
 Route::get('products_flag', 'Web\StockController@viewProductFlagPage')->name('products_flag');
 
+Route::get('products_qty', 'Web\StockController@viewProductQtyPage')->name('products_qty');
+
 Route::get('reset_quantity', 'Web\StockController@viewResetQuantity')->name('reset_quantity');
 
 Route::group(['middleware' => ['UserAuth']], function () {
@@ -378,7 +380,11 @@ Route::group(['middleware' => ['UserAuth']], function () {
     // Set Date Discount 
     Route::post('newarrivaldate-ajax', 'Web\StockController@setDateAjax')->name('newarrivaldate-ajax');
     Route::post('discountprice-ajax', 'Web\StockController@setPriceAjax')->name('discountprice-ajax');
-
+    // Instock / Preorder
+    Route::post('newinstockqty-ajax', 'Web\StockController@setInstockAjax')->name('newinstockqty-ajax');
+    Route::post('newpreorderqty-ajax', 'Web\StockController@setPreorderAjax')->name('newpreorderqty-ajax');
+    // Product Image
+    Route::post('uploadingphotos', 'Web\StockController@uploadPhotos');
 
     Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
 	Route::post('itemadjust-ajax', 'Web\StockController@itemadjustAjax')->name('itemadjust-ajax');
