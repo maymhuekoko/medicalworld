@@ -95,7 +95,7 @@
                         </span>
                     </div>
                 </div>
-                
+
             </div>
     </div>
     <div class="row justify-content-center">
@@ -105,7 +105,7 @@
                 Item Detail
                 </a>
             </li>
-          
+
         </ul>
         <div class="col-md-8">
         <!-- Begin navpill -->
@@ -141,14 +141,14 @@
                                         <td class="font-weight-normal" style="font-size:15px;">{{$j++}}</td>
                                         <td class="font-weight-normal" style="font-size:15px;">{{$unit->unit_name}}</td>
                                         <td class="font-weight-normal" style="font-size:15px;">{{$customUnitOrder->quantity}}</td>
-                                        <td class="font-weight-normal" style="font-size:15px;">{{$unit->purchase_price}}</td>
-                                        <td class="font-weight-normal" style="font-size:15px;">{{$customUnitOrder->quantity * $unit->purchase_price}}</td>
+                                        <td class="font-weight-normal" style="font-size:15px;">{{$unit->order_price}}</td>
+                                        <td class="font-weight-normal" style="font-size:15px;">{{$customUnitOrder->quantity * $unit->order_price}}</td>
                                         <td class="text-center">
                                             <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#spec{{$customUnitOrder->id}}">Spec
                                             </a>
                                         </td>
-                                        
-    
+
+
      <div class="modal fade" id="spec{{$customUnitOrder->id}}" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -160,8 +160,8 @@
                 </div>
 
                 <div class="modal-body p-5">
-                    
-               
+
+
                         <div class="mb-2">
                             <h3 class="font-bold">Design</h3>
                             <ul class="list-group">
@@ -172,7 +172,7 @@
                             </ul>
                         </div>
 
-                        
+
                             <div class="mb-2">
                                 <h3 class="font-bold">Fabric</h3>
                                 <ul class="list-group">
@@ -182,7 +182,7 @@
                                     <!--<li class="list-group-item"> {{$unit->fabric_id}}</li>-->
                                 </ul>
                             </div>
-                       
+
                             <div class="mb-2">
                                 <h3 class="font-bold">Colour</h3>
                                 <ul class="list-group">
@@ -192,7 +192,7 @@
                                     <!--<li class="list-group-item">{{$unit->colour_id}} </li>-->
                                 </ul>
                             </div>
-                    
+
                             <div class="mb-2">
                                 <h3 class="font-bold">Size</h3>
                                 <ul class="list-group">
@@ -202,7 +202,7 @@
                                     <!--<li class="list-group-item">{{$unit->size_id}}</li>-->
                                 </ul>
                             </div>
-                       
+
                             <div class="mb-2">
                                 <h3 class="font-bold">Gender</h3>
                                 <ul class="list-group">
@@ -210,7 +210,7 @@
                                         <li class="list-group-item"> {{ucfirst($g->gender_name)}}</li>
                                     @endforeach
                                     <!--<li class="list-group-item">{{$unit->gender_id}}</li>-->
-                                    
+
                                 </ul>
                             </div>
 
@@ -219,7 +219,7 @@
             </div>
         </div>
     </div>
-                                       
+
 
                                     </tr>
                                     @endif
@@ -261,10 +261,10 @@
     <script src="{{ asset('js/jquery.PrintArea.js') }}" type="text/JavaScript"></script>
 
     <script>
-    
-    
+
+
     $(document).ready(function() {
-        
+
         // Print
         $("#print").click(function() {
             // var mode = 'iframe'; //popup
@@ -278,10 +278,10 @@
             var url1 = '{{ route('order_voucher_print', ':order_id') }}';
 
             url1 = url1.replace(':order_id', order_id);
-                
+
             window.location.href = url1;
         });
-        
+
         // Edit
         $('#edit').click(function(){
                 localStorage.clear();
@@ -292,9 +292,9 @@
                 localStorage.removeItem('orderGrandTotal');
                 var item_count = 0;
                 console.log(order);
-                
+
                 var updateTimes = $(this).data('updatetimes');
-                
+
                 if(updateTimes >= 3){
                     swal({
                             title: "Order Update Failed!",
@@ -302,7 +302,7 @@
                             icon: "error",
                         });
                 }else{
-                
+
                 let orderDetail = {
                     orderNumber: order.order_number,
                     showroom: order.showroom,
