@@ -62,9 +62,10 @@ class OrderController extends Controller
     protected function getWebsiteOrder(){
 
     	$order_lists = EcommerceOrder::where('order_type',1)->get();
+        $counting = CountingUnit::all();
 
 
-    	return view('Order.website_order', compact('order_lists'));
+    	return view('Order.website_order', compact('order_lists','counting'));
     }
 
     public function showscreenshot(Request $request){
@@ -77,9 +78,9 @@ class OrderController extends Controller
     protected function getWebsitePreOrder(){
 
     	$order_lists = EcommerceOrder::where('order_type',2)->get();
+        $counting = CountingUnit::all();
 
-
-    	return view('Order.website_preorder', compact('order_lists'));
+    	return view('Order.website_preorder', compact('order_lists','counting'));
     }
 
 
@@ -672,8 +673,7 @@ class OrderController extends Controller
             $orders = EcommerceOrder::findOrFail($id);
             $customUnitOrders = DB::table('counting_unit_ecommerce_order')->where('order_id',$id)->get();
 
-
-                $counting =  CountingUnit::all();
+            $counting =  CountingUnit::all();
 
             // dd($counting_units);
 
@@ -751,7 +751,22 @@ class OrderController extends Controller
     	try {
         	$order = EcommerceOrder::findOrFail($request->order_id);
 
-            $order->order_status = $request->status;
+            if($request->status == 'received'){
+                $order->order_status = $request->status;
+                $order->status = 1;
+            }
+            if($request->status == 'confirmed'){
+                $order->order_status = $request->status;
+                $order->status = 2;
+            }
+            if($request->status == 'delivered'){
+                $order->order_status = $request->status;
+                $order->status = 4;
+            }
+            if($request->status == 'canceled'){
+                $order->order_status = $request->status;
+                $order->status = 5;
+            }
 
             $order->save();
 
@@ -762,6 +777,98 @@ class OrderController extends Controller
     	}
     	return response()->json($order);
      }
+
+     protected function changeOrderStatusWebsite(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+
+            alert()->error('Something Wrong! Validation Error!');
+
+            return redirect()->back();
+        }
+
+        $user = session()->get('user');
+
+    	try {
+        	$order = EcommerceOrder::findOrFail($request->order_id);
+//            $customUnitOrders = CustomUnitOrder::where('id',$request->order_id)->get();
+
+
+        } catch (\Exception $e) {
+
+        	alert()->error("Order Not Found!")->persistent("Close!");
+            return redirect()->back();
+    	}
+
+        if ($order->status == 1 ) {
+//            if (is_null($request->delivered_date)) {
+//                alert()->error("Something Wrong! Delivered Date Can't be Empty!")->persistent("Close!");
+//                return redirect()->back();
+//            }
+//            else{
+                $order->status = 2;
+                $order->order_status = 'confirmed';
+                $order->delivered_date = $request->delivered_date;
+                $order->save();
+                alert()->success('Order Confirm Succeed!');
+                return redirect()->back();
+//            }
+//        }elseif ($order->status == 2 || $order->status == 3) {
+        }elseif ($order->status == 2) {
+
+//            if (is_null($request->delivered_date) && is_null($request->employee)) {
+            if (is_null($request->delivered_date) && is_null($request->delivered_by)) {
+                alert()->error("Something Wrong! Delivered Date Can't be Empty!")->persistent("Close!");
+                return redirect()->back();
+            }
+            else{
+//                $total = $customUnitOrders->selling_price * $customUnitOrders->order_qty;
+
+                $order->status = 4;
+//                $order->employee_id = $request->employee;
+                $order->order_status = 'delivered';
+                $order->delivered_date = $request->delivered_date;
+                $order->delivered_by = $request->delivered_by;
+                $order->delivered_remark = $request->delivered_remark;
+                $order->save();
+               // $count = OrderVoucher::count();
+                //$order_voucher_number = "OVOU-".sprintf("%04s",($count+1));
+                $order_voucher_number = $order->order_code;
+                $orderVoucher = new OrderVoucher();
+                $orderVoucher->voucher_number = $order_voucher_number;
+                $orderVoucher->total_price = $order->total_amount;
+                $orderVoucher->discount = $order->discount_amount;
+                $orderVoucher->discount_value = $order->discount_amount;
+                $orderVoucher->discount_type = $order->discount_type;
+                $orderVoucher->total_quantity = $order->total_quantity;
+                $orderVoucher->advance = $order->advance;
+                $orderVoucher->outstanding = $order->collect_amount;
+                $orderVoucher->delivered_date = $request->delivered_date;
+                $orderVoucher->sale_by = $user->id;
+                $orderVoucher->sales_customer_id = $order->customer_id;
+                $orderVoucher->sales_customer_name = $order->customer_name;
+                $orderVoucher->voucher_date = $request->delivered_date;
+                $orderVoucher->order_date = $order->order_date;
+                $orderVoucher->order_id = $request->order_id;
+                $orderVoucher->from_id = 1;
+                $orderVoucher->save();
+                alert()->success('Successfully Changed');
+                //$orderVoucher = OrderVoucher::where('order_id',$order->id)->get();
+                return view('Order.order_deliver_voucher_website', compact("order","orderVoucher"));
+            }
+
+        }
+        else{
+
+            alert()->error('Something Wrong! Order is Delivered!');
+
+            return redirect()->back();
+        }
+    }
 
 
     protected function changeOrderStatus(Request $request){
@@ -1085,6 +1192,31 @@ class OrderController extends Controller
         $factoryOrder->factory_order_number = $factory_order_number." ".sprintf("%02s",($count - 494));
         $factoryOrder->order_id = $request->id;
         $factoryOrder->showroom = $main_order->showroom;
+        $factoryOrder->total_quantity = $main_order->total_quantity;
+        $factoryOrder->save();
+        return redirect()->route('showFactoryOrderItem',$factoryOrder->id);
+    }
+
+    public function addFactoryOrderWebsite(Request $request,$id){
+        $main_order = EcommerceOrder::find($id);
+        $customUnitOrders = CustomUnitOrder::where('order_id',$request->id)->get();
+        $factory_order_number = '';
+        // if ($main_order->showroom == "online"){
+        //     $factory_order_number = "Os ".date("y m");
+        // }elseif ($main_order->showroom == "yangon"){
+        //     $factory_order_number = "YFHU ".date("y m");
+        // }elseif ($main_order->showroom == "mandalay"){
+        //     $factory_order_number = "MFHU ".date("y m");
+        // }elseif ($main_order->showroom == "office"){
+        //     $factory_order_number = "OFHU ".date("y m");
+        // }elseif ($main_order->showroom == "agent"){
+        //     $factory_order_number = "OSAG ".date("y m");
+        // }
+        $count = FactoryOrder::count();
+        $factoryOrder = new FactoryOrder();
+        $factoryOrder->factory_order_number = $factory_order_number." ".sprintf("%02s",($count - 494));
+        $factoryOrder->order_id = $request->id;
+        // $factoryOrder->showroom = $main_order->showroom;
         $factoryOrder->total_quantity = $main_order->total_quantity;
         $factoryOrder->save();
         return redirect()->route('showFactoryOrderItem',$factoryOrder->id);

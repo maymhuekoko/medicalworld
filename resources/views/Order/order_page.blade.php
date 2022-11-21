@@ -53,7 +53,7 @@
                             @endforeach
                         </select>
                     </div>
-                    
+
                     <div class="col-2">
                         <label class="">Sales Person</label>
                         <select name="sales_person" id="sales_person" class="form-control form-control-sm select2" onChange="setSales(this.value)">
@@ -73,10 +73,10 @@
                 </div>
             </div>
         </div>
-        
+
          @if(session()->get('user')->role != "Partner")
          <div class="col-md-4 mt-4">
-             
+
              <form id="exportForm" onsubmit="return exportForm()" method="get">
                  <div class="row">
                 <input type="hidden" name="export_from" id="export_from" class="form-control form-control-sm hidden" required>
@@ -87,28 +87,28 @@
                      <select name="export_data_type" id="export_data_type" class="form-control form-control-sm select2" style="font-size: 12px;">
                                 <option value=1 selected>Orders</option>
                                 <option value=2 >Items</option>
-                        </select>  
-                    
+                        </select>
+
                 </div>
                 <div class="col-3">
                      <select name="export_type" id="export_type" class="form-control form-control-sm select2" style="font-size: 12px;">
                                 <option value=1 selected>Excel</option>
                                 <option value=2 >PDF</option>
-                        </select>  
-                    
+                        </select>
+
                 </div>
-                
+
                 <div class="col-6">
                 <input type="submit" class="btn btn-sm rounded btn-outline-info col-4" value=" Export ">
                 </div>
-                </div>            
-                        
+                </div>
+
             </form>
-            
-            
+
+
         </div>
         @endif
-        
+
 
     </div>
 
@@ -130,11 +130,11 @@
 
             </div>
             <div class="card-body">
-                
+
                 <div class="row p-2 offset-10">
-                        <input  type="text" id="table_search" placeholder="Quick Search" onkeyup="search_table()" >    
+                        <input  type="text" id="table_search" placeholder="Quick Search" onkeyup="search_table()" >
                     </div>
-                
+
                 <div class="table-responsive text-black">
                     <table class="table" id="order_table">
                         <thead class="head">
@@ -158,7 +158,7 @@
                                 <th>Deliver Remark</th>
                                 @endif
                                 <th>@lang('lang.order') @lang('lang.status')</th>
-                                
+
                                 <th class="text-center">@lang('lang.details')</th>
                                 @if($type != 5)
                                 <th class="text-center">@lang('lang.action')</th>
@@ -169,7 +169,7 @@
                             <?php
                                 $i = 0;
                             ?>
-                            
+
                             @foreach($order_lists as $order)
                                 <tr>
                                     <td>{{++$i}}</td>
@@ -193,7 +193,7 @@
                                     <td>{{$order->delivered_by}}</td>
                                     <td>{{$order->delivered_remark}}</td>
                                     @endif
-                                    
+
                                     @if($order->status == 1)
                                 	<td><span class="badge badge-pill badge-info font-weight-bold">Incoming Order</span></td>
                                     @elseif($order->status == 2)
@@ -205,13 +205,13 @@
                                     @elseif($order->status == 5)
                                     <td><span class="badge badge-pill badge-info font-weight-bold">Accepted Order</span></td>
                                     @endif
-                                    
+
                                      @if(session()->get('user')->role != "Partner")
                                 	<td class="text-center">
                                         <a href="{{route('order_details',$order->id)}}" class="btn rounded btn-sm btn-outline-info">Details</a>
                                     </td>
                                     @endif
-                                    
+
                                     @if(session()->get('user')->role != "Partner")
                                     @if($type != 5)
                                         @if($order->status !== 4)
@@ -282,22 +282,6 @@
                                                                     </div>
                                                                 </div>
 
-{{--                                                                <div class="form-group row">--}}
-{{--                                                                    <label for="example-text-input" class="col-5 col-form-label">--}}
-{{--                                                                        @lang('lang.choose_employee')--}}
-{{--                                                                    </label>--}}
-
-{{--                                                                    <div class="col-7">--}}
-{{--                                                                        <select class="form-control" name="employee" style="width: 100%" >--}}
-{{--                                                                            <option value="">@lang('lang.select')</option>--}}
-{{--                                                                            @foreach($employee_lists as $emp)--}}
-{{--                                                                                @if($emp->user->role == "Delivery_Person")--}}
-{{--                                                                            <option value="{{$emp->id}}">{{$emp->user->name}}</option>--}}
-{{--                                                                                @endif--}}
-{{--                                                                            @endforeach--}}
-{{--                                                                        </select>--}}
-{{--                                                                    </div>--}}
-{{--                                                                </div>--}}
                                         @elseif($order->status == 3)
                                             <div class="form-group row">
                                                                         <label for="example-text-input" class="col-12 col-form-label">
@@ -305,15 +289,13 @@
                                                                         </label>
 
                                                                     </div>
-                                        
+
                                                                 @else
                                                                     <div class="form-group row">
                                                                         <label for="example-text-input" class="col-12 col-form-label">
                                                                             <h3 class="font-weight-bold">Are You Sure to Confirm this Order?</h3>
                                                                         </label>
-{{--                                                                        <div class="col-7">--}}
-{{--                                                                            <input class="form-control" type="date" name="delivered_date">--}}
-{{--                                                                        </div>--}}
+
                                                                     </div>
                                                                 @endif
                                                                 <div class="d-flex justify-content-around align-items-center">
@@ -351,7 +333,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                                 <h4 class="modal-title">Order Voucher</h4>
-                                                                
+
                                                                 <button class="btn btn-sm rounded btn-info m-l-40" type="button"
                                         id="do_print">
                                                 <span>Print</span>
@@ -552,7 +534,7 @@
                                     @endif
                                 @endif
                                 </tr>
-                                
+
                                 <tr>
                                     <td colspan="10">
                                         <div class="collapse" id="collapse_factory_order{{$order->id}}">
@@ -649,7 +631,7 @@
             </div>
         </div>
     </div>
-    
+
     <input type="hidden" id="type" value="{{$type}}">
 </div>
 
@@ -676,21 +658,21 @@ $(document).ready(function(){
      function setFrom(value){
         $("#exportForm :input[name=export_from]").val(value);
     }
-    
+
      function setTo(value){
         $("#exportForm :input[name=export_to]").val(value);
     }
-    
+
      function setCustomer(value){
         $("#exportForm :input[name=export_customer]").val(value);
     }
-    
+
     function setSales(value){
         $("#exportForm :input[name=export_sales]").val(value);
     }
-    
+
     function exportForm(){
-       
+
         //var form = document.getElementById("exportForm");
         //var data = new URLSearchParams(form).toString();
         var from = $("#exportForm :input[name=export_from]").val();
@@ -701,12 +683,12 @@ $(document).ready(function(){
         var data_type = $("#exportForm :input[name=export_data_type]").find(":selected").val();
         var type = $("#exportForm :input[name=export_type]").find(":selected").val();
         console.log(from,to,id,order_by,order_type,data_type,type);
-        
-        
-        
+
+
+
          let url = `/export-totalorderhistory/${from}/${to}/${id}/${order_by}/${order_type}/${data_type}/${type}`;
          window.location.href= url;
-         
+
     //      const today = new Date();
     //      var dd = today.getDate();
     //      var mm = today.getMonth()+1;
@@ -725,23 +707,23 @@ $(document).ready(function(){
 	   // $("#export_type").val(1);
         return false;
     };
-    
+
     function search_table(){
             var input, filter, table,tr,td,i;
             input = document.getElementById("table_search");
             filter = input.value.toUpperCase();
             table = document.getElementById("order_table");
             tr = table.getElementsByTagName("tr");
-            
+
             var searchColumn = [1,2,3,4,5,6,7,8,9,10];
-            
+
             for(i = 0; i < tr.length; i++){
                 if($(tr[i]).parent().attr('class') == 'head' ){
                     continue;
                 }
-                
+
                 var found = false;
-                
+
                 for(var k=0; k < searchColumn.length; k++){
                     td = tr[i].getElementsByTagName("td")[searchColumn[k]];
                     if(td){
@@ -753,12 +735,12 @@ $(document).ready(function(){
                 if(found == true){
                     tr[i].style.display = "";
                 }else{
-                    
+
                     tr[i].style.display = "none";
                 }
             }
         }
-        
+
         $("#do_print").click(function() {
             var mode = 'iframe'; //popup
             var close = mode == "popup";
@@ -767,18 +749,18 @@ $(document).ready(function(){
                 popClose: close
             };
 
-            
+
             $("div.printableArea").printArea(options);
         });
-    
+
     $('#search_orders').click(function(){
         // let current_Date = $('#current_Date').val();
         // let fb_page = $('#fb_pages').val();
         // let order_type = $('#order_type').val();
         // let url = `/arrived-orders/${current_Date}/${fb_page}/${order_type}`;
         // window.location.href= url;
-        
-        
+
+
         var from = $('#from').val();
         var to = $('#to').val();
         var customer = $("#customer").find(":selected").val();
@@ -790,13 +772,13 @@ $(document).ready(function(){
 
             type: 'POST',
 
-            
+
 
             url: '{{ route('search_ajaxorder_history') }}',
 
             data: {
                 "_token": "{{ csrf_token() }}",
-                
+
                 "from" : from,
                 "to" : to,
                 "customer" : customer,
@@ -809,23 +791,23 @@ $(document).ready(function(){
                     console.log(data);
                     var html = '';
                     $.each(data, function(i, order) {
-                       
+
                        order_ids.push(order.id);
                         var url1 = '{{ route('order_details', ':order_id') }}';
 
                         url1 = url1.replace(':order_id', order.id);
-                        
+
                         var status = '';
                         var badge_type = 'badge-info';
                         if(order.status == 1){
                             status = "Incoming Order";
-                            
+
                         }else if(order.status == 2){
                             status = "Confirm Order";
-                            
+
                         }else if(order.status == 3){
                             status = "Change Order";
-                            
+
                         }else if(order.status == 4){
                             status = "Delivered Order";
                             badge_type = "badge-success";
@@ -848,20 +830,20 @@ $(document).ready(function(){
                                     <td>${order.collect_amount}</td>
                                     <td>${order.order_by}</td>
                                 	<td><span class="badge badge-pill ${badge_type} font-weight-bold">${status}</span></td>
-                                    
+
                                 	<td class="text-center">
                                         <a href="${url1}" class="btn rounded btn-sm btn-outline-info">Details</a>
                                     </td>
                                     <td class="text-center">
                                                 <div class="d-flex align-items-center">
                     `;
-                    
+
                     if(order.status != 4){
                     if(order.status == 1){
                         var url2 = '{{ route('addFactoryOrder', ':order_id') }}';
 
                         url2 = url2.replace(':order_id', order.id);
-                        
+
                         html +=`
                                                     <button title="Show Factory Order Lists" class="btn rounded btn-sm btn-outline-info" type="button" data-toggle="collapse" data-target="#collapse_factory_order${order.id}" aria-expanded="false" aria-controls="collapseExample">
                                                         <i class="fas fa-list"></i>
@@ -869,7 +851,7 @@ $(document).ready(function(){
                                                     <a href="${url2}" class="btn mx-1 rounded btn-sm btn-outline-info" title="New Factory Order"><i class="fas fa-plus-circle"></i></a>
                                                     <a href="#" class="btn rounded btn-sm btn-outline-info" data-toggle="modal" data-target="#confirm_${order.id}">Confirm</a>
                                                 </div>
-                            
+
                         `;
                     }else if(order.status == 2){
                         html += `
@@ -878,7 +860,7 @@ $(document).ready(function(){
                                                 </button>
                                                 <a href="#" class="btn rounded btn-sm btn-outline-info" data-toggle="modal" data-target="#confirm_${order.id}">Deliver Order</a>
                                                 </div>
-                            
+
                         `;
                     }else if(order.status == 3){
                         html += `
@@ -889,8 +871,8 @@ $(document).ready(function(){
                     else{
                         html += `</tr>`;
                     }
-                    
-                    
+
+
                     html += `
                         <div class="modal fade" id="confirm_${order.id}" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -909,7 +891,7 @@ $(document).ready(function(){
                                                                 <input type="hidden" name="order_id" value="${order.id}">
                                                                 <input type="hidden" name="order_status" value="${order.status}">
                     `;
-                    
+
                     if(order.status == 1){
                         html += `
                             <div class="form-group row">
@@ -917,7 +899,7 @@ $(document).ready(function(){
                                                                             <h3 class="font-weight-bold">Are You Sure to Confirm this Order?</h3>
                                                                         </label>
                             </div>
-                        `;   
+                        `;
                     }else if(order.status == 2){
                         html += `
                             <div class="form-group row">
@@ -957,7 +939,7 @@ $(document).ready(function(){
                                                                     </div>
                         `;
                     }
-                    
+
                     html += `
                         <div class="d-flex justify-content-around align-items-center">
                                                                     <button class="btn btn-sm rounded btn-danger" data-dismiss="modal" aria-label="Close">
@@ -965,7 +947,7 @@ $(document).ready(function(){
                                                                     </button>
                                                                     <button class="btn btn-sm rounded btn-primary">Yes</button>
                                                                 </div>
-                                                                
+
                                                                 </form>
                                                         </div>
                                                     </div>
@@ -991,7 +973,7 @@ $(document).ready(function(){
                                                 </thead>
                                                 <tbody>
                                 `;
-                                
+
                                 var factoryorder_count = 0;
                                 $.each(order.factory_orders, function(i, factory_order) {
                                         if(factory_order.status == 1 || factory_order.status == 3){
@@ -999,11 +981,11 @@ $(document).ready(function(){
                                         var url3 = '{{ route('updateFactoryOrderItem', ':factoryorder_id') }}';
 
                                         url3 = url3.replace(':factoryorder_id', factory_order.id);
-                                        
+
                                         var url4 = '{{ route('factoryOrderDetail', ':factoryorder_id') }}';
 
                         url4 = url4.replace(':factoryorder_id', factory_order.id);
-                        
+
                                          html +=`       <tr class="text-center">
                                                     <td>${factory_order.factory_order_number}</td>
                                                     <td>${factory_order.department_name ?? '-'}</td>
@@ -1024,7 +1006,7 @@ $(document).ready(function(){
                                                 `;
                                         }
                                         });
-                                        
+
                                 if(factoryorder_count == 0){
                                     html+=`
                                         <tr class="text-center">
@@ -1032,7 +1014,7 @@ $(document).ready(function(){
                                                     </tr>
                                     `;
                                 }
-                                    
+
                             html += `
                                                 </tbody>
                                             </table>
@@ -1056,7 +1038,7 @@ $(document).ready(function(){
                                                 </thead>
                                                 <tbody>
                     `;
-                    
+
                     var deliverorder_count = 0;
                     $.each(order.factory_orders, function(i, factory_order) {
                                         if(factory_order.status == 2){
@@ -1064,7 +1046,7 @@ $(document).ready(function(){
                                         var url5 = '{{ route('factoryOrderDetail', ':factoryorder_id') }}';
 
                         url5 = url5.replace(':factoryorder_id', factory_order.id);
-                        
+
                                          html +=`       <tr class="text-center">
                                                     <td>${factory_order.factory_order_number}</td>
                                                     <td>${factory_order.department_name ?? '-'}</td>
@@ -1081,7 +1063,7 @@ $(document).ready(function(){
                                                 `;
                                         }
                                         });
-                                        
+
                         if(deliverorder_count == 0){
                             html += `
                                 <tr class="text-center">
@@ -1089,7 +1071,7 @@ $(document).ready(function(){
                                                     </tr>
                             `;
                         }
-                    
+
                         html += `
                                                 </tbody>
                                             </table>
@@ -1112,11 +1094,11 @@ $(document).ready(function(){
                         $('#order_list').empty();
                        $('#order_list').html(html);
                     });
-                    
-                    
-                    
+
+
+
                   // $('#item_table').DataTable().clear().draw();
-                    
+
 
                     // swal({
                     //     toast:true,
@@ -1125,12 +1107,12 @@ $(document).ready(function(){
                     //     text:"Orders Changed!",
                     //     button:false,
                     //     timer:500,
-                    //     icon:"success"  
+                    //     icon:"success"
                     // });
 
                 } else {
                     var html = `
-                    
+
                     <tr>
                         <td colspan="9" class="text-danger text-center">No Data Found</td>
                     </tr>
@@ -1138,19 +1120,19 @@ $(document).ready(function(){
                     `;
                     $('#order_list').empty();
                     $('#order_list').html(html);
-                
+
                 }
             },
             });
-        
+
             //$('#order_table').DataTable().clear().draw();
-           
-            
-            
-                                
-            
-           
-        
+
+
+
+
+
+
+
     })
 
 </script>
