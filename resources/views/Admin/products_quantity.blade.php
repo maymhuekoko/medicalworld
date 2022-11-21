@@ -1,11 +1,11 @@
 @extends('master')
 
-@section('title','Product Flag Control')
+@section('title','Product Instock Preorder Quantity')
 
 @section('place')
 
 {{-- <div class="col-md-5 col-8 align-self-center">
-    <h3 class="text-themecolor m-b-0 m-t-0">Product Flag Control</h3>
+    <h3 class="text-themecolor m-b-0 m-t-0">Product Instock Preorder Quantity</h3>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('index')}}">@lang('lang.back_to_dashboard')</a></li>
     </ol>
@@ -21,7 +21,7 @@ $from_id = session()->get('from')
 <input type="hidden" id="isshop" value="{{session()->get('from')}}">
 <div class="row page-titles">
     <div class="col-md-5 col-8 align-self-center">
-        <h4 class="font-weight-normal">Product Flag Control</h4>
+        <h4 class="font-weight-normal">Product Instock Preorder Quantity</h4>
     </div>
 </div>
 
@@ -88,8 +88,8 @@ $from_id = session()->get('from')
                                 <th>No.</th>
                                 <th>Item Code</th>
                                 <th>@lang('lang.item') @lang('lang.name')</th>
-                                <th style="padding-left: 30px;">New Arrival</th>
-                                <th style="padding-left: 20px;">Promotion</th>
+                                <th style="padding-left: 30px;">Instock Qty</th>
+                                <th style="padding-left: 20px;">Preorder Qty</th>
                                 <th>Hot Sale</th>
                             </tr>
                         </thead>
@@ -102,98 +102,28 @@ $from_id = session()->get('from')
                                     <td>{{$unit->item_name}}</td>
 
                                     <td>
-                                        <input type="checkbox" class="newarrck" style="width: 50px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0">
-                                        <input type="date" class="arrivaldate" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-arrivaldateid="arrivaldate{{$unit->id}}" id="arrivaldate{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->arrival_date}}">
+                                        <input type="number" class="instock" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-instockid="instock{{$unit->id}}" id="instock{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->instock}}">
                                     </td>
                                     <td>
-                                        <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="0">
-                                        <input type="number" class="discountprice" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-discountpriceid="discountprice{{$unit->id}}" id="discountprice{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->discount_price}}">
+                                        <input type="number" class="preorder" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-preorderid="preorder{{$unit->id}}" id="preorder{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->preorder}}">
                                     </td>
+                                    <form method="post" action="uploadingphotos" enctype="multipart/form-data">
                                     <td>
-                                        <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="1">
+                                        <input type='hidden' value="{{$unit->id}}" />
+                                        <input type="file" name="photos[]" class="form-control" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" multiple/>
                                     </td>
-
-                                    <!-- @if($unit->new_product_flag == '1')
-                                    <td>
-                                        <input type="checkbox" class="newarrck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0" checked>
-                                    </td>
-                                    @else
-                                    <td>
-                                        <input type="checkbox" class="newarrck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0" >
-                                    </td>
-                                    @endif
-
-                                    @if($unit->promotion_product_flag == '1')
-                                    <td>
-                                        <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="0" checked>
-                                    </td>
-                                    @else
-                                    <td>
-                                        <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="1">
-                                    </td>
-                                    @endif
-                                    
-                                    @if($unit->hotsale_product_flag == '1')
-                                    <td>
-                                        <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="0" checked>
-                                    </td>
-                                    @else
-                                    <td>
-                                        <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="1">
-                                    </td>
-                                    @endif -->
                                     
                                     @if(session()->get('user')->role == "Owner")
 
-                                    <!-- <td>
+                                    <td>
                                         <div class="row">
-                                            
-                                            <button class="btn btn-danger delete_stock">
-                                                Change
-                                            </button>
+                                            <button type='submit' class="btn btn-primary delete_stock">Add Photo</button>
                                         </div>
-
-                                    </td> -->
+                                    </td>
+                                    </form>
                                     @endif
                                 </tr>
                                 @endforeach
-
-                            <!-- <div class="modal fade" id="edit_unit_qty" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">@lang('lang.update_counting_unit_quantity') @lang('lang.form')</h4>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                              </button>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <form class="form-horizontal m-t-40" method="post" action="{{route('update_stock_count')}}">
-                                                @csrf
-                                                <input type="hidden" name="unit_id" id="unit_id">
-                                                <div class="form-group row">
-                                                    <label class="control-label text-right col-md-6 text-black">Code </label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="unique_unit_code" name="unit_code">
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <label class="control-label text-right col-md-6 text-black">ပစ္စည်း အမည်</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" name="unit_name" id="unique_unit_name">
-
-                                                    </div>
-                                                </div>
-
-                                                <input type="submit" name="btnsubmit" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
 
                         </tbody>
                     </table>
@@ -483,18 +413,18 @@ $from_id = session()->get('from')
 
     })
 
-    $('#units_table').on('keypress','.arrivaldate',function(){
+    $('#units_table').on('keypress','.instock',function(){
         var keycode= (event.keyCode ? event.keyCode : event.which);
         if(keycode=='13'){
             // var shop_id = $('#shop_id option:selected').val();
             var shop_id = $('#shop_id').val() ?? $('#isshop').val();
-            var arr_date = $(this).val();
+            var qty_value = $(this).val();
             var unit_id= $(this).data('id');
-            var arrivaldateid = $(this).data('arrivaldateid');
+            var instockid = $(this).data('instockid');
             swal(
                     {
                       title: "Flag Change",
-                      text: "New Arrival Date Change!",
+                      text: "Instock Quantity Change!",
                       content: "input",
                       showCancelButton: true,
                       closeOnConfirm: false,
@@ -508,11 +438,11 @@ $from_id = session()->get('from')
 
                 type:'POST',
 
-                url:'{{route('newarrivaldate-ajax')}}',
+                url:'{{route('newinstockqty-ajax')}}',
 
                 data:{
                     "_token":"{{csrf_token()}}",
-                    "arr_date": arr_date,
+                    "qty_value": qty_value,
                     "shop_id":shop_id,
                     "unit_id":unit_id,
                     "remark" : result
@@ -524,13 +454,13 @@ $from_id = session()->get('from')
                             toast:true,
                             position:'top-end',
                             title:"Success",
-                            text:"New Arrival Date Change!",
+                            text:"Instock Quantity Change!",
                             button:false,
                             timer:500,
                             icon:"success"
                         });
-                        $(`#${arrivaldateid}`).addClass("is-valid");
-                        $(`#${arrivaldateid}`).blur();
+                        $(`#${instockid}`).addClass("is-valid");
+                        $(`#${instockid}`).blur();
                     }
                     else{
                         swal({
@@ -540,7 +470,7 @@ $from_id = session()->get('from')
                             button:false,
                             timer:1500
                         });
-                        $(`#${arrivaldateid}`).addClass("is-invalid");
+                        $(`#${instockid}`).addClass("is-invalid");
                     }
                 },
                 });
@@ -608,18 +538,18 @@ $from_id = session()->get('from')
 
     })
 
-    $('#units_table').on('keypress','.discountprice',function(){
+    $('#units_table').on('keypress','.preorder',function(){
         var keycode= (event.keyCode ? event.keyCode : event.which);
         if(keycode=='13'){
             // var shop_id = $('#shop_id option:selected').val();
             var shop_id = $('#shop_id').val() ?? $('#isshop').val();
-            var dis_price = $(this).val();
+            var qty_value = $(this).val();
             var unit_id= $(this).data('id');
-            var discountpriceid = $(this).data('discountpriceid');
+            var preorderid = $(this).data('preorderid');
             swal(
                     {
                       title: "Flag Change",
-                      text: "Discount Price Change!",
+                      text: "Preorder Quantity Change!",
                       content: "input",
                       showCancelButton: true,
                       closeOnConfirm: false,
@@ -633,11 +563,11 @@ $from_id = session()->get('from')
 
                 type:'POST',
 
-                url:'{{route('discountprice-ajax')}}',
+                url:'{{route('newpreorderqty-ajax')}}',
 
                 data:{
                     "_token":"{{csrf_token()}}",
-                    "dis_price": dis_price,
+                    "qty_value": qty_value,
                     "shop_id":shop_id,
                     "unit_id":unit_id,
                     "remark" : result
@@ -649,13 +579,13 @@ $from_id = session()->get('from')
                             toast:true,
                             position:'top-end',
                             title:"Success",
-                            text:"Discount Price Change!",
+                            text:"Preorder Quantity Change!",
                             button:false,
                             timer:500,
                             icon:"success"
                         });
-                        $(`#${discountpriceid}`).addClass("is-valid");
-                        $(`#${discountpriceid}`).blur();
+                        $(`#${preorder}`).addClass("is-valid");
+                        $(`#${preorder}`).blur();
                     }
                     else{
                         swal({
@@ -665,7 +595,7 @@ $from_id = session()->get('from')
                             button:false,
                             timer:1500
                         });
-                        $(`#${discountpriceid}`).addClass("is-invalid");
+                        $(`#${preorder}`).addClass("is-invalid");
                     }
                 },
                 });

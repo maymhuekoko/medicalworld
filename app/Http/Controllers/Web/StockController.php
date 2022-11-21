@@ -65,6 +65,24 @@ class StockController extends Controller
     	return view('Admin.products_flag', compact('counting_units','shop','categories','sub_categories'));
     }
 
+    public function viewProductQtyPage()
+    {
+    
+        $items = Item::where("category_id",1)->where("sub_category_id",7)->get();
+        $item_ids=[];
+
+        foreach ($items as $item){
+            array_push($item_ids,$item->id);
+        }
+
+        $counting_units = Item::all();
+        $categories = Category::all();
+        $sub_categories = SubCategory::all();
+        $shop = From::find(1);
+
+    	return view('Admin.products_quantity', compact('counting_units','shop','categories','sub_categories'));
+    }
+
     protected function getStockCountPage(Request $request)
     {
 
@@ -457,6 +475,39 @@ class StockController extends Controller
         else{
             return response()->json(0);
         }
+    }
+
+    public function setInstockAjax(Request $request)
+    {
+        $item = Item::findOrFail($request->unit_id);
+        $item->instock = $request->qty_value;
+        $item->save();
+
+        if($item){
+            return response()->json($item);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function setPreorderAjax(Request $request)
+    {
+        $item = Item::findOrFail($request->unit_id);
+        $item->preorder = $request->qty_value;
+        $item->save();
+
+        if($item){
+            return response()->json($item);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function uploadPhotos(Request $request) {
+        $item = Item::findOrFail($request->unit_id);
+        
     }
 
     public function purchasepriceUpdateAjax(Request $request)
