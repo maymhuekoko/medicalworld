@@ -30,6 +30,8 @@ Route::post('sendingemail', 'MailController@SendingMail');
 
 Route::get('products_flag', 'Web\StockController@viewProductFlagPage')->name('products_flag');
 
+Route::get('products_qty', 'Web\StockController@viewProductQtyPage')->name('products_qty');
+
 Route::get('reset_quantity', 'Web\StockController@viewResetQuantity')->name('reset_quantity');
 
 Route::group(['middleware' => ['UserAuth']], function () {
@@ -218,6 +220,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::get('FactoryPoList', 'Web\OrderController@getFactoryPOPage')->name('factorypo_page');
     Route::get('Order-Details/{id}', 'Web\OrderController@getOrderDetailsPage')->name('order_details');
     Route::post('Order/Change', 'Web\OrderController@changeOrderStatus')->name('update_order_status');
+    Route::post('Order/ChangeWebsite', 'Web\OrderController@changeOrderStatusWebsite')->name('update_order_status_website');
     Route::get('Order-Print/{id}', 'Web\OrderController@getOrderVoucherPrint')->name('order_voucher_print');
     Route::get('Website-Order-Print/{id}', 'Web\OrderController@getWebsiteOrderVoucherPrint')->name('website_order_voucher_print');
     Route::post('PO/Approve', 'Web\OrderController@changePOStatus')->name('update_po_status');
@@ -250,6 +253,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
 
     Route::post('getSpecId','Web\OrderController@getSpecId')->name('getSpecId');
     Route::get('addFactoryOrder/{id}',"Web\OrderController@addFactoryOrder")->name('addFactoryOrder');
+    Route::get('addFactoryOrderWebsite/{id}',"Web\OrderController@addFactoryOrderWebsite")->name('addFactoryOrderWebsite');
 //    Factory Order
     Route::get('editFactoryOrder/{id}',"Web\OrderController@editFactoryOrder")->name('editFactoryOrder');
     Route::get('incomingFactoryOrder',"Web\OrderController@incomingFactoryOrder")->name('incomingFactoryOrder');
@@ -322,7 +326,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('Edit_Bank_Info/{id}', 'Web\AdminController@editAccount')->name('update_account_info');
     Route::get('transaction_list/{id}', 'Web\AdminController@TransactionList')->name('transaction_list');
     Route::post('store_transaction', 'Web\AdminController@store_transaction_now')->name('store_transaction');
-    
+
     Route::get('Incomes', 'Web\AdminController@incomeList')->name('incomes');
     Route::post('storeIncome', 'Web\AdminController@storeIncome')->name('store_income');
     Route::post('updateIncome/{id}', 'Web\AdminController@updateIncome')->name('update_income');
@@ -375,10 +379,14 @@ Route::group(['middleware' => ['UserAuth']], function () {
 	Route::post('newarrcheckon-ajax', 'Web\StockController@newarrCheckOnAjax')->name('newarrcheckon-ajax');
 	Route::post('promocheckon-ajax', 'Web\StockController@promoCheckOnAjax')->name('promocheckon-ajax');
 	Route::post('hotsalecheckon-ajax', 'Web\StockController@hotCheckOnAjax')->name('hotsalecheckon-ajax');
-    // Set Date Discount 
+    // Set Date Discount
     Route::post('newarrivaldate-ajax', 'Web\StockController@setDateAjax')->name('newarrivaldate-ajax');
     Route::post('discountprice-ajax', 'Web\StockController@setPriceAjax')->name('discountprice-ajax');
-
+    // Instock / Preorder
+    Route::post('newinstockqty-ajax', 'Web\StockController@setInstockAjax')->name('newinstockqty-ajax');
+    Route::post('newpreorderqty-ajax', 'Web\StockController@setPreorderAjax')->name('newpreorderqty-ajax');
+    // Product Image
+    Route::post('uploadingphotos', 'Web\StockController@uploadPhotos');
 
     Route::post('purchseupdate-ajax', 'Web\StockController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
 	Route::post('itemadjust-ajax', 'Web\StockController@itemadjustAjax')->name('itemadjust-ajax');
