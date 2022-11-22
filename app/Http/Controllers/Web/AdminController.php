@@ -65,6 +65,22 @@ class AdminController extends Controller {
 	   return view('Admin.admin_panel');
 	}
 
+    public function viewWebsiteUser() {
+        $website_users = DB::table('website_user')->get();
+        
+        return view('Admin.website_users',compact('website_users'));
+
+    }
+
+    public function viewOrderDetailList($id) {
+
+        $instock_orders = DB::table('ecommerce_orders')->where('customer_id', $id)->where('order_type', 1)->get();
+        $preorder_orders = DB::table('ecommerce_orders')->where('customer_id', $id)->where('order_type', 2)->get();
+        
+        return view('Admin.order_detail_list',compact('instock_orders', 'preorder_orders'));
+
+    }
+
 	protected function expenseList(request $request){
 
 	    $expenses = Expense::all();

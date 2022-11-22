@@ -46,6 +46,9 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -387,6 +390,7 @@
                                 <li><a href="{{route('itemadjust-lists')}}">@lang('lang.item_adjust') @lang('lang.list')</a></li>
                                 <li><a href="{{route('products_flag')}}">Product Flag Control</a></li>
                                 <li><a href="{{route('products_qty')}}">Instock / Preorder Qty</a></li>
+                                <li><a href="{{route('website_user')}}">Website User</a></li>
                                 <li><a href="{{route('email_marketing')}}">Email Marketing</a></li>
                             </ul>
                         </li>
