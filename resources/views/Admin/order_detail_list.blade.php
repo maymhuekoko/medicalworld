@@ -1,5 +1,9 @@
 @extends('master')
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 @section('title','Order Detail')
 
 @section('place')
@@ -21,8 +25,8 @@
                             <div id="navpills-1" class="tab-pane active">
 
                             <ul class="nav nav-tabs" style="width: 100%;">
-                                <li class="active"><a class="" data-toggle="pill" href="#instock">Instock</a></li>
-                                <li><a data-toggle="pill" href="#preorder">Preorder</a></li>
+                                <li class="active" style="width: 50%;text-align: center;"><a class="" data-toggle="pill" href="#instock">Instock</a></li>
+                                <li style="width: 50%;text-align: center;"><a data-toggle="pill" href="#preorder">Preorder</a></li>
                             </ul>
 
                             <div class="tab-content">
@@ -43,6 +47,7 @@
                                             <th>Payment Type</th>
                                             <th>Payment Channel</th>
                                             <th>Delivery Address</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -65,6 +70,7 @@
                                             <td>{{$instock->payment_type}}</td>
                                             <td>{{$instock->payment_channel}}</td>
                                             <td>{{$instock->deliver_address}}</td>
+                                            <td ></td>
                                         </tr>
             
                                         @endforeach
