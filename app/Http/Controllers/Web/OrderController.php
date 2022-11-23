@@ -69,7 +69,8 @@ class OrderController extends Controller
     }
 
     public function showscreenshot(Request $request){
-        $screenshot = EcommerceOrderScreenshot::where('ecommerce_order_id',$request->order_id)->first();
+        $screenshot = EcommerceOrderScreenshot::where('id',$request->order_id)->first();
+        // dd($screenshot);
         return response()->json([
             'screenshot' => $screenshot->screenshot,
         ]);
