@@ -64,7 +64,8 @@
                                 	<td class="text-center">
                                         <div class="d-flex align-items-center">
                                             <a href="{{route('website_order_details',$order->id)}}" class="btn rounded btn-sm btn-outline-info">Details</a>
-                                            <a href="#" class="btn rounded btn-sm btn-outline-info" onclick="showscreenshot({{$order->id}})">Screenshot</a>
+                                            <a href="#" class="btn rounded btn-sm btn-outline-info" data-toggle="collapse" data-target="#collapse_payment{{$order->id}}">Payment</a>
+                                            {{-- <a href="#" class="btn rounded btn-sm btn-outline-info" onclick="showscreenshot({{$order->id}})">Screenshot</a> --}}
                                         </div>
                                     </td>
                                     <td class="text-center">
@@ -510,7 +511,37 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colspan="10">
+                                        <div class="collapse" id="collapse_payment{{$order->id}}">
+                                            <table class="table bg-light table-info"  >
+                                                <thead>
+                                                <tr class="text-center text-info h6">
+                                                    <th>Payment Date</th>
+                                                    <th>Payment Amount</th>
+                                                    <th>Remark</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @forelse(DB::table('ecommerce_order_screenshots')->where('ecommerce_order_id',$order->id)->get() as $eorder)
 
+                                                <tr class="text-center">
+                                                    <td>{{$eorder->created_at}}</td>
+                                                    <td>{{$eorder->amount}}</td>
+                                                    <td>{{$eorder->remark}}</td>
+                                                    <td><a href="#" class="btn rounded btn-sm btn-outline-info" onclick="showscreenshot({{$eorder->id}})">Screenshot</a></td>
+                                                </tr>
+                                                @empty
+                                                    <tr class="text-center">
+                                                        <td colspan="10"><p class="alert alert-warning">There is no data yet, please add factory order!</p></td>
+                                                    </tr>
+                                                @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
 
                                 <tr>
                                     <td colspan="10">

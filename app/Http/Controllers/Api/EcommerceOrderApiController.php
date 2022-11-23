@@ -111,12 +111,27 @@ class EcommerceOrderApiController extends ApiBaseController
 
    //store screenshot
    public function storescreenshot(Request $request){
+    // dd($request->all());
     $newName='screenshot_'.uniqid().".".$request->file('file')->extension();
     $request->file('file')->storeAs('public/screenshot',$newName);
     $eorder = EcommerceOrder::latest()->first()->id;
     $screenshot = EcommerceOrderScreenshot::create([
         'ecommerce_order_id' => $eorder+1,
         'screenshot' => $newName,
+        'amount' => $request->payamount,
+        'remark' => $request->remark,
+    ]);
+    return response()->json($screenshot);
+   }
+
+   public function storepayment(Request $request){
+    // dd($request->all());
+    $newName='screenshot_'.uniqid().".".$request->file('file')->extension();
+    $request->file('file')->storeAs('public/screenshot',$newName);
+    $screenshot = EcommerceOrderScreenshot::create([
+        'ecommerce_order_id' => $request->id,
+        'screenshot' => $newName,
+        'amount' => $request->payamount,
         'remark' => $request->remark,
     ]);
     return response()->json($screenshot);
