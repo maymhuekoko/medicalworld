@@ -506,8 +506,18 @@ class StockController extends Controller
     }
 
     public function uploadPhotos(Request $request) {
-        $item = Item::findOrFail($request->unit_id);
+          
+        foreach ($request->file('photos') as $imagefile) 
+        {
+            $photoName = $imagefile->getClientOriginalName();
+            $imagefile->move(public_path('/ecommerce/items/'), $photoName);
+        }
+
+        Item::where('id', $request->unit_id)->update([
+            'photo_path' => $request->photo_path,
+        ]);
         
+        return redirect()->back()->with('success', 'Product photos uploaded successfully!'); 
     }
 
     public function purchasepriceUpdateAjax(Request $request)

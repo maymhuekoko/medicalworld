@@ -81,6 +81,23 @@ class AdminController extends Controller {
 
     }
 
+    public function viewItemDetail($id) {
+
+        $unit_id = DB::table('counting_unit_ecommerce_order')->where('order_id', $id)->get('counting_unit_id');
+        
+        $unitarr =[];
+        foreach($unit_id as $u_id) {
+            $count_unit = DB::table('counting_units')->where('id', $u_id->counting_unit_id)->first();
+            array_push($unitarr,$count_unit);
+        }
+
+        // return view('Admin.item_detail', compact('unit_id'));
+
+        return view('Admin.item_detail', compact('unitarr'));
+
+
+    }
+
 	protected function expenseList(request $request){
 
 	    $expenses = Expense::all();

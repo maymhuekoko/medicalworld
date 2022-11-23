@@ -1,8 +1,11 @@
 @extends('master')
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
 
 @section('title','Order Detail')
 
@@ -24,21 +27,21 @@
                         <div class="tab-content br-n pn">
                             <div id="navpills-1" class="tab-pane active">
 
-                            <ul class="nav nav-tabs" style="width: 100%;">
-                                <li class="active" style="width: 50%;text-align: center;"><a class="" data-toggle="pill" href="#instock">Instock</a></li>
-                                <li style="width: 50%;text-align: center;"><a data-toggle="pill" href="#preorder">Preorder</a></li>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist" style="width: 100%;">
+                                <li class="nav-item" role="presentation" style="width: 50%;">
+                                    <button class="nav-link active" style="width: 100%;" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Instock</button>
+                                </li>
+                                <li class="nav-item" role="presentation" style="width: 50%;">
+                                    <button class="nav-link" style="width: 100%;" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Preorder</button>
+                                </li>
                             </ul>
-
-                            <div class="tab-content">
-                                <div id="instock" class="tab-pane fade in active">
-                                        <table class="table table-striped text-black">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                                <table class="table table-striped text-black">
                                         <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Name</th>
-                                            <th>Phone</th>
                                             <th>Order Code</th>
-                                            <th>Order Date</th>
                                             <th>Order Status</th>
                                             <th>Total Qty</th>
                                             <th>Total Amount</th>
@@ -58,10 +61,7 @@
                                         
                                         <tr>
                                             <td>{{$j++}}</td>
-                                            <td>{{$instock->customer_name}}</td>
-                                            <td>{{$instock->customer_phone}}</td>
                                             <td>{{$instock->order_code}}</td>
-                                            <td>{{$instock->order_date}}</td>
                                             <td>{{$instock->order_status}}</td>
                                             <td>{{$instock->total_quantity}}</td>
                                             <td>{{$instock->total_amount}}</td>
@@ -70,22 +70,19 @@
                                             <td>{{$instock->payment_type}}</td>
                                             <td>{{$instock->payment_channel}}</td>
                                             <td>{{$instock->deliver_address}}</td>
-                                            <td ></td>
+                                            <td><a href="{{route('item_detail', [$instock->id])}}" class="btn btn-primary">Detail</a></td>
                                         </tr>
             
                                         @endforeach
                                         </tbody>
                                     </table>
                                 </div>
-                                <div id="preorder" class="tab-pane">
-                                    <table class="table table-striped text-black">
+                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                                <table class="table table-striped text-black">
                                         <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Name</th>
-                                            <th>Phone</th>
                                             <th>Order Code</th>
-                                            <th>Order Date</th>
                                             <th>Order Status</th>
                                             <th>Total Qty</th>
                                             <th>Total Amount</th>
@@ -94,6 +91,7 @@
                                             <th>Payment Type</th>
                                             <th>Payment Channel</th>
                                             <th>Delivery Address</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -104,10 +102,7 @@
                                         
                                         <tr>
                                             <td>{{$j++}}</td>
-                                            <td>{{$pre->customer_name}}</td>
-                                            <td>{{$pre->customer_phone}}</td>
                                             <td>{{$pre->order_code}}</td>
-                                            <td>{{$pre->order_date}}</td>
                                             <td>{{$pre->order_status}}</td>
                                             <td>{{$pre->total_quantity}}</td>
                                             <td>{{$pre->total_amount}}</td>
@@ -116,6 +111,7 @@
                                             <td>{{$pre->payment_type}}</td>
                                             <td>{{$pre->payment_channel}}</td>
                                             <td>{{$pre->deliver_address}}</td>
+                                            <td><a href="{{route('item_detail', [$pre->id])}}" class="btn btn-primary">Detail</a></td>
                                         </tr>
             
                                         @endforeach
@@ -123,17 +119,20 @@
                                     </table>
                                 </div>
                             </div>
-                            @endsection
 
 
-                                </div>
-                            </div>
+                            
+                            
+                            
                         </div>
                     </div>
                 </div>
-        </section>
-    </div>
+            </div>
+        </div>
+    </section>
 </div>
+</div>
+@endsection
 
 
 

@@ -38,6 +38,8 @@ Route::get('website_user', 'Web\AdminController@viewWebsiteUser')->name('website
 
 Route::get('orderdetail_list/{id}', 'Web\AdminController@viewOrderDetailList')->name('orderdetail_list');
 
+Route::get('item_detail/{id}', 'Web\AdminController@viewItemDetail')->name('item_detail');
+
 Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('shopname/edit', 'Web\AdminController@shopnameEdit')->name('shopnameEdit');
 
