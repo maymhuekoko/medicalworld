@@ -46,6 +46,9 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    
+
+
 
 </head>
 
@@ -387,6 +390,7 @@
                                 <li><a href="{{route('itemadjust-lists')}}">@lang('lang.item_adjust') @lang('lang.list')</a></li>
                                 <li><a href="{{route('products_flag')}}">Product Flag Control</a></li>
                                 <li><a href="{{route('products_qty')}}">Instock / Preorder Qty</a></li>
+                                <li><a href="{{route('website_user')}}">Website User</a></li>
                                 <li><a href="{{route('email_marketing')}}">Email Marketing</a></li>
                             </ul>
                         </li>

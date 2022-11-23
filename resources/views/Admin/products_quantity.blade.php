@@ -1,5 +1,11 @@
 @extends('master')
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
 @section('title','Product Instock Preorder Quantity')
 
 @section('place')
@@ -24,7 +30,12 @@ $from_id = session()->get('from')
         <h4 class="font-weight-normal">Product Instock Preorder Quantity</h4>
     </div>
 </div>
-
+@if(session()->has('success'))
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <strong>{{session('success')}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 <!-- <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -90,15 +101,17 @@ $from_id = session()->get('from')
                                 <th>@lang('lang.item') @lang('lang.name')</th>
                                 <th style="padding-left: 30px;">Instock Qty</th>
                                 <th style="padding-left: 20px;">Preorder Qty</th>
-                                <th>Hot Sale</th>
+                                <th>Photo Path Name</th>
+                                <th>Product Photos</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="units_table">
 
                                 @foreach ($counting_units as $unit)
                                 <tr>
-                                    <td>{{$unit->id}}</td>
-                                    <td>{{$unit->item_code}}</td>
+                                    <td style="max-width: 30px">{{$unit->id}}</td>
+                                    <td style="max-width: 100px">{{$unit->item_code}}</td>
                                     <td>{{$unit->item_name}}</td>
 
                                     <td>
@@ -108,8 +121,12 @@ $from_id = session()->get('from')
                                         <input type="number" class="preorder" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-preorderid="preorder{{$unit->id}}" id="preorder{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->preorder}}">
                                     </td>
                                     <form method="post" action="uploadingphotos" enctype="multipart/form-data">
+                                    @csrf
                                     <td>
-                                        <input type='hidden' value="{{$unit->id}}" />
+                                        <input type='hidden' name="unit_id" value="{{$unit->id}}" />
+                                        <input type='text' class="form-control" name="photo_path" value="{{old('photo_path')}}"/>
+                                    </td>
+                                    <td>
                                         <input type="file" name="photos[]" class="form-control" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" multiple/>
                                     </td>
                                     
@@ -120,8 +137,8 @@ $from_id = session()->get('from')
                                             <button type='submit' class="btn btn-primary delete_stock">Add Photo</button>
                                         </div>
                                     </td>
-                                    </form>
                                     @endif
+                                    </form>
                                 </tr>
                                 @endforeach
 

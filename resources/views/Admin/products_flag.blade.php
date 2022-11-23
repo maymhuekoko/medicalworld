@@ -88,9 +88,11 @@ $from_id = session()->get('from')
                                 <th>No.</th>
                                 <th>Item Code</th>
                                 <th>@lang('lang.item') @lang('lang.name')</th>
-                                <th style="padding-left: 30px;">New Arrival</th>
-                                <th style="padding-left: 20px;">Promotion</th>
-                                <th>Hot Sale</th>
+                                <th>New Arrival Flag</th>
+                                <th>Set Arrival Date</th>
+                                <th>Promotion Flag</th>
+                                <th>Set Discount Price</th>
+                                <th>Hot Sale Flag</th>
                             </tr>
                         </thead>
                         <tbody id="units_table">
@@ -103,10 +105,14 @@ $from_id = session()->get('from')
 
                                     <td>
                                         <input type="checkbox" class="newarrck" style="width: 50px; position: relative; left: 0; opacity: 1;" data-newarrckid="newarrck{{$unit->id}}" id="newarrck{{$unit->id}}" data-id="{{$unit->id}}" value="0">
+                                    </td>
+                                    <td>
                                         <input type="date" class="arrivaldate" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-arrivaldateid="arrivaldate{{$unit->id}}" id="arrivaldate{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->arrival_date}}">
                                     </td>
                                     <td>
                                         <input type="checkbox" class="promock" style="width: 30px; position: relative; left: 0; opacity: 1;" data-promockid="promock{{$unit->id}}" id="promock{{$unit->id}}" data-id="{{$unit->id}}" value="0">
+                                    </td>
+                                    <td>
                                         <input type="number" class="discountprice" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-discountpriceid="discountprice{{$unit->id}}" id="discountprice{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->discount_price}}">
                                     </td>
                                     <td>
@@ -144,7 +150,6 @@ $from_id = session()->get('from')
                                     @endif -->
                                     
                                     @if(session()->get('user')->role == "Owner")
-
                                     <!-- <td>
                                         <div class="row">
                                             
@@ -152,7 +157,6 @@ $from_id = session()->get('from')
                                                 Change
                                             </button>
                                         </div>
-
                                     </td> -->
                                     @endif
                                 </tr>
@@ -341,7 +345,6 @@ $from_id = session()->get('from')
 
         //shop id for owner . isshop for counter
         let shop_id = $('#shop_id').val() ?? $('#isshop').val();
-
         let unit_id = $('#item_list').val();
         console.log(unit_id);
         var isowner = $('#isowner').val();
@@ -479,8 +482,6 @@ $from_id = session()->get('from')
                 });
                 });
         }
-
-
     })
 
     $('#units_table').on('keypress','.arrivaldate',function(){
