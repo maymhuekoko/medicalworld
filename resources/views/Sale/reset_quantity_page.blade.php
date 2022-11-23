@@ -1,11 +1,11 @@
 @extends('master')
 
-@section('title','Reset Quantity')
+@section('title','Result Quantity')
 
 @section('place')
 
 {{-- <div class="col-md-5 col-8 align-self-center">
-    <h3 class="text-themecolor m-b-0 m-t-0">Reset Quantity</h3>
+    <h3 class="text-themecolor m-b-0 m-t-0">Result Quantity</h3>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('index')}}">@lang('lang.back_to_dashboard')</a></li>
     </ol>
@@ -21,7 +21,7 @@ $from_id = session()->get('from')
 <input type="hidden" id="isshop" value="{{session()->get('from')}}">
 <div class="row page-titles">
     <div class="col-md-5 col-8 align-self-center">
-        <h4 class="font-weight-normal">Reset Quantitye</h4>
+        <h4 class="font-weight-normal">Result Quantitye</h4>
     </div>
 </div>
 
@@ -93,7 +93,7 @@ $from_id = session()->get('from')
                                 <th>No.</th>
                                 <th>Item Code</th>
                                 <th>@lang('lang.item') @lang('lang.name')</th>
-                                <th>Reset Quantity</th>
+                                <th>Result Quantity</th>
                                 @if(session()->get('user')->role == "Owner")
                                 <th>@lang('lang.action')</th>
                                 @endif
@@ -475,7 +475,7 @@ $from_id = session()->get('from')
                             toast:true,
                             position:'top-end',
                             title:"Success",
-                            text:"Reset quantity Changed!",
+                            text:"Result quantity Changed!",
                             button:false,
                             timer:500,
                             icon:"success"
