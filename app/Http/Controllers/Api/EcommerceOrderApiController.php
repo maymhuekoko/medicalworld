@@ -168,6 +168,7 @@ class EcommerceOrderApiController extends ApiBaseController
             $orders = EcommerceOrder::findOrFail($id);
             $customUnitOrders = DB::table('counting_unit_ecommerce_order')->where('order_id',$id)->get();
 
+            
             $counting = []; $color = []; $size = [];
              foreach($customUnitOrders as $count){
                  $unit = CountingUnit::where('id',$count->counting_unit_id)->first();
