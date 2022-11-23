@@ -49,6 +49,7 @@ Route::get('ecommerce_order_detail/{id}', 'Api\EcommerceOrderApiController@detai
 Route::post('ecommerce_order_store', 'Api\EcommerceOrderApiController@store');
 Route::post('searchitem', 'Api\EcommerceOrderApiController@searchitem');
 Route::post('storescreenshot', 'Api\EcommerceOrderApiController@storescreenshot');
+Route::post('storepayment', 'Api\EcommerceOrderApiController@storepayment');
 Route::post('showprice', 'Api\EcommerceOrderApiController@showprice')->name('showprice');
 Route::post('ecommerce_preorder_store', 'Api\EcommerceOrderApiController@preorderstore');
 Route::get('township', 'Api\EcommerceOrderApiController@township');

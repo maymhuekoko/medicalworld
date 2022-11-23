@@ -9,5 +9,5 @@ class EcommerceOrderScreenshot extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ecommerce_order_id','screenshot'];
+    protected $fillable = ['ecommerce_order_id','screenshot','remark','amount'];
 }
