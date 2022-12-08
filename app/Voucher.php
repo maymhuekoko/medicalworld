@@ -53,8 +53,8 @@ class Voucher extends Model
 		return $this->belongsTo('App\SalesCustomer','sales_customer_id');
 	}
 
-    public function getCreatedAtAttribute($date) {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('H:i A');
-    }
+    // public function getCreatedAtAttribute($date) {
+    //     return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('H:i A');
+    // }
 }
 

@@ -75,7 +75,7 @@
     <div class="tab-content br-n pn">
         <div id="navpills-1" class="tab-pane active">
             <div class="row justify-content-center">
-                <div class="col-md-8 printableArea" style="width:45%;">
+                <div class="col-md-12 printableArea" style="width:55%;">
                     <div class="card card-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -106,7 +106,7 @@
                                                 <th>No.</th>
                                                 <th>Name</th>
                                                 <th>Qty*Price(Discount)</th>
-                                                
+
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
@@ -127,7 +127,7 @@
                                                 <td style="font-size:15px;">{{$j++}}</td>
                                                 <td style="font-size:15px;">{{ $countingunit->unit_name }}</td>
                                                 <td style="font-size:15px;">{{ $countingunit->pivot->quantity }} * {{ $countingunit->pivot->price }} ({{$countingunit->pivot->discount_value}})</td>
-                                                
+
                                                 <td style="font-size:15px;" id="subtotal">{{ $countingunit->pivot->quantity *  $price_wif_discount}}</td>
                                             </tr>
                                             @endforeach
@@ -136,7 +136,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                
+
                                                 <td class="text-right" style="font-size:15px;">Total</td>
                                                 <td id="total_charges" class="font-weight-bold" style="font-size:15px;">
                                                     <span id="slip_total"></span>{{$unit->total_price}}</td>
@@ -144,7 +144,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                
+
                                                 <td class="text-right" style="font-size:15px;">Discount</td>
                                                 <td id="discount" class="font-weight-bold" style="font-size:15px;">
                                                     <span id="slip_discount"></span>{{$unit->discount_value}}</td>
@@ -152,7 +152,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                
+
                                                 <td class="text-right" style="font-size:15px;">Net</td>
                                                 <td id="net" class="font-weight-bold" style="font-size:15px;">
                                                     <span id="slip_net"></span>{{$unit->total_price - $unit->discount_value}}</td>
@@ -160,14 +160,14 @@
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                
+
                                                 <td class="text-right" style="font-size:15px;">Pay</td>
                                                 <td id="pay" class="font-weight-bold" style="font-size:15px;">{{$unit->pay}}</td>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                
+
                                                 <td class="text-right" style="font-size:15px;">Change</td>
                                                 <td id="changes" class="font-weight-bold" style="font-size:15px;">{{$unit->change}}</td>
                                             </tr>
@@ -185,12 +185,12 @@
         <div id="navpills-2" class="tab-pane ">
             <div class="row justify-content-center">
                 <div class="col-md-12 printableArea">
-                    
+
                         <div class="card card-body ">
                             <div class="row justify-content-center" id="a5_voucher">
                                 <div class="col-md-12">
 
-                                    
+
                                         <div style="display:flex;justify-content:space-around">
                                             <div class="col-md-12 text-center">
                                                 <div>
@@ -223,20 +223,20 @@
                                                     style="font-size : 15px;">@lang('lang.invoice')
                                                     @lang('lang.date')
                                                     :  {{$voucher->voucher_date}}</h3>
-                                                
+
                                                 <h3 class=" mt-2 "
                                                     style="font-size : 15px;">Cashier :  {{$voucher->sale_by}}</h3>
-                                                    
-                                                    
+
+
                                             </div>
                                             <div class="">
                                                 <h3 class=" mt-2 " style="font-size : 15px">Customer Name: <span id="cus_name">{{$voucher->sales_customer_name}}</span>
                                                 </h3>
 
-                                                <h3 class=" mt-2 " style="font-size : 15px">Customer Phone : 
+                                                <h3 class=" mt-2 " style="font-size : 15px">Customer Phone :
                                                     <span id="cus_phone">{{$voucher->sales_customer_phone}}</span>
                                                 </h3>
-                                                
+
                                                 <h3 class=" mt-2 "
                                                     style="font-size : 15px;">.</h3>
 
@@ -257,9 +257,9 @@
                                                         <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">Size</th>
                                                         <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">@lang('lang.order_voucher_qty')</th>
                                                         <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">@lang('lang.price')</th>
-                                                        
+
                                                         <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">Discount</th>
-                                                        
+
                                                         <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">@lang('lang.total') Charge</th>
                                                     </tr>
                                                     </thead>
@@ -342,18 +342,18 @@
                                                 </div>
                                             </div>
 
-                                            
+
                                         </div>
-                                    
+
                                 </div>
                             </div>
 
 
 
-                            
+
 
                         </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -389,8 +389,8 @@
     <script src="{{ asset('js/jquery.PrintArea.js') }}" type="text/JavaScript"></script>
 
     <script>
-    
-   
+
+
         $(document).ready(function() {
             $("#print").click(function() {
                 var mode = 'iframe'; //popup
@@ -406,12 +406,12 @@
                 var unit = @json($unit);
                 clearLocalstorage(0);
                 console.log(unit);
-                
+
 
                 localStorage.removeItem('voucher_details');
                 localStorage.removeItem('mycart');
                 localStorage.removeItem('grandTotal');
-                
+
                 var voucher_details = {
                     voucher_code: unit.voucher_code,
                     voucher_date: unit.voucher_date,
@@ -420,12 +420,12 @@
                     customer_phone: unit.sales_customer_phone,
                     remark: unit.sales_remark
                 };
-                
+
                 localStorage.setItem('voucher_details', JSON.stringify(voucher_details));
-                
-                
+
+
                 $.each(unit.counting_unit,function(i,countingUnit){
-                    
+
                     var item = {
                         id: countingUnit.id,
                         unit_name: countingUnit.unit_name,
@@ -495,8 +495,8 @@
                       closeOnConfirm: false,
                       animation: "slide-from-top",
                       inputPlaceholder: "Admin Code"
-                    }    
-                    
+                    }
+
                 ).then((result)=> {
                      $.ajax({
 
@@ -534,7 +534,7 @@
 
                         });
                 });
-                
+
             })
         });
     </script>
