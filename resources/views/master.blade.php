@@ -41,12 +41,12 @@
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery/jscroll.min.js"></script>
-    
+
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>-->
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
+
 
 
 
@@ -287,7 +287,7 @@
 
                                 <li><a href="{{route('stock_dashboard')}}">@lang('lang.stock_panel')</a></li>
                                 <li><a href="{{route('stock_count')}}">@lang('lang.stock_count') and Price</a></li>
-                                
+
                                 <li><a href="{{route('stock_reorder_page')}}">@lang('lang.reorder_item')</a></li>
                                 <li><a href="{{route('stock_lists')}}">@lang('lang.total_inventory_value')</a></li>
                             </ul>
@@ -415,7 +415,7 @@
                                 </li>
                                 <li><a href="{{route('receivable_payable_lists')}}">Receivable and Payable</a>
                                 </li>
-                                
+
                                 @if(session()->get('user')->role == "Finance")
                                 <li><a href="{{route('purchase_list')}}">@lang('lang.purchase') @lang('lang.list')</a></li>
                                 <li><a href="{{route('supplier_credit_list')}}">@lang('lang.supplier_credit')</a></li>
@@ -560,14 +560,14 @@
     <script src="{{asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 
     <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    
+
     <script src="{{asset('assets/js/Chart.bundle.min.js')}}"></script>
 
 
     @yield('js')
 
     <script src="{{asset('js/jquery.PrintArea.js')}}" type="text/JavaScript"></script>
-    <script>
+    {{-- <script>
 
         function clearLocalstorage(right_now_customer) {
 
@@ -781,7 +781,7 @@
            }
         }, 5000);
 
-    </script>
+    </script> --}}
 
 </body>
 

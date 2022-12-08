@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="font-weight-bold mt-2">Website Pre-Order List</h4>
+                <h4 class="font-weight-bold mt-2">Website Instock-Order List</h4>
             </div>
             <div class="card-body">
                  <div class="row p-2 offset-10">
