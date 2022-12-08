@@ -387,8 +387,8 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('newarrivaldate-ajax', 'Web\StockController@setDateAjax')->name('newarrivaldate-ajax');
     Route::post('discountprice-ajax', 'Web\StockController@setPriceAjax')->name('discountprice-ajax');
     // Instock / Preorder
-    Route::post('newinstockqty-ajax', 'Web\StockController@setInstockAjax')->name('newinstockqty-ajax');
-    Route::post('newpreorderqty-ajax', 'Web\StockController@setPreorderAjax')->name('newpreorderqty-ajax');
+    Route::post('instockcheckon-ajax', 'Web\StockController@setInstockAjax')->name('instockcheckon-ajax');
+    Route::post('preordercheckon-ajax', 'Web\StockController@setPreorderAjax')->name('preordercheckon-ajax');
     // Product Image
     Route::post('uploadingphotos', 'Web\StockController@uploadPhotos');
 

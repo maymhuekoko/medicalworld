@@ -480,7 +480,7 @@ class StockController extends Controller
     public function setInstockAjax(Request $request)
     {
         $item = Item::findOrFail($request->unit_id);
-        $item->instock = $request->qty_value;
+        $item->instock = $request->chek_value;
         $item->save();
 
         if($item){
@@ -494,7 +494,7 @@ class StockController extends Controller
     public function setPreorderAjax(Request $request)
     {
         $item = Item::findOrFail($request->unit_id);
-        $item->preorder = $request->qty_value;
+        $item->preorder = $request->chek_value;
         $item->save();
 
         if($item){

@@ -92,7 +92,7 @@ $from_id = session()->get('from')
                                 <th>Set Arrival Date</th>
                                 <th>Promotion Flag</th>
                                 <th>Set Discount Price</th>
-                                <th>Hot Sale Flag</th>
+                                <!-- <th>Hot Sale Flag</th> -->
                             </tr>
                         </thead>
                         <tbody id="units_table">
@@ -115,9 +115,9 @@ $from_id = session()->get('from')
                                     <td>
                                         <input type="number" class="discountprice" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-discountpriceid="discountprice{{$unit->id}}" id="discountprice{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->discount_price}}">
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <input type="checkbox" class="hotck" style="width: 30px; position: relative; left: 0; opacity: 1;" data-hotckid="hotck{{$unit->id}}" id="hotck{{$unit->id}}" data-id="{{$unit->id}}" value="1">
-                                    </td>
+                                    </td> -->
 
                                     <!-- @if($unit->new_product_flag == '1')
                                     <td>
