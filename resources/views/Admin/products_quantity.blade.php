@@ -99,8 +99,8 @@ $from_id = session()->get('from')
                                 <th>No.</th>
                                 <th>Item Code</th>
                                 <th>@lang('lang.item') @lang('lang.name')</th>
-                                <th style="padding-left: 30px;">Instock Qty</th>
-                                <th style="padding-left: 20px;">Preorder Qty</th>
+                                <th style="padding-left: 30px;">Instock</th>
+                                <th style="padding-left: 20px;">Preorder</th>
                                 <th>Photo Path Name</th>
                                 <th>Product Photos</th>
                                 <th></th>
@@ -115,10 +115,10 @@ $from_id = session()->get('from')
                                     <td>{{$unit->item_name}}</td>
 
                                     <td>
-                                        <input type="number" class="instock" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-instockid="instock{{$unit->id}}" id="instock{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->instock}}">
+                                        <input type="checkbox" class="instock" style="width: 50px; position: relative; left: 0; opacity: 1;" data-instockid="instock{{$unit->id}}" id="instock{{$unit->id}}" data-id="{{$unit->id}}" value="0">
                                     </td>
                                     <td>
-                                        <input type="number" class="preorder" style="min-width: 144.633px; max-width: 144.633px; height: 40px;" data-preorderid="preorder{{$unit->id}}" id="preorder{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->preorder}}">
+                                        <input type="checkbox" class="preorder" style="width: 50px; position: relative; left: 0; opacity: 1;" data-preorderid="preorder{{$unit->id}}" id="preorder{{$unit->id}}" data-id="{{$unit->id}}" value="0">
                                     </td>
                                     <form method="post" action="uploadingphotos" enctype="multipart/form-data">
                                     @csrf
@@ -357,6 +357,152 @@ $from_id = session()->get('from')
         $("#edit_unit_qty").modal("show");
         })
 
+    // Instock Flag
+
+    $('#units_table').on('keypress','.instock',function(){
+        var keycode= (event.keyCode ? event.keyCode : event.which);
+        if(keycode=='13'){
+            // var shop_id = $('#shop_id option:selected').val();
+            var shop_id = $('#shop_id').val() ?? $('#isshop').val();
+            if ($('.instock').is(":checked"))
+            {
+                var chek_value = 1;
+            } else {
+                var chek_value = 0;
+            }
+            // var chek_value = $(this).val();
+            var unit_id= $(this).data('id');
+            var instockid = $(this).data('instockid');
+            swal(
+                    {
+                      title: "Flag Change",
+                      text: "Instock Flag Change!",
+                      content: "input",
+                      showCancelButton: true,
+                      closeOnConfirm: false,
+                      animation: "slide-from-top",
+                      inputPlaceholder: "Remark"
+                    }    
+                    
+                ).then((result)=> {
+            
+            $.ajax({
+
+                type:'POST',
+
+                url:'{{route('instockcheckon-ajax')}}',
+
+                data:{
+                    "_token":"{{csrf_token()}}",
+                    "chek_value": chek_value,
+                    "shop_id":shop_id,
+                    "unit_id":unit_id,
+                    "remark" : result
+                },
+
+                success:function(data){
+                    if(data){
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Success",
+                            text:"Instock Flag Change!",
+                            button:false,
+                            timer:500,
+                            icon:"success"
+                        });
+                        $(`#${instockid}`).addClass("is-valid");
+                        $(`#${instockid}`).blur();
+                    }
+                    else{
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Error",
+                            button:false,
+                            timer:1500
+                        });
+                        $(`#${instockid}`).addClass("is-invalid");
+                    }
+                },
+                });
+                });
+        }
+    })
+
+    // Preorder
+
+    $('#units_table').on('keypress','.preorder',function(){
+        var keycode= (event.keyCode ? event.keyCode : event.which);
+        if(keycode=='13'){
+            // var shop_id = $('#shop_id option:selected').val();
+            var shop_id = $('#shop_id').val() ?? $('#isshop').val();
+            if ($('.preorder').is(":checked"))
+            {
+                var chek_value = 1;
+            } else {
+                var chek_value = 0;
+            }
+            // var chek_value = $(this).val();
+            var unit_id= $(this).data('id');
+            var preorderid = $(this).data('preorderid');
+            swal(
+                    {
+                      title: "Flag Change",
+                      text: "Preorder Flag Change!",
+                      content: "input",
+                      showCancelButton: true,
+                      closeOnConfirm: false,
+                      animation: "slide-from-top",
+                      inputPlaceholder: "Remark"
+                    }    
+                    
+                ).then((result)=> {
+            
+            $.ajax({
+
+                type:'POST',
+
+                url:'{{route('preordercheckon-ajax')}}',
+
+                data:{
+                    "_token":"{{csrf_token()}}",
+                    "chek_value": chek_value,
+                    "shop_id":shop_id,
+                    "unit_id":unit_id,
+                    "remark" : result
+                },
+
+                success:function(data){
+                    if(data){
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Success",
+                            text:"Preorder Flag Change!",
+                            button:false,
+                            timer:500,
+                            icon:"success"
+                        });
+                        $(`#${preorderid}`).addClass("is-valid");
+                        $(`#${preorderid}`).blur();
+                    }
+                    else{
+                        swal({
+                            toast:true,
+                            position:'top-end',
+                            title:"Error",
+                            button:false,
+                            timer:1500
+                        });
+                        $(`#${preorderid}`).addClass("is-invalid");
+                    }
+                },
+                });
+                });
+        }
+    })
+
     $('#units_table').on('keypress','.newarrck',function(){
         var keycode= (event.keyCode ? event.keyCode : event.which);
         if(keycode=='13'){
@@ -424,74 +570,7 @@ $from_id = session()->get('from')
                     }
                 },
                 });
-                });
-        }
-
-
-    })
-
-    $('#units_table').on('keypress','.instock',function(){
-        var keycode= (event.keyCode ? event.keyCode : event.which);
-        if(keycode=='13'){
-            // var shop_id = $('#shop_id option:selected').val();
-            var shop_id = $('#shop_id').val() ?? $('#isshop').val();
-            var qty_value = $(this).val();
-            var unit_id= $(this).data('id');
-            var instockid = $(this).data('instockid');
-            swal(
-                    {
-                      title: "Flag Change",
-                      text: "Instock Quantity Change!",
-                      content: "input",
-                      showCancelButton: true,
-                      closeOnConfirm: false,
-                      animation: "slide-from-top",
-                      inputPlaceholder: "Remark"
-                    }    
-                    
-                ).then((result)=> {
-            
-            $.ajax({
-
-                type:'POST',
-
-                url:'{{route('newinstockqty-ajax')}}',
-
-                data:{
-                    "_token":"{{csrf_token()}}",
-                    "qty_value": qty_value,
-                    "shop_id":shop_id,
-                    "unit_id":unit_id,
-                    "remark" : result
-                },
-
-                success:function(data){
-                    if(data){
-                        swal({
-                            toast:true,
-                            position:'top-end',
-                            title:"Success",
-                            text:"Instock Quantity Change!",
-                            button:false,
-                            timer:500,
-                            icon:"success"
-                        });
-                        $(`#${instockid}`).addClass("is-valid");
-                        $(`#${instockid}`).blur();
-                    }
-                    else{
-                        swal({
-                            toast:true,
-                            position:'top-end',
-                            title:"Error",
-                            button:false,
-                            timer:1500
-                        });
-                        $(`#${instockid}`).addClass("is-invalid");
-                    }
-                },
-                });
-                });
+            });
         }
 
 
@@ -554,74 +633,6 @@ $from_id = session()->get('from')
 
 
     })
-
-    $('#units_table').on('keypress','.preorder',function(){
-        var keycode= (event.keyCode ? event.keyCode : event.which);
-        if(keycode=='13'){
-            // var shop_id = $('#shop_id option:selected').val();
-            var shop_id = $('#shop_id').val() ?? $('#isshop').val();
-            var qty_value = $(this).val();
-            var unit_id= $(this).data('id');
-            var preorderid = $(this).data('preorderid');
-            swal(
-                    {
-                      title: "Flag Change",
-                      text: "Preorder Quantity Change!",
-                      content: "input",
-                      showCancelButton: true,
-                      closeOnConfirm: false,
-                      animation: "slide-from-top",
-                      inputPlaceholder: "Remark"
-                    }    
-                    
-                ).then((result)=> {
-            
-            $.ajax({
-
-                type:'POST',
-
-                url:'{{route('newpreorderqty-ajax')}}',
-
-                data:{
-                    "_token":"{{csrf_token()}}",
-                    "qty_value": qty_value,
-                    "shop_id":shop_id,
-                    "unit_id":unit_id,
-                    "remark" : result
-                },
-
-                success:function(data){
-                    if(data){
-                        swal({
-                            toast:true,
-                            position:'top-end',
-                            title:"Success",
-                            text:"Preorder Quantity Change!",
-                            button:false,
-                            timer:500,
-                            icon:"success"
-                        });
-                        $(`#${preorder}`).addClass("is-valid");
-                        $(`#${preorder}`).blur();
-                    }
-                    else{
-                        swal({
-                            toast:true,
-                            position:'top-end',
-                            title:"Error",
-                            button:false,
-                            timer:1500
-                        });
-                        $(`#${preorder}`).addClass("is-invalid");
-                    }
-                },
-                });
-                });
-        }
-
-
-    })
-
 
     $('#units_table').on('keypress','.hotck',function(){
         var keycode= (event.keyCode ? event.keyCode : event.which);

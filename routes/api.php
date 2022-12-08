@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\MailController;
 
 
 Route::post('Login', 'Api\LoginController@loginProcess');
+Route::post('usercontrol', 'Api\LoginController@usercontrol');
 Route::get('countingunitapi', 'Api\CountingUnitApiController@index');
 Route::get('unitbyid_api/{id}', 'Api\CountingUnitApiController@getUnitById');
 Route::get('subcategory_api', 'Api\SubcategoryApiController@index');

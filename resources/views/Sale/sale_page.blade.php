@@ -159,11 +159,11 @@
                                                     <div class="mb-3 d-flex flex-column">
                                                         <div class="row">
                                                         <label for="" class="font-weight-bold h6 text-secondary ">Current Amount : </label>
-                                                        <h5 class="text-secondary font-weight-bold" id="item_current_amount"></h5>    
+                                                        <h5 class="text-secondary font-weight-bold" id="item_current_amount"></h5>
                                                         </div>
-                                                        
-                                                        
-                                                        
+
+
+
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content-around mb-5" id="form-radio">
                                                         <div class="form-check  form-check-inline" >
@@ -341,7 +341,7 @@
                             <input type="number" class="form-control col-7 font14 text-black" id="custphone" value="09"
                                    placeholder="09">
                         </div>
-                        
+
                          <div class="row my-1">
                             <label class="control-label text-black col-5 font14">Remark</label>
                             <input type="text" class="form-control col-7 font14 text-black" id="remark_input" value="remark"
@@ -447,7 +447,7 @@
                                 <div class="tab-content br-n pn">
                                     <div id="navpills-1" class="tab-pane active">
                                         <div class="row justify-content-center">
-                                            <div class="col-md-8 printableArea" style="width:45%;">
+                                            <div class="col-md-12 printableArea" style="width:55%;">
                                                 <div class="card card-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -481,8 +481,8 @@
                                                                     <tr class="text-black">
                                                                         <th>Name</th>
                                                                         <th>Qty*Price(Discount)</th>
-                                                                        
-                                                                        
+
+
                                                                         <th>Total</th>
                                                                     </tr>
                                                                     </thead>
@@ -497,7 +497,7 @@
                                                                     </tbody>
                                                                     <tfoot class="text-black">
                                                                     <tr>
-                                                                        <td></td> 
+                                                                        <td></td>
                                                                         <td class="text-right"
                                                                             style="font-size:15px;">Total
                                                                         </td>
@@ -506,22 +506,22 @@
                                                                                 id="slip_total"></span>
                                                                         </td>
                                                                     </tr>
-                                        
+
                                         <tr>
                                                                         <td></td>
                                                                         <td class="text-right"
                                                                             style="font-size:15px;">Discount</td>
                                                                         <td id="slip_discount" class="font-weight-bold" style="font-size:15px;"></td>
                                                                     </tr>
-                                                                    
+
                                         <tr>
                                                                         <td></td>
                                                                         <td class="text-right"
                                                                             style="font-size:15px;">Net</td>
                                                                         <td id="slip_net" class="font-weight-bold" style="font-size:15px;"></td>
                                                                     </tr>
-                                        
-                                                                    
+
+
                                                                     <tr>
                                                                         <td></td>
                                                                         <td class="text-right"
@@ -594,7 +594,7 @@
                                                             <h3 class=" mt-2 " style="font-size : 15px">Customer Phone :
                                                                 <span id="cus_phone"></span>
                                                             </h3>
-                                                            
+
                                                             <h3 class=" mt-2 "
                                                                 style="font-size : 15px;">.</h3>
 
@@ -631,9 +631,9 @@
 
                                                                     <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">@lang('lang.order_voucher_qty')</th>
                                                                     <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">@lang('lang.price')</th>
-                                                                    
+
                                         <th style="font-size:14px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">Discount</th>
-                                        
+
                                                                     <th style="font-size:15px; font-weight: normal; height: 15px; border: 1px solid black;" class="text-center">@lang('lang.total') Charge </th>
 
                                                                 </tr>
@@ -866,14 +866,14 @@
 
 
                     $('.now_customer').hide();
-                    
+
                     local_customer_lists();
                     console.log($('#select_cusid').val());
-                    
+
                     var voucher_details = localStorage.getItem('voucher_details');
-               
+
                if (voucher_details != null) {
-                    
+
                     var vdetail_obj = JSON.parse(voucher_details);
                     $('.vou_code').val(vdetail_obj.voucher_code);
                     $('#voucherCode').val(vdetail_obj.voucher_code);
@@ -881,8 +881,8 @@
                     $('#name').val(vdetail_obj.customer_name);
                     $('#custphone').val(vdetail_obj.customer_phone);
                     $('#remark_input').val(vdetail_obj.remark);
-                    
-                    
+
+
                }
                 showmodal();
                 });
@@ -1077,7 +1077,7 @@
 
                 $('#search_wif_typing').on('change','#counting_unit_select',function(){
 
-                    
+
                     var id = $('#counting_unit_select').val();
                     // console.log(id);
                     var unitname = $(this).find(":selected").data('unitname');
@@ -1113,7 +1113,7 @@
                             order_qty: 1,
                             selling_price: saleprice,
                             each_sub: eachsub,
-                            
+
                             design_name: design_name,
                             fabric_name: fabric_name,
                             color_name: color_name,
@@ -1125,7 +1125,7 @@
                         var total_amount = {
                             sub_total: total_price,
                             total_qty: 1,
-                           
+
                             total_discount_type: "",
                             total_discount_value: 0,
                         };
@@ -1219,7 +1219,7 @@
                         var grand_total = localStorage.getItem('grandTotal');
 
                         var grand_total_obj = JSON.parse(grand_total);
-                       
+
                             var sub_total = grand_total_obj.sub_total;
                             total_with_discount = grand_total_obj.sub_total - grand_total_obj.total_discount_value;
                         $('#voucher_total').val(sub_total);
@@ -1586,9 +1586,9 @@
 
                                 var count_name = v.unit_name;
 
-                                
+
                                     var selling_price = v.selling_price;
-                               
+
 
                                 var each_sub_total = v.order_qty * selling_price ?? 0;
                                 // <i class="fa fa-plus-circle btnplus font-18" onclick="plusfive(${id})" id="${id}"></i>
@@ -1626,15 +1626,15 @@
                         var htmlslip = "";
                         var id = $('#counting_unit_select').val();
                         $.each(mycartobj, function(i, v) {
-                            
+
                                 var selling_price = v.selling_price;
-                            
+
                             var totalslip = (parseInt(selling_price) * parseInt(v.order_qty)) - parseInt(v.discount_value);
                             htmlslip += `
                          <tr>
                             <td style="font-size:15px;">${v.unit_name}</td>
                             <td style="font-size:15px;">${v.order_qty} * ${selling_price} ( ${v.discount_value} ) </td>
-                            
+
                             <td style="font-size:15px;" id="subtotal">${totalslip}</td>
                         </tr>
                 `;
@@ -1649,7 +1649,7 @@
                         $('#slip_discount').text(discount_amt);
                         $('#slip_net').text(total_wif_discount);
                         var pay = $('#payable').val();
-                       
+
 
 
                         $("#total_quantity").text(grandTotal_obj.total_qty);
@@ -1660,10 +1660,10 @@
                         $('#discount_amount').val(discount_amt);
 
                         $("#sale").html(html);
-                        
-                        
-                        
-                        
+
+
+
+
                     }
                     show_a5();
                 }
@@ -2313,13 +2313,13 @@
                     var mycart = localStorage.getItem('mycart');
 
                     var grand_total = localStorage.getItem('grandTotal');
-                    
+
                     var editvoucher = localStorage.getItem('editvoucher');
 
                     var item = mycart;
                     var grand = grand_total;
                     var discount = discount;
-                    
+
                     if(editvoucher != null){
                         var voucher_details = localStorage.getItem('voucher_details');
                         if (voucher_details != null) {
@@ -2334,7 +2334,7 @@
                     var custname = $('#name').val();
 
                     var custphone = $('#custphone').val();
-                    
+
                     var remark = $('#remark_input').val();
 
                     var username = $('#userName').val();
@@ -2380,10 +2380,10 @@
                                         text: data.message,
                                     })
                                 } else {
-                                    
+
                                     localStorage.removeItem('exitvoucher');
                                     localStorage.clear();
-                        
+
                                     swal({
                                         icon: 'success',
                                         title: 'သိမ်းဆည်းပြီး!',
@@ -2394,7 +2394,7 @@
 
                                     setTimeout(function() {
                                             window.location.reload();
-                                        }, 100);                                   
+                                        }, 1000);
                                      }
 
 
@@ -2414,7 +2414,7 @@
                     var mycart = localStorage.getItem('mycart');
 
                     var grand_total = localStorage.getItem('grandTotal');
-                    
+
                     var editvoucher = localStorage.getItem('editvoucher');
 
                      if(editvoucher != null){
@@ -2437,7 +2437,7 @@
 
                     var custphone = $('#custphone').val();
                     var remark = $('#remark_input').val();
-                    
+
                     var username = $('#userName').val();
 
                     //var id = $('#salescustomer_list').children("option:selected").val();
@@ -2493,13 +2493,13 @@
                                     };
 
                                     $(".tab-pane.active div.printableArea").printArea(options);
-                                    
+
                                     setTimeout(function() {
                                             window.location.reload();
-                                        }, 100);                                   
+                                        }, 1000);
                                      }
-                            
-                                
+
+
 
                             }
                         });
@@ -2601,9 +2601,9 @@
                     new_total = 0;
                     new_total_qty = 0;
                     $.each(mycartobj, function(i, value) {
-                        
+
                             var price = value.selling_price;
-                       
+
                         new_total += (parseInt(value.order_qty) * parseInt(price)) - parseInt(value.discount_value);
                         new_total_qty += value.order_qty;
                     })
@@ -2675,7 +2675,7 @@
 
                     var grandTotal = localStorage.getItem('grandTotal');
                     var grandTotalobj = JSON.parse(grandTotal);
-                    
+
                     var remark = $('#remark_input').val();
                     var pay = $('#payable').val();
                     //Begin A5 Voucher
@@ -2687,7 +2687,7 @@
                     var i = 1;
                     var each_sub_total = 0;
                     $.each(mycartobj, function(i, value) {
-                        
+
                         htmlcountitem += `
                 <tr>
                 <td class="text-center" style="font-size:13px;height: 15px; border: 1px solid black;">${i++ }</td>
@@ -2832,7 +2832,7 @@
                             $('#counting_unit_select').append($('<option>').text('units'));
                             $.each(data,function(i,v){
                                 if(v.current_quantity != 0){
-                                   
+
                                     $('#counting_unit_select').append($('<option>').text((v.unit_code ?? 'COD001') +"-"+
                                         v.unit_name + " " +  v.current_quantity + "ခု"+
                                         v.order_price + "ကျပ်").attr('value', v.id).data('unitname',v.unit_name ?? '').data('normal',v.order_price ?? 0).data('currentqty',v.current_quantity ?? 0).data('design_name',v.design ? v.design.design_name : '').data('fabric_name',v.fabric ? v.fabric.fabric_name : '').data('color_name',v.colour.colour_name ?? '').data('size_name',v.size.size_name ?? ''));
@@ -2876,34 +2876,34 @@
                     let myCartObj = JSON.parse(myCart);
                     let item = myCartObj.filter(item => item.id == id);
                     $("#item_current_amount").text(item[0].each_sub);
-                   
+
                     // $('#sub_total').val();
                     $("#discount_id").val(id);
                 }
-                
-               
+
+
                 $('#item_discount_percent').keyup(function() {
                     var percent_price = $('#item_discount_percent').val();
                     var or_price = $('#item_current_amount').val();
                     // alert(percent_price+"---"+or_price);
                     var discount_amount = parseInt(or_price * (percent_price / 100));
                     var change_percent_price = parseInt(or_price) - discount_amount;
-                    
+
                 })
 
                 $("#itemDiscountSave").click(function (){
                     let id = $("#discount_id").val();
                     let type = $("#discount_type").val();
                     console.log(id,type);
-                    
+
                     let myCart = localStorage.getItem('mycart');
                     let grandTotal = localStorage.getItem('grandTotal');
                     let myCartObj = JSON.parse(myCart);
                     var grandTotalObj = JSON.parse(grandTotal);
 
-                        
+
                     let item = myCartObj.filter(item => item.id == id);
-                    
+
                     if(type == 'amount'){
                         let dis_amount = $("#item_discount_amount").val();
                         var change_amount = item[0].each_sub - dis_amount;
@@ -2914,7 +2914,7 @@
                                     v.each_sub = change_amount;
                                     v.discount_type = type;
                                     v.discount_value = dis_amount;
-                                    
+
                                         grandTotalObj.sub_total = grandTotalObj.sub_total - dis_amount;
                                 }
                             })
@@ -2934,7 +2934,7 @@
                                     v.each_sub = change_amount;
                                     v.discount_type = type;
                                     v.discount_value = dis_amount;
-                                    
+
                                         grandTotalObj.sub_total = grandTotalObj.sub_total - dis_amount;
                                 }
                             })
@@ -2950,7 +2950,7 @@
                                     v.each_sub = 0;
                                     v.discount_type = type;
                                     v.discount_value = dis_amount;
-                                    
+
                                         grandTotalObj.sub_total = grandTotalObj.sub_total - dis_amount;
                                 }
                             })
@@ -2958,9 +2958,9 @@
                             localStorage.setItem('grandTotal', JSON.stringify(grandTotalObj));
                              showmodal();
                     }
-                    
-                    
-                    
+
+
+
                     <!--let dis_amount = $("#item_discount_amount").val();-->
                     <!--let dis_percent = $("#item_discount_percent").val();-->
                     <!--let foc = $("#item_dis_foc").val();-->
@@ -2992,15 +2992,15 @@
                     //     item[0].discount_type = foc_type;
                     // }
                     // console.log(dis_amount);
-                    
+
                     $('#itemDiscount').modal('hide');
 
                 })
-                
+
                 function checkNullUndefined(value){
-                    return typeof value === 'string' && !value.trim() 
+                    return typeof value === 'string' && !value.trim()
                     || typeof value === 'undefined' || typeof value === null;
-                } 
+                }
             </script>
 
 @endsection
