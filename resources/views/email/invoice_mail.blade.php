@@ -21,32 +21,60 @@
 <span style="color : secondary;">Customer Name  : {{$name}}</span>
 <span style=" float : right;color : secondary;">Customer Phone : {{$phone}}</span>
 </div>
+@if ($type == 1)
 <table class="table table-striped" style=" width: 100%;height: auto;padding: 10px;margin-top: 20px;border-radius: 20px;border: 1px solid rgba(2,127,157,1);">
-           <tr class="text-center">
-               <th>No</th>
-               <th>Item</th>
-               <th>Color</th>
-               <th>Size</th>
-               <th>Qty</th>
-               <th>Price</th>
-               <th>Total</th>
-               <?php $i = 1;$total_amount = 0; ?>
-           </tr>
-           @foreach ($preorders as $pre)
-           <tr class="text-center">
-            <td>{{$i++}}</td>
-            <td>{{ explode(' ', $pre['testname'])[0]}}{{ explode(' ', $pre['testname'])[2]}}</td>
-            <td>{{ explode(' ', $pre['testname'])[3]}}</td>
-            <td>{{ explode(' ', $pre['testname'])[4]}}</td>
-            <td>{{$pre['testqty']}}</td>
-            <td>{{$pre['testprice']}}</td>
-            <td>{{$pre['testqty']*$pre['testprice']}}</td>
-            <?php $total_amount += $pre['testqty']*$pre['testprice'] ?>
-           </tr>
+    <tr class="text-center">
+        <th>No</th>
+        <th>Item</th>
+        <th>Color</th>
+        <th>Size</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+        <?php $i = 1;$total_amount = 0; ?>
+    </tr>
+    @foreach ($preorders as $pre)
+    <tr class="text-center">
+     <td>{{$i++}}</td>
+     <td>{{ explode(' ', $pre['testname'])[0]}}{{ explode(' ', $pre['testname'])[2]}}</td>
+     <td>{{ explode(' ', $pre['testname'])[3]}}</td>
+     <td>{{ explode(' ', $pre['testname'])[4]}}</td>
+     <td>{{$pre['testqty']}}</td>
+     <td>{{$pre['testprice']}}</td>
+     <td>{{$pre['testqty']*$pre['testprice']}}</td>
+     <?php $total_amount += $pre['testqty']*$pre['testprice'] ?>
+    </tr>
 
-           @endforeach
+    @endforeach
 
-        </table>
+</table>
+@elseif ($type == 2)
+<table class="table table-striped" style=" width: 100%;height: auto;padding: 10px;margin-top: 20px;border-radius: 20px;border: 1px solid rgba(2,127,157,1);">
+    <tr class="text-center">
+        <th>No</th>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+        <?php $i = 1;$total_amount = 0; ?>
+    </tr>
+    @foreach ($attachs as $pre)
+    <tr class="text-center">
+     <td>{{$i++}}</td>
+     <td><img src="" width="100px" height="auto"></td>
+     <td>{{$pre['description']}}</td>
+     <td>{{$pre['testqty']}}</td>
+     <td>{{$pre['testprice']}}</td>
+     <td>{{$pre['testqty']*$pre['testprice']}}</td>
+     <?php $total_amount += $pre['testqty']*$pre['testprice'] ?>
+    </tr>
+
+    @endforeach
+
+</table>
+@endif
+
        <div class="row">
         <div class="col-6 mt-3">
             <span style="float :left;color : secondary;margin-top:20px;">Customer Address : {{$address}}</span>
