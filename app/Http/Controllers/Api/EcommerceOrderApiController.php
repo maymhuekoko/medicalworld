@@ -168,7 +168,7 @@ class EcommerceOrderApiController extends ApiBaseController
             $orders = EcommerceOrder::findOrFail($id);
             $customUnitOrders = DB::table('counting_unit_ecommerce_order')->where('order_id',$id)->get();
 
-            
+
             $counting = []; $color = []; $size = [];
              foreach($customUnitOrders as $count){
                  $unit = CountingUnit::where('id',$count->counting_unit_id)->first();
@@ -290,9 +290,7 @@ class EcommerceOrderApiController extends ApiBaseController
 
    //Preorder Store
    public function preorderstore(Request $request){
-
         $items = $request->orders;
-
         $date = new DateTime('Asia/Yangon');
 
         $tot_qty = 0;
@@ -321,40 +319,31 @@ class EcommerceOrderApiController extends ApiBaseController
             "deliver_address" => $request->address,
         ]);
 
-        foreach ($items as $item) {
-            $search = explode(' ', $item['testname']);
-            $design = Design::where('design_name',$search[0])->first();
-            $fabric = Fabric::where('fabric_name',$search[2])->first();
-            $colour = Colour::where('colour_name',$search[3])->first();
-            $size = Size::where('size_name',$search[4])->first();
-            $gender = Gender::where('gender_name',$search[1])->first();
-            $unit = CountingUnit::where('design_id',$design->id)
-            ->where('fabric_id',$fabric->id)
-            ->where('colour_id',$colour->id)
-            ->where('size_id',$size->id)
-            ->where('gender_id',$gender->id)
-            ->first();
-            // dd($unit->id);
-            DB::table('counting_unit_ecommerce_order')->insert([
-                 'order_id' => $ecommerce_order->id,
-                 'counting_unit_id' =>$unit->id,
-                 'quantity' => $item['testqty'],
-                 'price' => $item['testprice'],
-                ]);
+            foreach ($items as $item) {
+                $search = explode(' ', $item['testname']);
+                $design = Design::where('design_name',$search[0])->first();
+                $fabric = Fabric::where('fabric_name',$search[2])->first();
+                $colour = Colour::where('colour_name',$search[3])->first();
+                $size = Size::where('size_name',$search[4])->first();
+                $gender = Gender::where('gender_name',$search[1])->first();
+                $unit = CountingUnit::where('design_id',$design->id)
+                ->where('fabric_id',$fabric->id)
+                ->where('colour_id',$colour->id)
+                ->where('size_id',$size->id)
+                ->where('gender_id',$gender->id)
+                ->first();
+                // dd($unit->id);
+                DB::table('counting_unit_ecommerce_order')->insert([
+                     'order_id' => $ecommerce_order->id,
+                     'counting_unit_id' =>$unit->id,
+                     'quantity' => $item['testqty'],
+                     'price' => $item['testprice'],
+                    ]);
 
-                $tot_qty += $item['testqty'];
-                $tot_price += $item['testprice'];
-            // $ecommerce_order->counting_unit()->attach($item->id, ['quantity' => $item->quantity,'price' => $item->price,'discount_type' => "",'discount_value' => 0]);
+                    $tot_qty += $item['testqty'];
+                    $tot_price += $item['testprice'];
 
-            // $counting_unit = CountingUnit::find($item->id);
-            // $stock=$counting_unit->current_quantity;
-            // $balance_qty = ($stock - $item->order_qty);
-
-            // $counting_unit->current_quantity = $balance_qty;
-
-            // $counting_unit->save();
-
-        }
+            }
 
         $ecommerce_order->total_quantity = $tot_qty;
         $ecommerce_order->total_amount = $tot_price;
@@ -364,9 +353,64 @@ class EcommerceOrderApiController extends ApiBaseController
             );
    }
 
+   public function attachstore(Request $request){
+    // $items = $request->attachs;
+    // return response()->json($items);
+    $date = new DateTime('Asia/Yangon');
+
+    $tot_qty = 0;
+    $tot_price = 0;
+
+
+    $order_date = $date->format('Y-m-d');
+
+    $last_order = EcommerceOrder::count();
+    if($last_order != null){
+        $order_code =  "ECVOU-" .date('y') . sprintf("%02s", (intval(date('m')))) . sprintf("%02s", ($last_order +1));
+
+    }else{
+        $order_code =  "ECVOU-" .date('y') . sprintf("%02s", (intval(date('m')))) .sprintf("%02s", 1);
+    }
+
+    $ecommerce_order = EcommerceOrder::create([
+        "order_code" => $order_code,
+        "order_date" => $order_date,
+        "customer_id" => $request->id,
+        "customer_name" => $request->name,
+        "customer_phone" => $request->phone,
+        "order_type" => 2,
+        "total_quantity" => 0,
+        "order_status" => "received",
+        "deliver_address" => $request->address,
+    ]);
+
+        // foreach ($items as $item) {
+            $newName='preorder_'.uniqid().".".$request->file('attachs')->extension();
+            $request->file('attachs')->move(public_path() . '/preorder/', $newName);
+            DB::table('ecommerce_order_item_photo')->insert([
+                'order_id' => $ecommerce_order->id,
+                'item_photo' =>$newName,
+                'quantity' =>  $request->qty,
+                'price' => $request->price,
+               ]);
+
+            //    $tot_qty +=  $request->testqty;
+            //    $tot_price +=  $request->testqty;
+
+        // }
+
+    $ecommerce_order->total_quantity = $request->totqty;
+    $ecommerce_order->total_amount = $request->totamount;
+    $ecommerce_order->save();
+
+    return response()->json($ecommerce_order
+        );
+}
+
    public function invoice_mail(Request $request)
     {
-        Mail::to('maymyatmoe211099@gmail.com')->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders));
+        // return response()->json($request->attachs);
+        Mail::to('maymyatmoe211099@gmail.com')->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders,$request->type,$request->attachs));
         return response()->json(["message" => "Email sent successfully."]);
     }
 

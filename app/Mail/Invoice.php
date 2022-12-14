@@ -22,13 +22,15 @@ class Invoice extends Mailable
     public $phone;
     public $address;
     public $preorders;
+    public $type;
+    public $attachs;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data1,$data2,$data3,$data4,$data5)
+    public function __construct($data1,$data2,$data3,$data4,$data5,$data6,$data7)
     {
         //
         $this->id = $data1;
@@ -36,6 +38,8 @@ class Invoice extends Mailable
         $this->phone= $data3;
         $this->address = $data4;
         $this->preorders = $data5;
+        $this->type = $data6;
+        $this->attachs = $data7;
     }
 
     /**

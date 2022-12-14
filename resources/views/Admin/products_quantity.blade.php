@@ -115,10 +115,18 @@ $from_id = session()->get('from')
                                     <td>{{$unit->item_name}}</td>
 
                                     <td>
-                                        <input type="checkbox" class="instock" style="width: 50px; position: relative; left: 0; opacity: 1;" data-instockid="instock{{$unit->id}}" id="instock{{$unit->id}}" data-id="{{$unit->id}}" value="0">
+                                        @if($unit->instock == '1')
+                                        <input type="checkbox" class="instock" style="width: 50px; position: relative; left: 0; opacity: 1;" data-instockid="instock{{$unit->id}}" id="instock{{$unit->id}}" data-id="{{$unit->id}}" value='0' checked>
+                                        @else
+                                        <input type="checkbox" class="instock" style="width: 50px; position: relative; left: 0; opacity: 1;" data-instockid="instock{{$unit->id}}" id="instock{{$unit->id}}" data-id="{{$unit->id}}" value='1'>
+                                        @endif
                                     </td>
                                     <td>
-                                        <input type="checkbox" class="preorder" style="width: 50px; position: relative; left: 0; opacity: 1;" data-preorderid="preorder{{$unit->id}}" id="preorder{{$unit->id}}" data-id="{{$unit->id}}" value="0">
+                                        @if($unit->preorder == '1')
+                                        <input type="checkbox" class="preorder" style="width: 50px; position: relative; left: 0; opacity: 1;" data-preorderid="preorder{{$unit->id}}" id="preorder{{$unit->id}}" data-id="{{$unit->id}}" value='0' checked>
+                                        @else
+                                        <input type="checkbox" class="preorder" style="width: 50px; position: relative; left: 0; opacity: 1;" data-preorderid="preorder{{$unit->id}}" id="preorder{{$unit->id}}" data-id="{{$unit->id}}" value='1'>
+                                        @endif
                                     </td>
                                     <form method="post" action="uploadingphotos" enctype="multipart/form-data">
                                     @csrf
@@ -364,13 +372,13 @@ $from_id = session()->get('from')
         if(keycode=='13'){
             // var shop_id = $('#shop_id option:selected').val();
             var shop_id = $('#shop_id').val() ?? $('#isshop').val();
-            if ($('.instock').is(":checked"))
-            {
-                var chek_value = 1;
-            } else {
-                var chek_value = 0;
-            }
-            // var chek_value = $(this).val();
+            // if ($('.instock').is(":checked"))
+            // {
+            //     var chek_value = 1;
+            // } else {
+            //     var chek_value = 0;
+            // }
+            var chek_value = $(this).val();
             var unit_id= $(this).data('id');
             var instockid = $(this).data('instockid');
             swal(
@@ -437,13 +445,13 @@ $from_id = session()->get('from')
         if(keycode=='13'){
             // var shop_id = $('#shop_id option:selected').val();
             var shop_id = $('#shop_id').val() ?? $('#isshop').val();
-            if ($('.preorder').is(":checked"))
-            {
-                var chek_value = 1;
-            } else {
-                var chek_value = 0;
-            }
-            // var chek_value = $(this).val();
+            // if ($('.preorder').is(":checked"))
+            // {
+            //     var chek_value = 1;
+            // } else {
+            //     var chek_value = 0;
+            // }
+            var chek_value = $(this).val();
             var unit_id= $(this).data('id');
             var preorderid = $(this).data('preorderid');
             swal(
