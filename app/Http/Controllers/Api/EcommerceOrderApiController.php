@@ -354,7 +354,7 @@ class EcommerceOrderApiController extends ApiBaseController
    }
 
    public function attachstore(Request $request){
-    $items = $request->attachs;
+    // $items = $request->attachs;
     // return response()->json($items);
     $date = new DateTime('Asia/Yangon');
 
@@ -384,23 +384,23 @@ class EcommerceOrderApiController extends ApiBaseController
         "deliver_address" => $request->address,
     ]);
 
-        foreach ($items as $item) {
-            // $newName='preorder_'.uniqid().".".$request->file('files')->extension();
-            // $request->file('files')->move(public_path() . '/preorder/', $newName);
+        // foreach ($items as $item) {
+            $newName='preorder_'.uniqid().".".$request->file('attachs')->extension();
+            $request->file('attachs')->move(public_path() . '/preorder/', $newName);
             DB::table('ecommerce_order_item_photo')->insert([
                 'order_id' => $ecommerce_order->id,
-                'item_photo' =>'default.jpg',
-                'quantity' => $item['testqty'],
-                'price' => $item['testprice'],
+                'item_photo' =>$newName,
+                'quantity' =>  $request->qty,
+                'price' => $request->price,
                ]);
 
-               $tot_qty += $item['testqty'];
-               $tot_price += $item['testprice'];
+            //    $tot_qty +=  $request->testqty;
+            //    $tot_price +=  $request->testqty;
 
-        }
+        // }
 
-    $ecommerce_order->total_quantity = $tot_qty;
-    $ecommerce_order->total_amount = $tot_price;
+    $ecommerce_order->total_quantity = $request->totqty;
+    $ecommerce_order->total_amount = $request->totamount;
     $ecommerce_order->save();
 
     return response()->json($ecommerce_order
