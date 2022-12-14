@@ -57,6 +57,10 @@ class CountingUnitApiController extends ApiBaseController
    public function getUnitById(Request $request,$id){
        $countingUnits = CountingUnit::where('item_id',$id)->where('current_quantity', '>', 0)->get();
        $item = Item::find($id);
+
+       $flag = Item::where('id', $id)->first();
+       $valueofinstock = $flag->instock;
+       $valueofpreorder = $flag->preorder;
       
        //========================
        $counting_unit_list = array();
@@ -87,7 +91,7 @@ class CountingUnitApiController extends ApiBaseController
                 
             }
        //========================
-       return response()->json(["item" => $item,"counting_units" =>$counting_unit_list,]
+       return response()->json(["item" => $item,"counting_units" =>$counting_unit_list,"valueofinstock" => $valueofinstock, "valueofpreorder"=>$valueofpreorder]
            );
    }
 }
