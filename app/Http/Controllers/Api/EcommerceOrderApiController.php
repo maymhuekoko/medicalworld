@@ -392,7 +392,7 @@ class EcommerceOrderApiController extends ApiBaseController
     // $items = $request->attachs;
     $ecommerce_order = EcommerceOrder::find($request->id);
         // foreach ($items as $item) {
-            $newName='preorder_'.uniqid().".".$request->file('attachs')->extension();
+            $newName='preorder_'.$request->file('attachs')->getClientOriginalName();
             $request->file('attachs')->move(public_path() . '/preorder/', $newName);
             DB::table('ecommerce_order_item_photo')->insert([
                 'order_id' => $ecommerce_order->id,
