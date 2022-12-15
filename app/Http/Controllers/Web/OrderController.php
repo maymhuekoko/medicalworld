@@ -673,7 +673,7 @@ class OrderController extends Controller
 
             $orders = EcommerceOrder::findOrFail($id);
             $customUnitOrders = DB::table('counting_unit_ecommerce_order')->where('order_id',$id)->get();
-
+            $customAttachOrders = DB::table('ecommerce_order_item_photo')->where('order_id',$id)->get();
             $counting =  CountingUnit::all();
 
             // dd($counting_units);
@@ -686,7 +686,7 @@ class OrderController extends Controller
         }
 //        return redirect()->back();
 
-        return view('Order.website_order_details', compact('orders','customUnitOrders','counting'));
+        return view('Order.website_order_details', compact('orders','customUnitOrders','counting','customAttachOrders'));
     }
 
 

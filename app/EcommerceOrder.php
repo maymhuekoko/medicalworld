@@ -22,6 +22,7 @@ class EcommerceOrder extends Model
     	'customer_phone',
     	'order_type',
     	'order_status',
+        'attach_flag',
     	'total_quantity',
     	'total_amount',
     	'delivery_fee',
