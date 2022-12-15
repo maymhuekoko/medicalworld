@@ -62,7 +62,7 @@
     @foreach ($attachs as $pre)
     <tr class="text-center">
      <td>{{$i++}}</td>
-     <td><img src="{{asset('image/user.jpg')}}" width="100px" height="auto"></td>
+     <td><img src="{{asset('preorder/'+$pre['file'])}}" width="100px" height="auto"></td>
      <td>{{$pre['description']}}</td>
      <td>{{$pre['testqty']}}</td>
      <td>{{$pre['testprice']}}</td>

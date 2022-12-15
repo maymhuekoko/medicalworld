@@ -116,6 +116,36 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive text-black" style="clear: both;">
+                            @if (!empty($customAttachOrders))
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr class="text-black">
+                                        <th>No.</th>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Description</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="text-black">
+
+                                    @php
+                                        $k=1;
+                                    @endphp
+
+                                    @foreach($customAttachOrders as $attach)
+                                    <tr>
+                                        <td class="font-weight-normal" style="font-size:15px;">{{$k++}}</td>
+                                        <td class="font-weight-normal" style="font-size:15px;"><img src="{{asset('preorder/'+$attach->item_photo)}}" width="100px" height="auto"></td>
+                                        <td class="font-weight-normal" style="font-size:15px;">{{$attach->quantity}}</td>
+                                        <td class="font-weight-normal" style="font-size:15px;">{{$attach->price}}</td>
+                                        <td class="font-weight-normal" style="font-size:15px;">{{$attach->description}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                                </table>
+                            @else
                             <table class="table table-hover align-middle">
                                 <thead>
                                     <tr class="text-black">
@@ -226,7 +256,9 @@
                                     @endforeach
                                     @endforeach
                                 </tbody>
-                            </table>
+</table>
+                            @endif
+
                         </div>
                     </div>
                 </div>
