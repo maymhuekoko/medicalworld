@@ -43,7 +43,7 @@ class Invoice extends Mailable
         $this->attachs = $data7;
         $arr = [];
         foreach($data7 as $photo){
-            $newName='preorder_'.$photo['files']->getClientOriginalName();
+            $newName='preorder_'.$photo->file('files')->getClientOriginalName();
             array_push($arr, $newName);
         }
         $this->photos = $arr;
