@@ -57,12 +57,12 @@
         <th>Qty</th>
         <th>Price</th>
         <th>Total</th>
-        <?php $i = 1;$total_amount = 0; ?>
+        <?php $i = 1;$total_amount = 0;$j=0; ?>
     </tr>
     @foreach ($attachs as $pre)
     <tr class="text-center">
      <td>{{$i++}}</td>
-     <td><img src="{{asset('preorder/'.$pre['file'])}}" width="100px" height="auto"></td>
+     <td><img src="{{asset('preorder/'.$photos[$j++])}}" width="100px" height="auto"></td>
      <td>{{$pre['description']}}</td>
      <td>{{$pre['testqty']}}</td>
      <td>{{$pre['testprice']}}</td>
