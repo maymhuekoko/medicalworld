@@ -168,7 +168,6 @@ class EcommerceOrderApiController extends ApiBaseController
             $orders = EcommerceOrder::findOrFail($id);
             $customUnitOrders = DB::table('counting_unit_ecommerce_order')->where('order_id',$id)->get();
 
-
             $counting = []; $color = []; $size = [];
              foreach($customUnitOrders as $count){
                  $unit = CountingUnit::where('id',$count->counting_unit_id)->first();
@@ -176,6 +175,8 @@ class EcommerceOrderApiController extends ApiBaseController
                  array_push($color,$unit->colour->colour_name);
                  array_push($size,$unit->size->size_name);
              }
+
+            $customAttachOrders = DB::table('ecommerce_order_item_photo')->where('order_id',$id)->get();
                 // $counting =  CountingUnit::all();
 
             // dd($counting_units);
@@ -191,6 +192,7 @@ class EcommerceOrderApiController extends ApiBaseController
             "orders" => $orders,
             "units"  => $customUnitOrders,
             "counting_units" => $counting,
+            "attachs" => $customAttachOrders,
             "color" => $color,
             "size" => $size,
              ]);
@@ -353,13 +355,10 @@ class EcommerceOrderApiController extends ApiBaseController
             );
    }
 
-   public function attachstore(Request $request){
+   public function attachorderstore(Request $request){
     // $items = $request->attachs;
     // return response()->json($items);
     $date = new DateTime('Asia/Yangon');
-
-    $tot_qty = 0;
-    $tot_price = 0;
 
 
     $order_date = $date->format('Y-m-d');
@@ -379,10 +378,19 @@ class EcommerceOrderApiController extends ApiBaseController
         "customer_name" => $request->name,
         "customer_phone" => $request->phone,
         "order_type" => 2,
+        "attach_flag" => 1,
         "total_quantity" => 0,
         "order_status" => "received",
         "deliver_address" => $request->address,
     ]);
+
+    return response()->json($ecommerce_order->id
+        );
+}
+
+   public function attachstore(Request $request){
+    // $items = $request->attachs;
+    $ecommerce_order = EcommerceOrder::find($request->id);
 
         // foreach ($items as $item) {
             $newName='preorder_'.uniqid().".".$request->file('attachs')->extension();
@@ -392,6 +400,7 @@ class EcommerceOrderApiController extends ApiBaseController
                 'item_photo' =>$newName,
                 'quantity' =>  $request->qty,
                 'price' => $request->price,
+                'description' => $request->description,
                ]);
 
             //    $tot_qty +=  $request->testqty;
@@ -410,7 +419,7 @@ class EcommerceOrderApiController extends ApiBaseController
    public function invoice_mail(Request $request)
     {
         // return response()->json($request->attachs);
-        Mail::to('maymyatmoe211099@gmail.com')->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders,$request->type,$request->attachs));
+        Mail::to($request->email)->send(new Invoice($request->id,$request->name,$request->phone,$request->address,$request->preorders,$request->type,$request->attachs));
         return response()->json(["message" => "Email sent successfully."]);
     }
 

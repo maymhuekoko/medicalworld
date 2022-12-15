@@ -53,6 +53,7 @@ Route::post('storescreenshot', 'Api\EcommerceOrderApiController@storescreenshot'
 Route::post('storepayment', 'Api\EcommerceOrderApiController@storepayment');
 Route::post('showprice', 'Api\EcommerceOrderApiController@showprice')->name('showprice');
 Route::post('ecommerce_preorder_store', 'Api\EcommerceOrderApiController@preorderstore');
+Route::post('ecommerce_attachorder_store', 'Api\EcommerceOrderApiController@attachorderstore');
 Route::post('ecommerce_attach_store', 'Api\EcommerceOrderApiController@attachstore');
 Route::get('township', 'Api\EcommerceOrderApiController@township');
 Route::get('township_charges/{id}', 'Api\EcommerceOrderApiController@township_charges');
