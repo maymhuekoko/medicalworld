@@ -137,7 +137,7 @@
                                     @foreach($customAttachOrders as $attach)
                                     <tr>
                                         <td class="font-weight-normal" style="font-size:15px;">{{$k++}}</td>
-                                        <td class="font-weight-normal" style="font-size:15px;"><img src="{{asset('preorder/'+$attach->item_photo)}}" width="100px" height="auto"></td>
+                                        <td class="font-weight-normal" style="font-size:15px;"><img src="{{asset('preorder/'.$attach->item_photo)}}" width="100px" height="auto"></td>
                                         <td class="font-weight-normal" style="font-size:15px;">{{$attach->quantity}}</td>
                                         <td class="font-weight-normal" style="font-size:15px;">{{$attach->price}}</td>
                                         <td class="font-weight-normal" style="font-size:15px;">{{$attach->description}}</td>
