@@ -24,7 +24,7 @@ class Invoice extends Mailable
     public $preorders;
     public $type;
     public $attachs;
-    public $photos;
+
 
     /**
      * Create a new message instance.
@@ -41,12 +41,7 @@ class Invoice extends Mailable
         $this->preorders = $data5;
         $this->type = $data6;
         $this->attachs = $data7;
-        $arr = [];
-        foreach($data7 as $photo){
-            $newName='preorder_'.$photo->file($photo['files'])->getClientOriginalName();
-            array_push($arr, $newName);
-        }
-        $this->photos = $arr;
+
     }
 
     /**
