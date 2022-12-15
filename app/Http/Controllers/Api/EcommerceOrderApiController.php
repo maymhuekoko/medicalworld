@@ -391,7 +391,6 @@ class EcommerceOrderApiController extends ApiBaseController
    public function attachstore(Request $request){
     // $items = $request->attachs;
     $ecommerce_order = EcommerceOrder::find($request->id);
-    return response()->json($ecommerce_order->id);
         // foreach ($items as $item) {
             $newName='preorder_'.uniqid().".".$request->file('attachs')->extension();
             $request->file('attachs')->move(public_path() . '/preorder/', $newName);
