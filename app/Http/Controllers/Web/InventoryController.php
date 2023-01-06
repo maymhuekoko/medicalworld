@@ -33,7 +33,7 @@ class InventoryController extends Controller
         alert()->success('Excel Import Succeeded');
         return redirect()->back();
     }
-    
+
     public function export()
     {
         return Excel::download(new ItemExport(),'item_export.xlsx');
@@ -59,24 +59,24 @@ class InventoryController extends Controller
         alert()->success('Excel Import Succeeded');
         return redirect()->back();
     }
-    
+
     public function subcategoryExport()
     {
         return Excel::download(new SubCategoryExport(),'subcategory_export.xlsx');
     }
-    
+
     public function factoryItemimport(Request $request)
     {
         $factoryitems = Excel::import(new FactoryItemImport(),$request->file(('import_file')));
         alert()->success('Excel Import Succeeded');
         return redirect()->back();
     }
-    
+
      public function factoryItemExport()
     {
         return Excel::download(new FactoryItemExport(),'factoryItem_export.xlsx');
     }
-    
+
 	protected function getInventoryDashboard()
 	{
 		return view('Inventory.inv_dashboard');
@@ -263,7 +263,7 @@ class InventoryController extends Controller
 
 
 		$sub_categories = SubCategory::all();
-		
+
 		$counting_units = CountingUnit::where('current_quantity', '!=', 0)->get();
 
 		return view('Inventory.item_list', compact('item_lists','categories','sub_categories','counting_units'));
@@ -326,7 +326,7 @@ class InventoryController extends Controller
 
 		}
 
-        try {
+        // try {
 
             $item = Item::create([
                 'item_code' => $request->item_code,
@@ -338,12 +338,12 @@ class InventoryController extends Controller
                 'sub_category_id' => $request->sub_category_id,
             ]);
 
-        } catch (\Exception $e) {
+        // } catch (\Exception $e) {
 
-            alert()->error('Something Wrong! When Creating Item.');
+        //     alert()->error('Something Wrong! When Creating Item.');
 
-            return redirect()->back();
-        }
+        //     return redirect()->back();
+        // }
 
         alert()->success('Successfully Added');
 
@@ -948,7 +948,7 @@ class InventoryController extends Controller
 
         $unit_id = $request->unit_id;
         $shop_id = $request->shop_id;
-        
+
         $counting_unit = CountingUnit::where("id",$unit_id)->first();
         return response()->json($counting_unit);
     }
